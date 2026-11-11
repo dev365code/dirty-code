@@ -20,7 +20,7 @@
 
 Cars used to be built so a person with a wrench could fix them. You opened the hood and saw the parts.
 
-Open the hood of a modern car and you see a plastic cover. Plug a scan tool into the diagnostic port, though, and it tells you what is wrong, as a code. The car became less friendly to human eyes and more friendly to machines. It didn't get dirty. The one doing the repairs changed.
+Open the hood of a modern car and you see a plastic cover. Plug a scan tool into the diagnostic port, though, and it tells you what is wrong, as a code. The car became less friendly to human eyes and more friendly to machines. It didn't get worse. The one doing the repairs changed.
 
 The same thing is happening to code. Of the code you merged today, how much did you read line by line? This book starts from one observation. **When you hand a task to an AI, the AI reads your code before you do.**
 
