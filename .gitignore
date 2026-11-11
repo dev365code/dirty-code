@@ -1,0 +1,14 @@
+# 작업용 파일 (이 저장소에는 올리지 않는다)
+/CLAUDE.md
+/.claude/
+/BOOK.md
+/OUTLINE.md
+/notes/
+
+# 원고는 저자가 공개하기로 한 장부터 올린다.
+# 공개할 장은 아래에 `!/manuscript/ko/09-diagnostic-port.md` 같은 줄을 더한다.
+/manuscript/ko/*.md
+/manuscript/en/*.md
+
+.DS_Store
+__pycache__/
