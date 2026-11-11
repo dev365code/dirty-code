@@ -82,8 +82,8 @@ Every chapter is still in preparation. Published chapters will be linked here.
 
 1. **Scene**: a situation everyone has been in
 2. **Claim**: one sentence
-3. **Why**: derived from "AI reads everything for the first time, every time"
-4. **Code**: the version for people next to the version for AI
+3. **Why**: derived from "AI has no memory, so it reads your code for the first time, every time"
+4. **Code**: a concrete example, usually the version for people next to the version for AI
 5. **Prompt**: what AI opened and changed when given the same task
 6. **Evidence**: an experiment or a case from real work
 7. **What people do**: something you can do tomorrow
