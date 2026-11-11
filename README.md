@@ -1,110 +1,110 @@
-<p align="center"><sub>AI 시대</sub></p>
-<h1 align="center">더티 코드</h1>
+<p align="center"><sub>IN THE AGE OF AI</sub></p>
+<h1 align="center">Dirty Code</h1>
 
 <p align="center">
-  <b>한국어</b> &nbsp;·&nbsp; <a href="README.en.md">English</a>
+  <b>English</b> &nbsp;·&nbsp; <a href="README.ko.md">한국어</a>
 </p>
 
 <p align="center">
-  <b>AI가 코드를 쓰고, 사람은 보장을 쓴다.</b><br>
-  <sub>사람을 위한 코드는 배웠다. 이제 AI를 위한 코드다.</sub>
+  <b>AI writes the code. People write the guarantees.</b><br>
+  <sub>We learned to write code for people. Now we write it for AI.</sub>
 </p>
 
 <br>
 
-## 보닛을 열면 덮개만 보인다
+## Pop the hood and all you see is a cover
 
-예전 차는 사람이 렌치를 들고 고치기 쉽게 만들었다. 보닛을 열면 부품이 눈에 보였다.
+Cars used to be built so a person with a wrench could fix them. You opened the hood and saw the parts.
 
-요즘 차는 보닛을 열어도 플라스틱 덮개만 보인다. 그 대신 진단 단자에 진단기를 꽂으면 어디가 고장인지 코드로 나온다. 사람 눈에는 불친절해졌고 기계에게는 친절해졌다. 차가 더러워진 것이 아니다. 고치는 쪽이 바뀐 것이다.
+Open the hood of a modern car and you see a plastic cover. Plug a scan tool into the diagnostic port, though, and it tells you what is wrong, as a code. The car became less friendly to human eyes and more friendly to machines. It didn't get dirty. The one doing the repairs changed.
 
-코드에도 같은 일이 일어나고 있다. 오늘 합친 코드 가운데 내가 한 줄씩 읽은 것은 얼마나 되는가. 이 책은 한 가지 관찰에서 출발한다. **이제 코드를 가장 먼저, 가장 많이 읽는 독자는 AI다.**
+The same thing is happening to code. Of the code you merged today, how much did you read line by line? This book starts from one observation. **The first and most frequent reader of code is now an AI.**
 
-『더티 코드』는 그 독자를 위해 코드를 쓰는 법을 다룬다. 그리고 코드를 읽지 않게 된 사람이 대신 맡아야 할 일을 다룬다.
+*Dirty Code* is about writing code for that reader. It is also about the work that falls to people once they stop reading code.
 
-> 정비사는 진단기에 뜨는 고장 코드를 **DTC**(Diagnostic Trouble Code)라고 부른다.<br>
-> 이 책의 DTC는 **D**ir**t**y **C**ode다.
+> Mechanics call the fault codes on a scan tool **DTCs**: Diagnostic Trouble Codes.<br>
+> In this book, DTC stands for **D**ir**t**y **C**ode.
 
-## 세 가지를 묻는다
+## Three questions
 
-1. **AI가 읽고 고치기 좋은 코드는 어떻게 생겼나.**<br>
-   이름, 코드를 모으는 자리, 중복, 주석, 오류 메시지, 폴더 구조, 그리고 프롬프트를 다룬다. (2부)
-2. **코드를 읽지 않는 사람은 무엇으로 품질을 보장하나.**<br>
-   일을 나누고, 깨지면 안 되는 것을 정하고, 확인하는 방법을 설계한다. (3부)
-3. **정말 그런가, 어디까지인가.**<br>
-   같은 기능을 두 가지 모양으로 만들어 AI에게 고치게 하고 숫자로 비교한다. 사람이 코드를 직접 읽어야 하는 순간도 다룬다. (4부)
+1. **What does code look like when AI can read it and change it well?**<br>
+   Names, where code lives, duplication, comments, error messages, folder structure, and prompts. (Part II)
+2. **If people no longer read the code, how do they guarantee quality?**<br>
+   They split the work, decide what must never break, and design how to check it. (Part III)
+3. **Is it true, and how far does it go?**<br>
+   We build the same feature in two shapes, ask AI to change both, and compare the numbers. We also cover the moments when people still have to read the code. (Part IV)
 
-AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
+This book does not cover how to use AI tools, model rankings, or the future of jobs.
 
-## 목차
+## Contents
 
-지금은 모든 장이 준비 중이다. 공개된 장에는 링크가 걸린다.
+Every chapter is still in preparation. Published chapters will be linked here.
 
-**여는 글.** 클린 코드에게: 사람을 위한 코드는 배웠다
+**Preface.** To *Clean Code*: we learned to write code for people
 
-**1부. 코드를 읽는 독자가 바뀌었다**
+**Part I. The reader of your code has changed**
 
-1. 내가 아는 길이 더 빨랐다: 개발자가 코드를 읽지 않게 된 날
-2. AI는 어제 읽은 코드를 오늘 기억하지 못한다
-3. 클린 코드에서 그대로 가져올 것, 달라지는 것
+1. "My own route used to be faster": the day developers stopped reading code
+2. AI doesn't remember the code it read yesterday
+3. What carries over from *Clean Code*, and what changes
 
-**2부. 진단기가 읽는 코드**
+**Part II. Code for the scan tool**
 
-4. AI는 함수 이름을 보고 동작을 짐작한다
-5. 고칠 것은 한 화면에 모아라
-6. 복사해 둔 코드가 더 안전할 때
-7. 주석에는 "왜"를 적는다: AI는 이유 모를 숫자를 정리해 버린다
-8. 함수를 한 번 건너뛸 때마다 AI가 한 번 틀린다
-9. 진단 단자를 달아라: AI가 읽는 오류와 로그
-10. AI가 길을 찾는 지도: 폴더 이름과 색인 파일
-11. 프롬프트도 AI가 읽는 코드다
+4. AI guesses what a function does from its name
+5. Keep what changes together on one screen
+6. When a copy is safer than a shared function
+7. Comments say why: AI tidies up numbers it can't explain
+8. Every hop through a function is a chance for AI to get lost
+9. Install a diagnostic port: errors and logs for AI to read
+10. The map AI navigates by: folder names and an index file
+11. Prompts are code that AI reads
 
-**3부. 경고등은 사람이 단다**
+**Part III. People install the warning lights**
 
-12. 어디서 자를 것인가: 확인할 수 있는 크기로 맡긴다
-13. 동시에 달릴 때 깨지면 안 되는 것을 사람이 정한다
-14. 코드를 한 줄도 안 읽고 맞는지 확인하는 법
-15. AI가 짠 코드를 AI가 검사하게 하는 법
+12. Where to cut: hand off work in pieces you can check
+13. People decide what must never break when things run at once
+14. How to check code without reading a line of it
+15. How to have AI inspect the code AI wrote
 
-**4부. 정말 그런가, 어디까지인가**
+**Part IV. Is it true, and how far does it go?**
 
-16. 실험: 같은 기능을 두 가지 엔진룸으로 만들어 보았다
-17. 내비가 틀릴 때: 사람이 코드를 읽어야 하는 순간
-18. 코드를 건너뛸 수 있을까: AI에게 기계어를 바로 쓰게 해 보았다
+16. The experiment: one feature, two engine bays
+17. When the GPS is wrong: the moments people must read code
+18. Can we skip the code? We asked AI to write machine code directly
 
-**닫는 글.** AI가 코드를 쓰고, 사람은 보장을 쓴다
+**Closing.** AI writes the code. People write the guarantees.
 
-## 모든 장은 같은 순서로 쓴다
+## Every chapter follows the same order
 
-1. **장면**: 누구나 겪어 본 상황 하나
-2. **주장**: 한 문장
-3. **왜 그런가**: "AI는 기억 없이 매번 처음 읽는다"에서 끌어낸다
-4. **코드**: 사람을 위한 버전과 AI를 위한 버전을 나란히 놓는다
-5. **프롬프트**: 같은 일을 시켰을 때 AI가 무엇을 열고 무엇을 고쳤는지 보여 준다
-6. **근거**: 실험 결과 또는 현장 사례
-7. **사람이 할 일**: 내일 바로 할 수 있는 것
-8. **이 원칙이 깨지는 곳**: 주장이 맞지 않는 경우
+1. **Scene**: a situation everyone has been in
+2. **Claim**: one sentence
+3. **Why**: derived from "AI reads everything for the first time, every time"
+4. **Code**: the version for people next to the version for AI
+5. **Prompt**: what AI opened and changed when given the same task
+6. **Evidence**: an experiment or a case from real work
+7. **What people do**: something you can do tomorrow
+8. **Where it breaks**: the cases where the claim does not hold
 
-## 주장에는 실험을 붙인다
+## Every claim comes with an experiment
 
-- 같은 기능을 두 가지 모양으로 만든다. 기능과 테스트는 같고 코드 모양만 다르다.
-- 같은 요청을 새 세션에서 열 번 이상 반복한다.
-- AI에게 보여 주지 않은 판정 테스트로 성공 여부를 가린다.
-- 결과에는 날짜와 모델 이름을 함께 적는다. 모델이 바뀌면 숫자도 바뀌기 때문이다.
+- We build the same feature in two shapes. The behavior and the tests are identical. Only the shape of the code differs.
+- We send the same request to a fresh session at least ten times.
+- Success is judged by tests the AI never sees.
+- Every result is recorded with its date and model name, because the numbers change when the model changes.
 
-실험 계획은 [experiments/](experiments/README.md)에 있다.
+The experiment plan is in [experiments/](experiments/README.md) (in Korean for now).
 
-## 『클린 코드』에 대하여
+## On *Clean Code*
 
-로버트 C. 마틴의 『클린 코드』는 사람 독자를 위한 기준을 세웠다. 이 책은 그 책을 반박하지 않는다. 읽는 쪽이 달라졌을 때 무엇이 그대로이고 무엇이 달라지는지를 살핀다. 이름과 테스트처럼 더 중요해지는 것도 있다.
+Robert C. Martin's *Clean Code* set the standard for code that people read. This book does not argue against it. It looks at what stays the same and what changes when the reader is different. Some things, like names and tests, matter even more.
 
-## 진행 상황
+## Status
 
-- 2026년 11월: 목차와 실험 계획을 세우고 집필을 시작했다.
-- 원고는 한국어로 먼저 쓴다. 영어판은 그 뒤에 영어권 독자에 맞춰 다시 쓴다.
+- November 2026: the outline and experiment plan are set, and writing has begun.
+- The manuscript is written in English first. A Korean edition follows, rewritten for Korean readers.
 
-새 장은 이 저장소에 올라온다. 저장소 위쪽의 **Watch**를 켜 두면 소식을 받을 수 있다. **Star**는 이 책을 기다리는 독자가 얼마나 되는지 알려 준다.
+New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.
 
 ---
 
-<sub>© 2026 이우용 (Wooyong Lee). 글과 그림의 모든 권리는 저자에게 있다. 인용할 때는 출처를 밝혀 주기 바란다.</sub>
+<sub>© 2026 Wooyong Lee. All rights reserved. Please credit the source when quoting.</sub>
