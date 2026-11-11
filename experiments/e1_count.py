@@ -10,6 +10,7 @@ Claude Code는 세션 기록을 ~/.claude/projects/ 아래 .jsonl 파일로 남�
   - 도구 호출을 호출 id로 한 번씩만 센다(같은 호출이 기록에 두 번 남는 일이 있다).
   - 파일 읽기 도구(Read)가 연 파일을 확장자로 갈라, 코드 파일만 따로 센다.
   - 명령 실행(Bash) 가운데 읽는 명령(grep, cat, sed 따위)으로 시작하는 것을 어림으로 센다.
+  - 도구 호출을 모델 이름별로 센다(기록의 응답마다 모델 이름이 적혀 있다).
 
 세지 못하는 것
   - 명령 실행 안에서 실제로 몇 개 파일을 읽었는지.
@@ -36,7 +37,7 @@ def main():
     since = until - datetime.timedelta(days=days)
     lo, hi = since.strftime("%Y-%m-%dT%H:%M:%S"), until.strftime("%Y-%m-%dT%H:%M:%S")
 
-    seen, tools = set(), collections.Counter()
+    seen, tools, models = set(), collections.Counter(), collections.Counter()
     read_files, read_calls, code_calls, reading_cmds = {}, 0, 0, 0
     record_files = 0
     for path in glob.glob(ROOT + "/**/*.jsonl", recursive=True):
@@ -53,6 +54,7 @@ def main():
                 if not (lo <= stamp[:19] <= hi):
                     continue
                 content = (obj.get("message") or {}).get("content")
+                model = (obj.get("message") or {}).get("model") or "(이름 없음)"
                 if not isinstance(content, list):
                     continue
                 for block in content:
@@ -64,6 +66,7 @@ def main():
                     used = True
                     name, args = block.get("name", ""), block.get("input") or {}
                     tools[name] += 1
+                    models[model] += 1
                     if name == "Read":
                         fp = args.get("file_path", "")
                         ext = os.path.splitext(fp)[1].lower()
@@ -84,6 +87,7 @@ def main():
     print("파일 읽기 도구(Read): %d번, 서로 다른 파일 %d개" % (read_calls, len(read_files)))
     print("  그 가운데 코드 파일: %d번, 서로 다른 파일 %d개" % (code_calls, code_files))
     print("파일 쓰기(Write): %d번, 파일 고치기(Edit): %d번" % (tools["Write"], tools["Edit"]))
+    print("모델별 도구 호출: " + ", ".join("%s %d" % (m, n) for m, n in models.most_common()))
     top = collections.Counter(read_files.values()).most_common(6)
     print("읽기 도구가 연 파일의 확장자 상위: " + ", ".join("%s %d" % (e or "(없음)", n) for e, n in top))
 
