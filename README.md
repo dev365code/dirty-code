@@ -18,13 +18,13 @@
 
 ## Pop the hood and all you see is a cover
 
-Cars used to be built so a person with a wrench could fix them. You opened the hood and saw the parts.
+On an older car, you opened the hood and saw the parts. You could see a worn belt or an oil leak, and you fixed it with a wrench.
 
-Open the hood of a modern car and you see a plastic cover. Plug a scan tool into the diagnostic port, though, and it tells you what is wrong, as a code. The car became less friendly to human eyes and more friendly to machines. It didn't get worse. The one doing the repairs changed.
+Open the hood of a modern car and you see a plastic cover. You can't tell what's wrong by looking. But plug a scan tool into the diagnostic port under the dashboard, and the fault comes up as a code, such as "P0303: cylinder 3 misfire." Nobody built the car carelessly. Mechanics now plug in the scan tool before they look, so cars are built for the scan tool to read.
 
-The same thing is happening to code. Of the code you merged today, how much did you read line by line? This book starts from one observation. **When you hand a task to an AI, the AI reads your code before you do.**
+The same thing is happening to code. Of the code merged into your repository today, how many lines did you read one by one? When you tell an AI "fix this bug," the one who finds the related code and reads it first is the AI, not you. This book starts there. **When you hand a task to an AI, the AI reads your code before you do.**
 
-*Dirty Code* is about writing code for that reader. It is also about the work that falls to people once they stop reading code.
+*Dirty Code* is about writing code that this reader, the AI, can read and change well. It is also about what people should do instead, once they stop reading code line by line.
 
 > Mechanics call the fault codes on a scan tool **DTCs**: Diagnostic Trouble Codes.<br>
 > In this book, DTC stands for **D**ir**t**y **C**ode.
@@ -48,7 +48,7 @@ Every chapter is still in preparation. Published chapters will be linked here.
 
 **Part I. The reader of your code has changed**
 
-1. "My own route used to be faster": the day developers stopped reading code
+1. "My way used to be faster": the day developers stopped reading code
 2. AI doesn't remember the code it read yesterday
 3. What carries over from *Clean Code*, and what changes
 
