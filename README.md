@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="assets/cover.png"><img src="assets/cover-web.jpg" width="420" alt="Cover of Dirty Code: Writing Code for AI Readers. A rainbow tangle of spaghetti code writes the title."></a>
+</p>
+
 <p align="center"><sub>IN THE AGE OF AI</sub></p>
 <h1 align="center">Dirty Code</h1>
 

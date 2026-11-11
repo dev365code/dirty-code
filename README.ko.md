@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="assets/cover.png"><img src="assets/cover-web.jpg" width="420" alt="『더티 코드』 표지. 무지개색으로 얽힌 스파게티 코드가 제목 DIRTY CODE를 쓴다."></a>
+</p>
+
 <p align="center"><sub>AI 시대</sub></p>
 <h1 align="center">더티 코드</h1>
 
