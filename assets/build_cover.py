@@ -6,7 +6,7 @@
 가닥의 끝은 얽힘 속으로 풀려 나간다.
 
   /usr/bin/python3 assets/build_cover.py
-      → assets/cover.png (1600×2400), assets/cover-web.jpg (대문에 싣는 1200×1800)
+      → assets/cover.png (1600×2400), assets/cover-web.jpg (대문에 싣는 가벼운 JPEG, 같은 크기)
   /usr/bin/python3 assets/build_cover.py svg
       → assets/cover.svg 도 함께 쓴다 (글꼴을 품지 않으므로 글꼴이 깔린 곳에서만 제대로 보인다)
 
@@ -309,7 +309,7 @@ def main():
         print("cover.svg")
     print(render_svg(svg_text, HERE / "cover.png", font_css()))
     web = HERE / "cover-web.jpg"
-    Image.open(HERE / "cover.png").resize((1200, 1800), Image.LANCZOS).save(web, quality=88, subsampling=0, optimize=True)
+    Image.open(HERE / "cover.png").save(web, quality=86, subsampling=0, optimize=True)
     print("%s: %d KB" % (web.name, web.stat().st_size // 1024))
 
 
