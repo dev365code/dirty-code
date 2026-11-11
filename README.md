@@ -18,7 +18,7 @@ Cars used to be built so a person with a wrench could fix them. You opened the h
 
 Open the hood of a modern car and you see a plastic cover. Plug a scan tool into the diagnostic port, though, and it tells you what is wrong, as a code. The car became less friendly to human eyes and more friendly to machines. It didn't get dirty. The one doing the repairs changed.
 
-The same thing is happening to code. Of the code you merged today, how much did you read line by line? This book starts from one observation. **The first and most frequent reader of code is now an AI.**
+The same thing is happening to code. Of the code you merged today, how much did you read line by line? This book starts from one observation. **When you hand a task to an AI, the AI reads your code before you do.**
 
 *Dirty Code* is about writing code for that reader. It is also about the work that falls to people once they stop reading code.
 
