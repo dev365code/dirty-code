@@ -31,7 +31,7 @@ The same thing is happening to code. Of the code merged into your repository tod
 
 ## Three questions
 
-1. [**What does code look like when AI can read it and change it well?**<br>](manuscript/en/01-faster-route.md) · draft
+1. **What does code look like when AI can read it and change it well?**<br>
    Names, where code lives, duplication, comments, error messages, folder structure, and prompts. (Part II)
 2. **If people no longer read the code, how do they guarantee quality?**<br>
    They split the work, decide what must never break, and design how to check it. (Part III)
@@ -48,7 +48,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 **Part I. The reader of your code has changed**
 
-1. "My way used to be faster": the day developers stopped reading code
+1. ["My way used to be faster": the day developers stopped reading code](manuscript/en/01-faster-route.md) · draft
 2. [AI doesn't remember the code it read yesterday](manuscript/en/02-no-memory-reader.md) · draft
 3. What carries over from *Clean Code*, and what changes
 
