@@ -66,7 +66,7 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 **3부. 경고등은 사람이 단다**
 
 12. [어디서 자를 것인가: 확인할 수 있는 크기로 맡긴다](manuscript/ko/12-split.md) · 초고 ([영어](manuscript/en/12-split.md))
-13. [동시에 달릴 때 깨지면 안 되는 것을 사람이 정한다](manuscript/en/13-guarantees.md) · 영어 초고
+13. [동시에 달릴 때 깨지면 안 되는 것을 사람이 정한다](manuscript/ko/13-guarantees.md) · 초고 ([영어](manuscript/en/13-guarantees.md))
 14. [코드를 한 줄도 안 읽고 맞는지 확인하는 법](manuscript/en/14-warning-lights.md) · 영어 초고
 15. [AI가 짠 코드를 AI가 검사하게 하는 법](manuscript/en/15-inspection.md) · 영어 초고
 
