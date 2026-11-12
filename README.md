@@ -50,7 +50,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 1. ["My way used to be faster": the day developers stopped reading code](manuscript/en/01-faster-route.md) · draft
 2. [AI doesn't remember the code it read yesterday](manuscript/en/02-no-memory-reader.md) · draft
-3. What carries over from *Clean Code*, and what changes
+3. [What carries over from *Clean Code*, and what changes](manuscript/en/03-keep-and-change.md) · draft
 
 **Part II. Code for the scan tool**
 

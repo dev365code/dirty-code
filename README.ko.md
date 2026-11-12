@@ -50,7 +50,7 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 
 1. [내가 아는 길이 더 빨랐다: 개발자가 코드를 읽지 않게 된 날](manuscript/en/01-faster-route.md) · 영어 초고
 2. [AI는 어제 읽은 코드를 오늘 기억하지 못한다](manuscript/en/02-no-memory-reader.md) · 영어 초고
-3. 클린 코드에서 그대로 가져올 것, 달라지는 것
+3. [클린 코드에서 그대로 가져올 것, 달라지는 것](manuscript/en/03-keep-and-change.md) · 영어 초고
 
 **2부. 진단기가 읽는 코드**
 
