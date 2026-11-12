@@ -67,7 +67,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 12. Where to cut: hand off work in pieces you can check
 13. People decide what must never break when things run at once
-14. How to check code without reading a line of it
+14. [How to check code without reading a line of it](manuscript/en/14-warning-lights.md) · draft
 15. How to have AI inspect the code AI wrote
 
 **Part IV. Is it true, and how far does it go?**
