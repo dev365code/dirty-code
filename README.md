@@ -66,7 +66,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 **Part III. People install the warning lights**
 
 12. [Where to cut: hand off work in pieces you can check](manuscript/en/12-split.md) · draft
-13. People decide what must never break when things run at once
+13. [People decide what must never break when things run at once](manuscript/en/13-guarantees.md) · draft
 14. [How to check code without reading a line of it](manuscript/en/14-warning-lights.md) · draft
 15. How to have AI inspect the code AI wrote
 
