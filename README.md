@@ -55,8 +55,8 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 **Part II. Code for the scan tool**
 
 4. AI guesses what a function does from its name
-5. Keep what changes together on one screen
-6. When a copy is safer than a shared function
+5. [Keep what changes together on one screen](manuscript/en/05-locality.md) · draft
+6. [When a copy is safer than a shared function](manuscript/en/06-duplication.md) · draft
 7. Comments say why: AI tidies up numbers it can't explain
 8. Every hop through a function is a chance for AI to get lost
 9. Install a diagnostic port: errors and logs for AI to read
@@ -104,7 +104,7 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. This
 
 ## Status
 
-- November 2026: the outline and experiment plan are set, and writing has begun.
+- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of chapters 2, 5, and 6 are posted.
 - The manuscript is written in English first. A Korean edition follows, rewritten for Korean readers.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.

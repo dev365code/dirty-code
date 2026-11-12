@@ -10,6 +10,8 @@
 /manuscript/ko/*.md
 /manuscript/en/*.md
 !/manuscript/en/02-no-memory-reader.md
+!/manuscript/en/05-locality.md
+!/manuscript/en/06-duplication.md
 
 .DS_Store
 __pycache__/
