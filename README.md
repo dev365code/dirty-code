@@ -104,8 +104,8 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. Toda
 
 ## Status
 
-- November 2026: the outline and experiment plan are set, and writing has begun. The English draft of the whole book is posted: the preface, 18 chapters, and the closing. The experiments have not been run yet.
-- The manuscript is written in English first. A Korean edition follows, rewritten for Korean readers.
+- November 2026: the outline and experiment plan are set, and writing has begun. The English draft of the whole book is posted: the preface, 18 chapters, and the closing. A Korean draft of every chapter is posted too, linked from the [Korean front page](README.ko.md). The experiments have not been run yet.
+- The manuscript was written in English first. The Korean draft is rewritten for Korean readers from the English one.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.
 
