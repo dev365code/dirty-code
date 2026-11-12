@@ -74,7 +74,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 16. [The experiment: one feature, two engine bays](manuscript/en/16-experiments.md) · draft
 17. [When the GPS is wrong: the moments people must read code](manuscript/en/17-when-humans-read.md) · draft
-18. Can we skip the code? We asked AI to write machine code directly
+18. [Can we skip the code? We asked AI to write machine code directly](manuscript/en/18-skip-the-code.md) · draft
 
 **Closing.** AI writes the code. People write the guarantees.
 
@@ -104,7 +104,7 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. Toda
 
 ## Status
 
-- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of chapters 1 to 15 are posted.
+- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of all 18 chapters are posted. The preface and the closing come next.
 - The manuscript is written in English first. A Korean edition follows, rewritten for Korean readers.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.
