@@ -111,7 +111,7 @@ New chapters will appear in this repository. Turn on **Watch** to hear about the
 
 ## About the author
 
-Wooyong Lee spent more than five years catching fraud and money laundering at Korean crypto exchanges, including Bithumb and Korbit. No one can read every transaction an exchange handles in a day, so he wrote rules that read them and flagged what looked wrong. Today he builds AI agents in Seoul, and AI writes much of the code he works with. *Dirty Code* takes the same approach to code.
+Wooyong Lee spent more than five years catching fraud and money laundering at Korean crypto exchanges, including Bithumb and Digital X. No one can read every transaction an exchange handles in a day, so he wrote rules that read them and flagged what looked wrong. Today he builds AI agents in Seoul, and AI writes much of the code he works with. *Dirty Code* takes the same approach to code.
 
 ---
 
