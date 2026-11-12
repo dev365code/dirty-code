@@ -60,7 +60,7 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 7. [주석에는 "왜"를 적는다: AI는 이유 모를 숫자를 정리해 버린다](manuscript/ko/07-comments-why.md) · 초고 ([영어](manuscript/en/07-comments-why.md))
 8. [함수를 한 번 건너뛸 때마다 AI가 한 번 틀린다](manuscript/ko/08-indirection.md) · 초고 ([영어](manuscript/en/08-indirection.md))
 9. [진단 단자를 달아라: AI가 읽는 오류와 로그](manuscript/ko/09-diagnostic-port.md) · 초고 ([영어](manuscript/en/09-diagnostic-port.md))
-10. [AI가 길을 찾는 지도: 폴더 이름과 색인 파일](manuscript/en/10-map.md) · 영어 초고
+10. [AI가 길을 찾는 지도: 폴더 이름과 색인 파일](manuscript/ko/10-map.md) · 초고 ([영어](manuscript/en/10-map.md))
 11. [프롬프트도 AI가 읽는 코드다](manuscript/en/11-prompts-are-code.md) · 영어 초고
 
 **3부. 경고등은 사람이 단다**
