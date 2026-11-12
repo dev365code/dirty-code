@@ -34,3 +34,4 @@
 __pycache__/
 !/manuscript/ko/00-preface.md
 !/manuscript/ko/01-faster-route.md
+!/manuscript/ko/02-no-memory-reader.md
