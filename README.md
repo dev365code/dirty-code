@@ -57,7 +57,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 4. [AI guesses what a function does from its name](manuscript/en/04-names.md) · draft
 5. [Keep what changes together on one screen](manuscript/en/05-locality.md) · draft
 6. [When a copy is safer than a shared function](manuscript/en/06-duplication.md) · draft
-7. Comments say why: AI tidies up numbers it can't explain
+7. [Comments say why: AI tidies up numbers it can't explain](manuscript/en/07-comments-why.md) · draft
 8. Every hop through a function is a chance for AI to get lost
 9. [Install a diagnostic port: errors and logs for AI to read](manuscript/en/09-diagnostic-port.md) · draft
 10. The map AI navigates by: folder names and an index file
