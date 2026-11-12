@@ -18,6 +18,7 @@
 !/manuscript/en/01-faster-route.md
 !/manuscript/en/03-keep-and-change.md
 !/manuscript/en/07-comments-why.md
+!/manuscript/en/08-indirection.md
 
 .DS_Store
 __pycache__/

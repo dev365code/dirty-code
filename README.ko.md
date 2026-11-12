@@ -58,7 +58,7 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 5. [고칠 것은 한 화면에 모아라](manuscript/en/05-locality.md) · 영어 초고
 6. [복사해 둔 코드가 더 안전할 때](manuscript/en/06-duplication.md) · 영어 초고
 7. [주석에는 "왜"를 적는다: AI는 이유 모를 숫자를 정리해 버린다](manuscript/en/07-comments-why.md) · 영어 초고
-8. 함수를 한 번 건너뛸 때마다 AI가 한 번 틀린다
+8. [함수를 한 번 건너뛸 때마다 AI가 한 번 틀린다](manuscript/en/08-indirection.md) · 영어 초고
 9. [진단 단자를 달아라: AI가 읽는 오류와 로그](manuscript/en/09-diagnostic-port.md) · 영어 초고
 10. AI가 길을 찾는 지도: 폴더 이름과 색인 파일
 11. 프롬프트도 AI가 읽는 코드다
