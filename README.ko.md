@@ -72,7 +72,7 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 
 **4부. 정말 그런가, 어디까지인가**
 
-16. [실험: 같은 기능을 두 가지 엔진룸으로 만들어 보았다](manuscript/en/16-experiments.md) · 영어 초고
+16. [실험: 같은 기능을 두 가지 엔진룸으로 만들어 보았다](manuscript/ko/16-experiments.md) · 초고 ([영어](manuscript/en/16-experiments.md))
 17. [내비가 틀릴 때: 사람이 코드를 읽어야 하는 순간](manuscript/en/17-when-humans-read.md) · 영어 초고
 18. [코드를 건너뛸 수 있을까: AI에게 기계어를 바로 쓰게 해 보았다](manuscript/en/18-skip-the-code.md) · 영어 초고
 
