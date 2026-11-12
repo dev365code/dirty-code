@@ -73,7 +73,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 **Part IV. Is it true, and how far does it go?**
 
 16. [The experiment: one feature, two engine bays](manuscript/en/16-experiments.md) · draft
-17. When the GPS is wrong: the moments people must read code
+17. [When the GPS is wrong: the moments people must read code](manuscript/en/17-when-humans-read.md) · draft
 18. Can we skip the code? We asked AI to write machine code directly
 
 **Closing.** AI writes the code. People write the guarantees.
