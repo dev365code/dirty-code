@@ -100,7 +100,7 @@ The experiment plan is in [experiments/](experiments/README.md) (in Korean for n
 
 ## On *Clean Code*
 
-Robert C. Martin's *Clean Code* set the standard for code that people read. This book does not argue against it. It looks at what stays the same and what changes when the reader is different. Some things, like names and tests, matter even more.
+Robert C. Martin's *Clean Code* set the standard for code that people read. Today's AI learned to code from code that people wrote, so for now clean code is easy for AI to read too. But as code gets arranged for what is most effective and efficient for an AI reader, it will look less and less like clean code. This book calls that code dirty code. Where its advice differs from *Clean Code*'s, the book says so. Some things, like names and tests, matter even more.
 
 ## Status
 

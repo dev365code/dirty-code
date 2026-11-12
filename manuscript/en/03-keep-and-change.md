@@ -28,7 +28,9 @@ The first group is habits that put information into the code. A name that says w
 
 The second group is habits that were a bargain with a human reader. A team accepted a cost because a person could cover it. Take a rule that every function must be short. A team accepts that the steps of one task end up in five small functions across three files, because a person who knows the code remembers where the five are. Or take the rule against duplicated code. A team accepts that seven callers share one function, because someone on the team remembers who the seven are. An AI session has no such memory. For this second group, the bargain has to be weighed again.
 
-Weighing again does not mean doing the opposite. Most of the time the old answer still wins. Chapters 4 to 11 go through the cases one at a time, and each chapter names the conditions under which the answer changes.
+Weighing again does not mean doing the opposite every time. Today's AI learned to code from code that people wrote, so code written the *Clean Code* way is easy for it to read, and most of the time the old answer still wins. Chapters 4 to 11 go through the cases one at a time, and each chapter names the conditions under which the answer changes.
+
+Under those conditions, this book's advice differs from *Clean Code*'s, and it says so. Chapter 5 keeps the code for one change in one place, even when that makes a function long. Chapter 6 gives a caller its own copy of a function that other callers share. Chapter 8 takes out a layer of classes that a well-known design would keep.
 
 ## Code: seven habits from *Clean Code*, and what each one means for an AI reader
 
@@ -103,3 +105,5 @@ Some rules exist for tools, not for readers. A formatter's line length and an im
 The table can be read as a list of things to stop doing. That reading is wrong. Five rows carry over, and the other two keep the habit and add a condition. A team that drops small functions, shared code, and self-explaining code because "the reader is an AI now" will have code that neither reader can follow.
 
 Better models will move some of these lines. A model with a larger context window can read more files before it writes, so code spread across files will cost it less. A model that checks every caller before it edits a shared function will make the duplication row matter less. The rows about names, errors, and tests don't depend on those limits. They are about information that isn't anywhere unless someone writes it down.
+
+I expect the table to change in the other direction as well. *Clean Code*'s advice was shaped by what a human reader can hold in mind and what a human writer is willing to type. An AI reader has different limits, and code arranged for those limits already differs from clean code in two rows of the table. As more code is written by AI and read by AI, I expect more rows to change. Code arranged that way is what this book's title calls dirty code. The seven rows show where it stands today, and the experiment in each chapter is how a row gets corrected.
