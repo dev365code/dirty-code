@@ -59,7 +59,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 6. [When a copy is safer than a shared function](manuscript/en/06-duplication.md) · draft
 7. Comments say why: AI tidies up numbers it can't explain
 8. Every hop through a function is a chance for AI to get lost
-9. Install a diagnostic port: errors and logs for AI to read
+9. [Install a diagnostic port: errors and logs for AI to read](manuscript/en/09-diagnostic-port.md) · draft
 10. The map AI navigates by: folder names and an index file
 11. Prompts are code that AI reads
 
