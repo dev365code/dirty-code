@@ -21,6 +21,7 @@
 !/manuscript/en/08-indirection.md
 !/manuscript/en/10-map.md
 !/manuscript/en/11-prompts-are-code.md
+!/manuscript/en/12-split.md
 
 .DS_Store
 __pycache__/
