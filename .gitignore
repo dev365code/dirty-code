@@ -19,6 +19,7 @@
 !/manuscript/en/03-keep-and-change.md
 !/manuscript/en/07-comments-why.md
 !/manuscript/en/08-indirection.md
+!/manuscript/en/10-map.md
 
 .DS_Store
 __pycache__/
