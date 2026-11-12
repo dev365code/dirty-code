@@ -42,14 +42,14 @@ This book does not cover how to use AI tools, model rankings, or the future of j
 
 ## Contents
 
-Every chapter is still in preparation. Published chapters will be linked here.
+Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. In a draft, a line marked **[Result slot]** or **[Run record slot]** stands for an experiment that has not been run yet.
 
 **Preface.** To *Clean Code*: we learned to write code for people
 
 **Part I. The reader of your code has changed**
 
 1. "My way used to be faster": the day developers stopped reading code
-2. AI doesn't remember the code it read yesterday
+2. [AI doesn't remember the code it read yesterday](manuscript/en/02-no-memory-reader.md) · draft
 3. What carries over from *Clean Code*, and what changes
 
 **Part II. Code for the scan tool**

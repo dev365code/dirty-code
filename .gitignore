@@ -9,6 +9,7 @@
 # 공개할 장은 아래에 `!/manuscript/ko/09-diagnostic-port.md` 같은 줄을 더한다.
 /manuscript/ko/*.md
 /manuscript/en/*.md
+!/manuscript/en/02-no-memory-reader.md
 
 .DS_Store
 __pycache__/
