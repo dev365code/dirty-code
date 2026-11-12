@@ -44,7 +44,7 @@ This book does not cover how to use AI tools, model rankings, or the future of j
 
 Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. In a draft, a line marked **[Result slot]** or **[Run record slot]** stands for an experiment that has not been run yet.
 
-**Preface.** To *Clean Code*: we learned to write code for people
+**Preface.** [To *Clean Code*: we learned to write code for people](manuscript/en/00-preface.md) · draft
 
 **Part I. The reader of your code has changed**
 
@@ -76,7 +76,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 17. [When the GPS is wrong: the moments people must read code](manuscript/en/17-when-humans-read.md) · draft
 18. [Can we skip the code? We asked AI to write machine code directly](manuscript/en/18-skip-the-code.md) · draft
 
-**Closing.** AI writes the code. People write the guarantees.
+**Closing.** [AI writes the code. People write the guarantees.](manuscript/en/99-closing.md) · draft
 
 ## Every chapter follows the same order
 
@@ -104,7 +104,7 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. Toda
 
 ## Status
 
-- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of all 18 chapters are posted. The preface and the closing come next.
+- November 2026: the outline and experiment plan are set, and writing has begun. The English draft of the whole book is posted: the preface, 18 chapters, and the closing. The experiments have not been run yet.
 - The manuscript is written in English first. A Korean edition follows, rewritten for Korean readers.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.

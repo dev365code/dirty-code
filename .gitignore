@@ -27,6 +27,8 @@
 !/manuscript/en/16-experiments.md
 !/manuscript/en/17-when-humans-read.md
 !/manuscript/en/18-skip-the-code.md
+!/manuscript/en/00-preface.md
+!/manuscript/en/99-closing.md
 
 .DS_Store
 __pycache__/
