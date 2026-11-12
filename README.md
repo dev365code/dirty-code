@@ -54,7 +54,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 **Part II. Code for the scan tool**
 
-4. AI guesses what a function does from its name
+4. [AI guesses what a function does from its name](manuscript/en/04-names.md) · draft
 5. [Keep what changes together on one screen](manuscript/en/05-locality.md) · draft
 6. [When a copy is safer than a shared function](manuscript/en/06-duplication.md) · draft
 7. Comments say why: AI tidies up numbers it can't explain
