@@ -31,7 +31,7 @@ The same thing is happening to code. Of the code merged into your repository tod
 
 ## Three questions
 
-1. **What does code look like when AI can read it and change it well?**<br>
+1. [**What does code look like when AI can read it and change it well?**<br>](manuscript/en/01-faster-route.md) · draft
    Names, where code lives, duplication, comments, error messages, folder structure, and prompts. (Part II)
 2. **If people no longer read the code, how do they guarantee quality?**<br>
    They split the work, decide what must never break, and design how to check it. (Part III)
@@ -104,7 +104,7 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. This
 
 ## Status
 
-- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of chapters 2, 5, and 6 are posted.
+- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of chapters 1, 2, 4, 5, 6, 9, and 14 are posted.
 - The manuscript is written in English first. A Korean edition follows, rewritten for Korean readers.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.
