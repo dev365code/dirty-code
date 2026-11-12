@@ -26,27 +26,27 @@ To see what a new session does have, give it this morning's prompt, and make the
 
 What follows is how today's tools usually work. It isn't a transcript of one session. Each step gets a chapter of its own later in the book.
 
-The prompt asks for a function, `partial_refund_amount`, and names its arguments. It doesn't mention coupons. Dana hears the request and thinks of the support ticket that started all this: a customer returned one item from a coupon order, and a support agent, refunding it by hand, gave back its full list price.
+The prompt asks for a function, `partial_refund_amount`, and names its arguments. The prompt doesn't mention coupons. Dana hears the request and thinks of the support ticket that started all this: a customer returned one item from a coupon order, and a support agent, refunding it by hand, gave back its full list price.
 
 The session has only the words of the prompt. It has never seen the ticket.
 
-Its first move is to search. It doesn't know where anything is, so it searches for `refund` and opens the files that match. Dana just opens `refunds.py`.
+The session starts by searching. It doesn't know where anything is in your repository, so it searches for `refund` and opens the files that match. Dana just opens `refunds.py`.
 
-If some refund math lived in `helpers.py` under the name `adjust()`, the search could miss it. That happens when the word `refund` appears nowhere in the file and none of the files the search did find leads there.
+If some refund math lived in `helpers.py` under the name `adjust()`, the search could miss that file. The search misses a file when the word `refund` appears nowhere in it and none of the files the search did find calls it.
 
-Next it reads, and it doesn't read everything. Its context window (the amount of text the AI can see at once) is limited, and reading costs time and fills it. So it usually reads around its search hits and a few of the functions they call, then starts writing.
+Next the session reads, and it doesn't read everything. The AI can see only a limited amount of text at once (that amount is its context window), and every file the session reads takes time and uses up part of that amount. So the session usually reads the lines around its search hits and a few of the functions those lines call, and then it starts writing.
 
-If it never opens `settlement.py`, it doesn't learn that every refund changes a payout there, and that the two have to agree to the cent. Dana knows that without opening a file.
+If the session never opens `settlement.py`, it doesn't learn that every refund also lowers a payout there, and that the refund and the payout have to match to the cent. Dana knows that without opening a file.
 
-Then it reaches what the prompt left open. Each item has a list price, and the coupon belongs to the whole order. To refund one item, the function has to split the coupon somehow, do something with a fraction of a cent, and put the leftover cent somewhere.
+Then the session reaches three questions that the prompt didn't answer. Each item has a list price, and the coupon belongs to the whole order. So to refund one item, the function has to split the coupon between the items, decide what to do with a fraction of a cent, and decide which refund gets the leftover cent.
 
-A session usually doesn't stop to ask. It picks the answer that looks most plausible and keeps working. It may even pick yours, and it has no way to know that it did.
+A session usually doesn't stop to ask you. It picks the answer that looks most plausible and keeps working. The session may even pick the same answer you did yesterday, and it has no way to know that its answer matches your rule.
 
-It checks its work when it can: it runs the tests, reads the failures, and tries again. When nothing says how to run the tests, it tends to stop at a guess. Dana knows the test command by heart, and which test is flaky.
+The session checks its own work when it can: it runs the tests, reads the failures, and tries again. When no file says how to run the tests, the session tends to stop at a guess. Dana knows the test command by heart, and which test is flaky.
 
 Here the tests run and pass, because no test says how a single item's refund is worked out.
 
-None of this makes Dana the better reader. People forget, and they misremember: she may recall that ticket and get the amount wrong. But she can ask you about the rule this morning, and she's likely to still know it next week. Yesterday's memory and the colleague at the next desk cost a person nothing, and the AI has neither.
+Dana isn't a better reader than the AI. People forget, and they misremember: Dana may recall that ticket and get the amount wrong. But she can ask you about the rule this morning, and she's likely to still know it next week. A person has yesterday's memory and a colleague at the next desk, and neither one costs anything. The AI has neither.
 
 ## Code: yesterday's rule reaches a new session only if a file states it
 
@@ -79,9 +79,9 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-If you were in yesterday's chat, nothing is missing. You know how a single item will be refunded, and there was no code yet to write it into. A new session reads one fact here: when a whole order comes back, the refund is what the customer paid. The test guards this one function and is silent about a function written tomorrow. A test for `partial_refund_amount` could hold the rule too, but yesterday there was no such function to test (Chapter 14 covers that test).
+If you were in yesterday's chat, nothing is missing from this listing. You know how a single item will be refunded, and yesterday there was no partial-refund code to write that rule into. A new session reads one fact here: when a whole order comes back, the refund is what the customer paid. The test checks this one function. It checks nothing about a function that someone writes tomorrow. A test for `partial_refund_amount` could hold the rule too, but yesterday there was no such function to test (Chapter 14 covers that test).
 
-If you'd added the rule to yesterday's commit message, it would be in the repository too, but a session would see it only by reading the commit history.
+If you had added the rule to yesterday's commit message, the rule would be in the repository too, but a session would see it only if it read the commit history.
 
 The version for AI writes the rule into a function that a session working on refunds is likely to open. It replaces `full_refund_amount` in the listing, and nothing else changes.
 
@@ -94,7 +94,7 @@ def full_refund_amount(order: Order) -> int:
     return sum(order.prices.values()) - order.coupon_discount
 ```
 
-Both versions behave the same and pass the same test. They differ only in what tomorrow's session can read here.
+Both versions behave the same and pass the same test. The only difference is that tomorrow's session can read the rule in the second version.
 
 ## Prompt: one prompt goes to three copies of the repository that differ only in where the rule is written
 
@@ -116,7 +116,7 @@ In the first copy the rule is written nowhere. The second has the comment from t
   cents to whichever item is refunded last.
 ```
 
-In the first copy, the session has to choose. It may well split by list price and round down, the way the function in the Scene did. It could drop the leftover cent, add it to the first refund, or add it to the last, and nothing in the repository picks one. Whichever it does, the old test still passes, because that test calls only `full_refund_amount`.
+In the first copy, the session has to choose. It may well split by list price and round down, the way the function in the Scene did. It could drop the leftover cent, add it to the first refund, or add it to the last, and no file in the repository says which. Whichever the session does, the old test still passes, because that test calls only `full_refund_amount`.
 
 The second and third copies differ in which sessions get to read the rule. A comment inside a function reaches a session that opens that function, or whose search lands on those lines. A search for `refund` returns the first and last lines of that comment and skips the middle one, which doesn't contain the word.
 
@@ -128,11 +128,11 @@ The rules file is read when a session starts, before the first search. Even then
 
 Experiment E2 uses the three copies from the Prompt section, and each gets the same prompt in 10 fresh sessions. It hasn't been run yet.
 
-The verdict comes from a hidden test (a test the AI never sees, used to judge whether the result is right). It calls `partial_refund_amount` to play out every sequence in which a customer could return a coupon order one item at a time, for one order that splits into whole cents and one that leaves cents over.
+A hidden test judges each run. A hidden test is a test the AI never sees, and I use it to decide whether the result is right. This one calls `partial_refund_amount` to play out every order in which a customer could return the items of a coupon order one at a time, for one order that splits into whole cents and one that leaves cents over.
 
 It gives each run one of four marks: "right" if every refund is the amount the rule gives, "over" if at any point the customer has been refunded more in total than the rule allows, "under" if the total is never over but at some point falls short, and "did not run" if the function is missing or raises an error.
 
-Zero misses in 10 runs would mean "rare" and nothing stronger, because a miss that happens one time in ten stays hidden in 10 runs about 35% of the time.
+If a copy gets zero misses in 10 runs, that shows only that misses are rare in that copy. A miss that happens one time in ten doesn't show up at all in 10 runs about 35% of the time.
 
 > **[Result slot: experiment E2]** Date, tool and model, and for each copy the runs marked right, over, under, and did not run out of 10, with files opened and tool calls per session.
 
@@ -145,18 +145,18 @@ Zero misses in 10 runs would mean "rare" and nothing stronger, because a miss th
 
 ## Where it breaks
 
-In this chapter, "yesterday" stands for "in an earlier session." If your tool lets you continue yesterday's conversation, you're still in the same session, and the claim doesn't apply for as long as the whole conversation still fits in the context window. That conversation still isn't in the session a colleague opens. And if you write a script to run once and delete, no later session will work on it, so there's nothing to write down. <!-- no source: continuing a conversation, written as a conditional -->
+In this chapter, "yesterday" stands for "in an earlier session." If your tool lets you continue yesterday's conversation, you're still in the same session, and the AI still has yesterday's rule for as long as the whole conversation fits in its context window. A colleague who opens a session of their own doesn't get that conversation. And if you write a script to run once and delete, no later session will work on it, so there's nothing to write down. <!-- no source: continuing a conversation, written as a conditional -->
 
 The AI is new to your repository. It is not new to programming. It can guess what a function does from its name because it already knows what common code looks like.
 
-So this chapter's problem is likely small where your code follows common practice and large where your team made its own decisions. A session may well split a coupon by list price unprompted. It can't know that your shop rounds down, or where the leftover cent goes, unless a file says so. <!-- no source: what a model already knows; the size comparison is not measured -->
+So a new session is likely to guess right where your code follows common practice, and likely to guess wrong where your team made its own decisions. A session may well split a coupon by list price unprompted. It can't know that your shop rounds down, or where the leftover cent goes, unless a file says so. <!-- no source: what a model already knows; the size comparison is not measured -->
 
-If your tool carries memory from one session to the next, "it doesn't remember yesterday" is less true for you. Ask where that memory lives.
+If your tool carries memory from one session to the next, the AI does remember part of yesterday. Ask where the tool keeps that memory.
 
-Unless the model itself is retrained, a memory has to be something written down that the new session reads. If the tool loads all of it when a session starts, it works like a rules file, and every session pays to read it. If the tool looks things up only when it needs them, a memory it doesn't find is as good as unwritten.
+Unless someone retrains the model itself, a memory has to be text that the tool wrote down and that the new session reads. If the tool loads all of that text when a session starts, the memory works like a rules file, and every session spends time and context window reading it. If the tool looks a memory up only when the session needs it, a memory that the tool doesn't find helps the session no more than a memory nobody wrote.
 
-You can open a rules file and correct it, and it travels with the repository. Check whether the same holds for the memory. <!-- no source: memory features, written as a conditional -->
+You can open a rules file and correct it, and the rules file travels with the repository. Check whether you can do the same with your tool's memory. <!-- no source: memory features, written as a conditional -->
 
-Better models should make two of these problems smaller: reading only part of the repository, and searches that miss. If a context window can hold the whole repository, and the tool loads all of it, the session will have read `settlement.py`.
+Better models should shrink two of these problems: sessions that read only part of the repository, and searches that miss a file. If a context window can hold the whole repository, and the tool loads all of it, the session will have read `settlement.py`.
 
-Two things remain. Reading everything has to happen again in every session, and it costs each time. And no window, however large, holds what was never written down.
+Two problems remain. Every new session has to read the whole repository again, and each reading costs time and money. And however large the context window gets, a session can't read a rule that nobody wrote down.
