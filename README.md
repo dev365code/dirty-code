@@ -61,7 +61,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 8. [Every hop through a function is a chance for AI to get lost](manuscript/en/08-indirection.md) · draft
 9. [Install a diagnostic port: errors and logs for AI to read](manuscript/en/09-diagnostic-port.md) · draft
 10. [The map AI navigates by: folder names and an index file](manuscript/en/10-map.md) · draft
-11. Prompts are code that AI reads
+11. [Prompts are code that AI reads](manuscript/en/11-prompts-are-code.md) · draft
 
 **Part III. People install the warning lights**
 
