@@ -68,7 +68,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 12. [Where to cut: hand off work in pieces you can check](manuscript/en/12-split.md) · draft
 13. [People decide what must never break when things run at once](manuscript/en/13-guarantees.md) · draft
 14. [How to check code without reading a line of it](manuscript/en/14-warning-lights.md) · draft
-15. How to have AI inspect the code AI wrote
+15. [How to have AI inspect the code AI wrote](manuscript/en/15-inspection.md) · draft
 
 **Part IV. Is it true, and how far does it go?**
 
@@ -104,7 +104,7 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. Toda
 
 ## Status
 
-- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of chapters 1 to 11 and chapter 14 are posted.
+- November 2026: the outline and experiment plan are set, and writing has begun. Drafts of chapters 1 to 15 are posted.
 - The manuscript is written in English first. A Korean edition follows, rewritten for Korean readers.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.
