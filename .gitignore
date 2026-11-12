@@ -32,3 +32,5 @@
 
 .DS_Store
 __pycache__/
+!/manuscript/ko/00-preface.md
+!/manuscript/ko/01-faster-route.md
