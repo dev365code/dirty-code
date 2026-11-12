@@ -109,6 +109,10 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. This
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.
 
+## About the author
+
+Wooyong Lee spent more than five years catching fraud and money laundering at Korean crypto exchanges, including Bithumb and Korbit. No one can read every transaction an exchange handles in a day, so he wrote rules that read them and flagged what looked wrong. Today he builds AI agents in Seoul, and AI writes much of the code he works with. *Dirty Code* takes the same approach to code.
+
 ---
 
 <sub>© 2026 Wooyong Lee. All rights reserved. Please credit the source when quoting.</sub>
