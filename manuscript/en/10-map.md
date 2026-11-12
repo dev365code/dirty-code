@@ -90,7 +90,8 @@ The index file, `INDEX.md`, says what the names can't.
 - settlement/  The accountant's payout report. A refund here must match
                refunds/refund_amount.py to the cent.
 - users/       Sign-up and the rules for email addresses.
-- tests/       One test file per folder above. Run: python3 -m unittest
+- tests/       One test file per folder above.
+               Run: python3 -m unittest discover -s tests
 ```
 
 Three things in that page aren't in any name. The line for `orders/` says which file to open first. The line for `payments/` says that one file is the only door to the provider. The line for `settlement/` says that two folders have to agree. A session working on refunds that reads that last line knows to open `settlement/` too.
