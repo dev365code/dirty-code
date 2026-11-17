@@ -140,7 +140,7 @@ Edit 2 is the mistake this chapter is about. The session followed two hops corre
 
 In the version for AI, the search for `fee` finds one dictionary with three entries, and the prompt names one of them.
 
-> **[Run record slot: E7]** For each version: searches run, files and classes opened, the edit made, and the totals for all three methods afterward. Date, tool, model.
+<!-- [Run record slot: E7] For each version: searches run, files and classes opened, the edit made, and the totals for all three methods afterward. Date, tool, model. -->
 
 ## Evidence: experiment E7 will count wrong edits at 0, 1, and 3 hops
 
@@ -150,9 +150,9 @@ Each version gets the prompt above in 10 fresh sessions. A hidden test judges ea
 
 E7 hasn't been run yet. This example is small, and a session may well read all of it and choose Edit 1 every time. If the three versions score the same, I'll say so here, and the claim will need a condition about how much code surrounds the hops.
 
-> **[Result slot: experiment E7]** Date, tool and model. For each version, out of 10 sessions: passes, sessions that changed another method's total, files opened per session.
+<!-- [Result slot: experiment E7] Date, tool and model. For each version, out of 10 sessions: passes, sessions that changed another method's total, files opened per session. -->
 
-> **[Author case slot]** A real change in which an AI edited a parent class or a shared layer and changed behavior the prompt didn't mention.
+<!-- [Author case slot] A real change in which an AI edited a parent class or a shared layer and changed behavior the prompt didn't mention. -->
 
 ## What people do
 

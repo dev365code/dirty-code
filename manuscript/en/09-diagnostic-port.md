@@ -145,7 +145,7 @@ A good outcome has two parts. First, you or the AI look up order 1042 before any
 
 A pasted log line becomes part of the prompt. The error message you write today is the prompt you'll send on the day of the incident. A procedure in a separate document has to be found before it can be read, while one in the error line arrives with the failure.
 
-> **[Run record slot: E8]** For each prompt: files the AI opened, tool calls, what it changed. Date, tool, model.
+<!-- [Run record slot: E8] For each prompt: files the AI opened, tool calls, what it changed. Date, tool, model. -->
 
 ## Evidence: experiment E8 will plant five failures and report each one two ways
 
@@ -153,9 +153,9 @@ Experiment E8 will test whether what the error line says changes what the AI doe
 
 Each failure goes to 10 fresh sessions per copy, 100 sessions in all. E8 counts the sessions that name the true cause, the sessions that write code that asks for approval again without looking the charge up first, and the tool calls. E8 hasn't been run yet.
 
-> **[Result slot: experiment E8]** Date, tool and model, sessions per failure, sessions that named the true cause, sessions that asked for approval again without a lookup, tool calls.
+<!-- [Result slot: experiment E8] Date, tool and model, sessions per failure, sessions that named the true cause, sessions that asked for approval again without a lookup, tool calls. -->
 
-> **[Author case slot]** Two real cases: a check result that existed only on a screen the AI's tools couldn't read, and a log that recorded exit code 0 for every command.
+<!-- [Author case slot] Two real cases: a check result that existed only on a screen the AI's tools couldn't read, and a log that recorded exit code 0 for every command. -->
 
 ## What people do
 

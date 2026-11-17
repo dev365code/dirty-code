@@ -177,7 +177,7 @@ The two reviewers have different targets. Reviewer A goes after the code and use
 
 When a finding is real, its failing test becomes the finish line for the fix (Chapter 11). You hand the test to a session, and the fix is done when that test passes and the old tests still pass.
 
-> **[Run record slot: E15]** For each of the three prompts: the report that came back, word for word, and what happened when each finding was run. Date, tool, model.
+<!-- [Run record slot: E15] For each of the three prompts: the report that came back, word for word, and what happened when each finding was run. Date, tool, model. -->
 
 ## Evidence: I ran the five findings, and one proposed fix made the shop pay back $29.01 on a $29.00 order
 
@@ -191,9 +191,9 @@ Experiment E15 will collect real reports. It asks for a review of Change B in th
 
 E15 counts the reviews that report the leftover-cent defect with an order that reproduces it. For every review it also counts the findings I could reproduce and the findings I couldn't.
 
-> **[Result slot: experiment E15]** Date, tool and model. For each way, out of 10 reviews: reviews that reported the leftover-cent defect with a reproducing order, findings reproduced, and findings not reproduced.
+<!-- [Result slot: experiment E15] Date, tool and model. For each way, out of 10 reviews: reviews that reported the leftover-cent defect with a reproducing order, findings reproduced, and findings not reproduced. -->
 
-> **[Author case slot]** A real case in which a second AI reader found a defect that the writing session had missed, and one in which a reviewer's finding turned out to be wrong.
+<!-- [Author case slot] A real case in which a second AI reader found a defect that the writing session had missed, and one in which a reviewer's finding turned out to be wrong. -->
 
 ## What people do
 

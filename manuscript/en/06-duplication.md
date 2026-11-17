@@ -163,7 +163,7 @@ The parameter is what a careful developer might write, and it keeps the other ca
 
 In the version for AI, the same three ways all end inside `settlement.py`, in code that only the settlement report runs.
 
-> **[Run record slot: E5]** For each version: searches run, source files opened, the function edited, and whether the session searched for other callers first. Date, tool, model.
+<!-- [Run record slot: E5] For each version: searches run, source files opened, the function edited, and whether the session searched for other callers first. Date, tool, model. -->
 
 ## Evidence: experiment E5 will count the callers that change when a session is asked to change one
 
@@ -177,9 +177,9 @@ After the first prompt it calls all seven callers with $27.00, $1,250.00, and -$
 
 I predict that other callers' output will change only in the first version, and that the refund and the payout will disagree only in the second. If a version gets zero failures in 10 runs, that shows only that the failure is uncommon.
 
-> **[Result slot: experiment E5]** Date, tool and model. Out of 10 runs per version and prompt: runs where another caller's output changed, runs where refund and payout disagreed, and the kind of edit.
+<!-- [Result slot: experiment E5] Date, tool and model. Out of 10 runs per version and prompt: runs where another caller's output changed, runs where refund and payout disagreed, and the kind of edit. -->
 
-> **[Author case slot]** A real change where an AI's edit to a shared function changed another caller's output.
+<!-- [Author case slot] A real change where an AI's edit to a shared function changed another caller's output. -->
 
 ## What people do
 

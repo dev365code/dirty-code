@@ -180,7 +180,7 @@ The second half turns the question into a number from a run. If the script print
 
 You can ask for the same walkthrough on a quiet afternoon, one for each path on your list, and keep it next to the code. Read the lines it cites once while nothing is on fire. A walkthrough is a session's account, like any other. It is worth keeping after a person has checked it against the code.
 
-> **[Run record slot: E16]** For each version of the payment code: the answer to the yes-or-no question, word for word, and the files the session opened before it answered. Date, tool, model.
+<!-- [Run record slot: E16] For each version of the payment code: the answer to the yes-or-no question, word for word, and the files the session opened before it answered. Date, tool, model. -->
 
 ## Evidence: with one late reply, the provider received two requests, and `charge` returned without an error
 
@@ -192,9 +192,9 @@ In the second version the provider received 1 request in both cases, and `charge
 
 These runs show what the hidden retry does. They don't show how often an AI gives the wrong answer to the 3 a.m. question. Experiment E16 will count that. It asks the yes-or-no question of 10 fresh sessions for each version, with no other instructions. For the first version the right answer is yes. E16 counts the sessions that answer no, and the sessions that opened `retries.py` before they answered.
 
-> **[Result slot: experiment E16]** Date, tool and model. For each version, out of 10 sessions: right answers, and sessions that opened every file on the path before answering.
+<!-- [Result slot: experiment E16] Date, tool and model. For each version, out of 10 sessions: right answers, and sessions that opened every file on the path before answering. -->
 
-> **[Author case slot]** A real case in which an AI's account of what the code does was wrong, and a person found the fact by reading the code.
+<!-- [Author case slot] A real case in which an AI's account of what the code does was wrong, and a person found the fact by reading the code. -->
 
 ## What people do
 

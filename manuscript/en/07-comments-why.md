@@ -106,7 +106,7 @@ In the version for people, the session has the prompt and three constants. An AI
 
 In the version for AI, the same session reads two comments that say "not 30 or 40" and "not 50" and give a reason. Now the prompt and the file disagree, and the session has to choose. It is likely to keep the values, and a careful session will say in its report that it left them alone and why. It may still change them. A comment is something the session reads. It isn't something the session is forced to obey.
 
-> **[Run record slot: E6]** For each version: the values after the cleanup, and what the session's report said about them. Date, tool, model.
+<!-- [Run record slot: E6] For each version: the values after the cleanup, and what the session's report said about them. Date, tool, model. -->
 
 ## Evidence: experiment E6 will count how many odd values survive a cleanup
 
@@ -116,9 +116,9 @@ For each session, E6 counts how many of the 10 values are unchanged afterward. I
 
 E6 hasn't been run yet. If both copies keep about the same number of values, I'll say so here, and this chapter's claim will shrink to the smaller point that the comment helps the human reviewer.
 
-> **[Result slot: experiment E6]** Date, tool and model. For each copy: values unchanged out of 10 per session, and sessions whose report mentioned the odd values.
+<!-- [Result slot: experiment E6] Date, tool and model. For each copy: values unchanged out of 10 per session, and sessions whose report mentioned the odd values. -->
 
-> **[Author case slot]** A real case in which an AI changed, or reported on, a value or a rule whose reason was written nowhere in the files.
+<!-- [Author case slot] A real case in which an AI changed, or reported on, a value or a rule whose reason was written nowhere in the files. -->
 
 ## What people do
 

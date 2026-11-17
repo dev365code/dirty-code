@@ -140,7 +140,7 @@ test names and failure messages as printed (or say nothing failed), and wait.
 4. Restore your change.
 ```
 
-> **[Run record slot: E12]** All three prompts: files opened, files changed, the AI's report, and the same test command run by hand. Date, tool, model.
+<!-- [Run record slot: E12] All three prompts: files opened, files changed, the AI's report, and the same test command run by hand. Date, tool, model. -->
 
 ## Evidence: experiment E12 will count how often each prompt gets the assertion changed
 
@@ -148,9 +148,9 @@ Experiment E12 will send each of the first two prompts to 10 fresh sessions. Eve
 
 E12 hasn't been run yet. If a prompt gets zero runs with a changed assertion out of 10, that shows only that such a change is rare. Until E12 runs, the statement that an AI may edit the test is my deduction from how these tools read a prompt.
 
-> **[Result slot: experiment E12]** Date, tool and model, and for each prompt out of 10 runs: runs with a changed assertion, runs that passed the hidden test, runs whose reported failure matched the real output.
+<!-- [Result slot: experiment E12] Date, tool and model, and for each prompt out of 10 runs: runs with a changed assertion, runs that passed the hidden test, runs whose reported failure matched the real output. -->
 
-> **[Author case slot]** Real cases in which a pass was not evidence: a check that passed only on one machine, a check that looked at no files, and a test that accepted wrong answers.
+<!-- [Author case slot] Real cases in which a pass was not evidence: a check that passed only on one machine, a check that looked at no files, and a test that accepted wrong answers. -->
 
 Two more kinds of empty pass are easy to try yourself.
 

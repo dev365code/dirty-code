@@ -59,7 +59,7 @@ Four requests are chosen to favor Repository A. One asks for a new money format 
 
 With 20 requests, 2 repositories, and 10 fresh sessions each, one model takes 400 sessions.
 
-> **[Run record slot: combined experiment]** For two requests, one from each of the first two groups: what one session did in Repository A and what one did in Repository B, step by step. Date, tool, model.
+<!-- [Run record slot: combined experiment] For two requests, one from each of the first two groups: what one session did in Repository A and what one did in Repository B, step by step. Date, tool, model. -->
 
 ## Evidence: 400 sessions per model, judged by hidden tests and reported request by request
 
@@ -79,7 +79,7 @@ Repository A may pass more often. Then some habit in B costs more than it gives,
 
 The experiment hasn't been run. Whatever the outcome, the numbers will carry their date and model. I plan to run the same 400 sessions on a second model as well, to see whether the result belongs to one model's habits.
 
-> **[Result slot: combined experiment]** Date, tool and model. One row per request: passes out of 10 in A and in B, runs that broke behavior the request didn't ask for, and the median files opened and tool calls. Totals for each of the three groups.
+<!-- [Result slot: combined experiment] Date, tool and model. One row per request: passes out of 10 in A and in B, runs that broke behavior the request didn't ask for, and the median files opened and tool calls. Totals for each of the three groups. -->
 
 ## What people do
 

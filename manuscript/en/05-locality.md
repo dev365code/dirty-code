@@ -172,7 +172,7 @@ In the version for AI, reading that function shows three complete rules, each wi
 
 The session may open those two files anyway. A case-sensitive search for `email` also returns the three lines of the message table in `validation.py`. But a session doesn't run the same searches every time, so one fresh session can make all three edits and the next can stop after one.
 
-> **[Run record slot: E4]** For each version: searches run, files opened, files changed, and which function the new test calls. Date, tool, and model.
+<!-- [Run record slot: E4] For each version: searches run, files opened, files changed, and which function the new test calls. Date, tool, and model. -->
 
 You can name the three places in the prompt. That works only as long as whoever is asking remembers all three, every time they ask.
 
@@ -186,9 +186,9 @@ E4 also records which files each session opened and which parts of the new rule 
 
 With 10 runs per layout, only a large difference will be visible. If the three layouts pass about equally often, I will have to limit this chapter's claim to larger repositories, or drop it.
 
-> **[Result slot: experiment E4]** Date, tool and model. For each layout: runs out of 10 that passed the hidden test, parts of the rule left out per run, files opened and tool calls per session.
+<!-- [Result slot: experiment E4] Date, tool and model. For each layout: runs out of 10 that passed the hidden test, parts of the rule left out per run, files opened and tool calls per session. -->
 
-> **[Author case slot]** A change in which an AI edited one of several places that had to change together: the date, the places, the one it missed, and what caught it.
+<!-- [Author case slot] A change in which an AI edited one of several places that had to change together: the date, the places, the one it missed, and what caught it. -->
 
 ## What people do
 

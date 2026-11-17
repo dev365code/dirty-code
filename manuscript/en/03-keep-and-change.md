@@ -80,12 +80,12 @@ This chapter runs no experiment of its own. Each row in the table is a claim tha
 
 | Habit | Experiment | What it counts | Result |
 |---|---|---|---|
-| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | **[Result slot: E3]** |
-| Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it finds the right file from the folder names | **[Result slot: E4, E7, E9]** |
-| Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | **[Result slot: E5]** |
-| Comments | E6 (Chapter 7) | How often a number survives a cleanup when a comment gives its reason | **[Result slot: E6]** |
-| Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | **[Result slot: E8]** |
-| Tests | E12 (Chapter 14) | How often a session changes the assertion when asked to make a test pass | **[Result slot: E12]** |
+| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | <!-- Result slot: E3 --> |
+| Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it finds the right file from the folder names | <!-- Result slot: E4, E7, E9 --> |
+| Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | <!-- Result slot: E5 --> |
+| Comments | E6 (Chapter 7) | How often a number survives a cleanup when a comment gives its reason | <!-- Result slot: E6 --> |
+| Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | <!-- Result slot: E8 --> |
+| Tests | E12 (Chapter 14) | How often a session changes the assertion when asked to make a test pass | <!-- Result slot: E12 --> |
 
 If an experiment shows no difference, I will say so in that chapter and change the row here.
 

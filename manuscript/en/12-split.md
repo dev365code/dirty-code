@@ -215,7 +215,7 @@ The prompt forbids edits to existing tests. The old tests are what this piece is
 
 The prompt says where to stop. A session that finishes piece 3 and sees piece 4 in the plan may go on to do it, and piece 4 has a line that waits for the owner.
 
-> **[Run record slot: E13]** For the one-line prompt and for the four prompts: the files each session opened and changed, the tests it added, and its report. Date, tool, model.
+<!-- [Run record slot: E13] For the one-line prompt and for the four prompts: the files each session opened and changed, the tests it added, and its report. Date, tool, model. -->
 
 ## Evidence: with the two places missed, the tests print OK, and the examples for pieces 3 and 4 fail
 
@@ -235,9 +235,9 @@ A hidden test judges each run. A hidden test is a test the AI never sees, and I 
 
 The second form is there to separate what the plan does from what the cutting does. If the second and third forms pass equally often, then cutting adds nothing to the AI's success on a change this small, and the chapter's claim rests on what cutting does for the person who checks.
 
-> **[Result slot: experiment E13]** Date, tool and model. For each form, out of 10 runs: passes, the function that failed in each failing run, and the number of changed lines the failure points at.
+<!-- [Result slot: experiment E13] Date, tool and model. For each form, out of 10 runs: passes, the function that failed in each failing run, and the number of changed lines the failure points at. -->
 
-> **[Author case slot]** A real case in which a large task handed over in one piece stopped partway: what could be recovered from the files, and what was lost.
+<!-- [Author case slot] A real case in which a large task handed over in one piece stopped partway: what could be recovered from the files, and what was lost. -->
 
 ## What people do
 

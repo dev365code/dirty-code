@@ -119,7 +119,7 @@ In the version for AI, both searches lead to the warning. A search for `cache` n
 
 The longer name also helps you review what the session hands back. The diff is one new file, and `users.py` isn't in it, so the diff shows only the lookup's name. `get_user` in a loop looks fine. `get_user_and_fill_cache` in a loop over every customer is a line you can question without opening another file.
 
-> **[Run record slot: E3]** For each version: searches run, whether `users.py` was opened first, and the `export_emails` handed back. Date, tool, model.
+<!-- [Run record slot: E3] For each version: searches run, whether `users.py` was opened first, and the `export_emails` handed back. Date, tool, model. -->
 
 ## Evidence: experiment E3 will count how often a session calls the lookup that fills the cache
 
@@ -127,9 +127,9 @@ Experiment E3 will build the order server in both versions, with five functions 
 
 Each function gets one prompt like the one above, with a sentence saying that the write must not happen. Each prompt goes to 10 fresh sessions per version, 100 sessions in all. E3 hasn't been run yet. A hidden test (a test the AI never sees, used to judge whether the result is right) passes a session only if its new code returns the right value and leaves the stored data unchanged. E3 counts the passes out of 50 for each version. For each session it also notes whether the session opened the file that defines the function before it added the call, because a session that opened it didn't have to go by the name.
 
-> **[Result slot: experiment E3]** Date, tool and model. For each version: passes out of 50 and per function, sessions that called the function that writes, sessions that opened the defining file first.
+<!-- [Result slot: experiment E3] Date, tool and model. For each version: passes out of 50 and per function, sessions that called the function that writes, sessions that opened the defining file first. -->
 
-> **[Author case slot]** A real case in which an AI went by a description of the code, such as a name or a comment, and reported or changed the wrong thing.
+<!-- [Author case slot] A real case in which an AI went by a description of the code, such as a name or a comment, and reported or changed the wrong thing. -->
 
 ## What people do
 

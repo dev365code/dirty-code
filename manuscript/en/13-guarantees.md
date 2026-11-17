@@ -178,7 +178,7 @@ Several sessions in one repository need the same kind of sentence. These lines g
 
 Three decisions stay with you. Simple, separate tasks can run in parallel. Work on money, refunds, and stored data goes to one session at a time. And one person merges, one branch at a time, and runs the tests after every merge.
 
-> **[Run record slot: E14]** For each prompt: the function the session wrote, the tests it wrote, and whether its report mentions two requests at once. Date, tool, model.
+<!-- [Run record slot: E14] For each prompt: the function the session wrote, the tests it wrote, and whether its report mentions two requests at once. Date, tool, model. -->
 
 ## Evidence: the two-request test fails on the version for people, and Git merges two passing branches into code that doesn't import
 
@@ -194,9 +194,9 @@ In the third, each session works on its own branch. Session A renames `shipping_
 
 These runs show that the failures exist and what each check catches. They don't show how often a session writes the version for people when the prompt is silent. Experiment E14 will count that. It gives the gift card task to fresh sessions in three forms: the first prompt above, the first prompt plus the guarantee sentence, and the full second prompt. Each form goes to 10 fresh sessions. A hidden test, which the sessions never see, runs a second request between every pair of database statements the first request makes, and checks that the card never pays out more than `5000`. E14 counts the sessions whose function lets both requests through, and the sessions that wrote a two-request test of their own.
 
-> **[Result slot: experiment E14]** Date, tool and model. For each form, out of 10 sessions: functions that paid both requests, and sessions that wrote a test with two requests.
+<!-- [Result slot: experiment E14] Date, tool and model. For each form, out of 10 sessions: functions that paid both requests, and sessions that wrote a test with two requests. -->
 
-> **[Author case slot]** A real case from running several AI sessions in one repository: the rule the author added, and the incident that led to it.
+<!-- [Author case slot] A real case from running several AI sessions in one repository: the rule the author added, and the incident that led to it. -->
 
 ## What people do
 

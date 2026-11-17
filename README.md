@@ -42,7 +42,7 @@ This book does not cover how to use AI tools, model rankings, or the future of j
 
 ## Contents
 
-Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. In a draft, a line marked **[Result slot]** or **[Run record slot]** stands for an experiment that has not been run yet.
+Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. No experiment has been run yet. Each chapter's Evidence section says what its experiment will measure.
 
 **Preface.** [To *Clean Code*: we learned to write code for people](manuscript/en/00-preface.md) · draft
 

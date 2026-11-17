@@ -22,13 +22,13 @@ Where this book's advice differs from *Clean Code*'s, it says so plainly. Chapte
 
 For more than five years my job was to catch fraud and money laundering at crypto exchanges. No one can read every transaction an exchange handles in a day, so I wrote rules that read them and flagged what looked wrong. Today I build AI agents, and AI writes much of the code I work with. This book takes the same approach to code that I took to transactions: when you can't read everything, you decide what must never get through, and you build the check that catches it. <!-- author check: the same facts as the author note in the README -->
 
-> **[Author case slot]** How the author works with AI on real projects: who writes, who inspects, and what has to pass before anything is released.
+<!-- [Author case slot] How the author works with AI on real projects: who writes, who inspects, and what has to pass before anything is released. -->
 
 ## What is proven and what isn't
 
 Every claim in this book comes with an experiment. The same feature is built in two shapes. The same request is sent to fresh sessions at least ten times. Tests that the AI never sees decide which runs succeeded.
 
-In this draft, the experiments have not been run. A line marked **[Result slot]** shows where a number will go, and a line marked **[Run record slot]** shows where the record of a real session will go. Nothing in the text is a made-up result. Where I ran something myself while writing, such as a listing or a command, the text says "I ran" and reports what happened.
+In this draft, the experiments have not been run yet. Each chapter's Evidence section says what its experiment will measure, and the numbers will be added once it has run. Nothing in the text is a made-up result. Where I ran something myself while writing, such as a listing or a command, the text says "I ran" and reports what happened.
 
 If a result goes against a claim, I will change the claim and say so in that chapter.
 

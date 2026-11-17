@@ -113,7 +113,7 @@ In the version for AI, the listing points at `refunds/refund_amount.py`. If the 
 
 Both sessions can reach the right answer. What I expect to differ is how many steps each one takes, and how often a session stops at a caller and reports it as the answer. I haven't measured either.
 
-> **[Run record slot: E9]** For each layout: the commands the session ran, the files it opened, and its answer. Date, tool, model.
+<!-- [Run record slot: E9] For each layout: the commands the session ran, the files it opened, and its answer. Date, tool, model. -->
 
 ## Evidence: experiment E9 will ask ten "where is it?" questions of three layouts
 
@@ -123,9 +123,9 @@ Each layout gets ten questions like the one above, about ten different parts of 
 
 E9 hasn't been run yet. This server has a few dozen files, and a session can read a repository that small from end to end. If the three layouts score about the same, I'll say so here, and the claim will be limited to larger repositories.
 
-> **[Result slot: experiment E9]** Date, tool and model. For each layout: right answers out of 50, and tool calls per session before answering.
+<!-- [Result slot: experiment E9] Date, tool and model. For each layout: right answers out of 50, and tool calls per session before answering. -->
 
-> **[Author case slot]** A real case in which an AI looked for something in a repository and the folder names or an index file sent it to the right place, or the wrong one.
+<!-- [Author case slot] A real case in which an AI looked for something in a repository and the folder names or an index file sent it to the right place, or the wrong one. -->
 
 ## What people do
 

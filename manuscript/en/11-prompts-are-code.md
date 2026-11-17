@@ -159,7 +159,7 @@ Here is one made of lines that Chapters 2, 4, 6, 7, 10, and 14 ask you to add.
 
 The one-line file is "drive carefully." A session was already trying to write good code, and the line doesn't say what good means in this repository. Each line of the second file names something a session does or doesn't do, and each leaves something you can check afterward: a command in the session's record, the name of a new function, the list of changed files in the diff.
 
-> **[Run record slot: E10]** For the one-line prompt and for the full prompt: the function the session wrote, the files it changed, any question it asked, and its report. Date, tool, model.
+<!-- [Run record slot: E10] For the one-line prompt and for the full prompt: the function the session wrote, the files it changed, any question it asked, and its report. Date, tool, model. -->
 
 ## Evidence: experiment E10 will send the free-shipping task in three forms and record which reading comes back
 
@@ -173,9 +173,9 @@ E10 hasn't been run yet. If all 10 sessions that get the one-line prompt write t
 
 The maker of one coding agent gives similar advice about its rules file. The documentation for Claude Code says the tool treats that file "as context, not enforced configuration," and it asks for instructions that are "concrete enough to verify." One of its examples is "Use 2-space indentation" instead of "Format code properly." <!-- source: notes/sources.md, rules files and sessions, checked 2026-11-13 --> That is advice from the maker of one tool. It is not a measurement of mine.
 
-> **[Result slot: experiment E10]** Date, tool and model. For each form, out of 10 sessions: how many wrote each of the four readings, how many asked a question before changing code, and how many changed a file outside the two named.
+<!-- [Result slot: experiment E10] Date, tool and model. For each form, out of 10 sessions: how many wrote each of the four readings, how many asked a question before changing code, and how many changed a file outside the two named. -->
 
-> **[Author case slot]** The parts the author puts in a task prompt for an AI that writes code, and a case in which a line missing from a prompt led to rework.
+<!-- [Author case slot] The parts the author puts in a task prompt for an AI that writes code, and a case in which a line missing from a prompt led to rework. -->
 
 ## What people do
 

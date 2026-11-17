@@ -89,7 +89,7 @@ When an order is canceled, refund the customer too.
 
 The prompt doesn't say where canceling or refunding lives in the repository, so the AI has to find out. It tends to search for words like `cancel` and `refund`, open the files the search returns, and run the tests if there are any. The AI also decides when it has read enough. A fresh session given the same line may open different files, because the same prompt doesn't lead to the same steps every time.
 
-> **[Run record slot: E1]** This one line given to 10 fresh sessions: the files each one opened and the commands it ran before its first edit, in order. Date, tool and model.
+<!-- [Run record slot: E1] This one line given to 10 fresh sessions: the files each one opened and the commands it ran before its first edit, in order. Date, tool and model. -->
 
 On this change you wrote one line. If you then read only what the diff showed, you read one function. Whatever reading happened in between was the AI's.
 
@@ -105,7 +105,7 @@ These counts have limits. They don't say how much of each file the AI took in, o
 
 E1, the first experiment in this book's plan, is a count in one code repository. It counts how often the AI reads code files, through the read tool or a shell command, and how often a person does, in an editor or a diff. It also gives the one-line prompt above to 10 fresh sessions and records what each session opens and runs before its first edit.
 
-> **[Result slot: experiment E1]** Dates, repository, tool and model, and the two counts.
+<!-- [Result slot: experiment E1] Dates, repository, tool and model, and the two counts. -->
 
 ## What people do
 

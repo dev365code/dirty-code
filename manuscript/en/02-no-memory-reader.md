@@ -122,7 +122,7 @@ The second and third copies differ in which sessions get to read the rule. A com
 
 The rules file is read when a session starts, before the first search. Even then, a rules file is context the session reads, not a setting the tool enforces, so a session may not follow the entry every time. <!-- source: notes/sources.md, rules files and sessions --> Experiment E2 counts how often it does.
 
-> **[Run record slot: E2]** For each copy: files opened, commands run, and the `partial_refund_amount` written. Date, tool, and model.
+<!-- [Run record slot: E2] For each copy: files opened, commands run, and the `partial_refund_amount` written. Date, tool, and model. -->
 
 ## Evidence: experiment E2 will count how many of 10 fresh sessions follow the rule in each copy
 
@@ -134,7 +134,7 @@ It gives each run one of four marks: "right" if every refund is the amount the r
 
 If a copy gets zero misses in 10 runs, that shows only that misses are rare in that copy. A miss that happens one time in ten doesn't show up at all in 10 runs about 35% of the time.
 
-> **[Result slot: experiment E2]** Date, tool and model, and for each copy the runs marked right, over, under, and did not run out of 10, with files opened and tool calls per session.
+<!-- [Result slot: experiment E2] Date, tool and model, and for each copy the runs marked right, over, under, and did not run out of 10, with files opened and tool calls per session. -->
 
 ## What people do
 

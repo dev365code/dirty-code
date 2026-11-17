@@ -94,7 +94,7 @@ With the Rust source, the session searches for `refund_share` and finds it. It c
 
 With only the machine code, the session starts by working out which register holds the list total. Nothing says. It adds a check for zero and has to invent a way to tell the caller, because there is no type to carry a refusal. Then it has to find every caller, and those are bytes as well. If it misses one, nothing fails.
 
-> **[Run record slot: E11]** For one task: the assembly a session wrote directly, the Rust it wrote, how many rounds each took to pass the tests, and what a fresh session did with the change request in each case. Date, tool, model.
+<!-- [Run record slot: E11] For one task: the assembly a session wrote directly, the Rust it wrote, how many rounds each took to pass the tests, and what a fresh session did with the change request in each case. Date, tool, model. -->
 
 ## Evidence: one study in which AI made compiled programs faster, and what my three runs show
 
@@ -108,7 +108,7 @@ Experiment E11 will ask. It has two halves. In the first, fresh sessions write t
 
 If sessions change the assembly as reliably as they change the Rust, the claim at the top of this chapter is wrong, and I will rewrite it.
 
-> **[Result slot: experiment E11]** Date, tool and model. For each of the three ways: tasks passed, rounds of fixing, and running time against compiled Rust. For the change requests: passes with the source, and passes with the assembly alone.
+<!-- [Result slot: experiment E11] Date, tool and model. For each of the three ways: tasks passed, rounds of fixing, and running time against compiled Rust. For the change requests: passes with the source, and passes with the assembly alone. -->
 
 ## What people do
 
