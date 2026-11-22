@@ -172,21 +172,33 @@ In the version for AI, reading that function shows three complete rules, each wi
 
 The session may open those two files anyway. A case-sensitive search for `email` also returns the three lines of the message table in `validation.py`. But a session doesn't run the same searches every time, so one fresh session can make all three edits and the next can stop after one.
 
-<!-- [Run record slot: E4] For each version: searches run, files opened, files changed, and which function the new test calls. Date, tool, and model. -->
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330. With the files shown here and Claude Opus 5.5 at its highest effort setting, every session listed the files and then read all of them, so the searches above never mattered. In the version for AI, one session read `users.py` and the test file, added the rule and its message inside `register`, and changed those two files. In the version for people, a session read `settings.py`, `users.py`, and `validation.py`, and put each part where its kind already lived: the domain in `settings.py`, the message in `validation.py`, and the check in `users.py`. In both versions the new tests called `register`.
+
+I also ran the prompt in a larger repository: a made-up shop with 518 files and 1,317 tests, where the email rules sit among 210 other modules, so a session has to search. In that repository `register` lives in `registration.py`. One session there, on Claude Sonnet 5.5 in the five-file layout, ran two searches, `grep -rniE "sign.?up|register|email" -l .` and a search for `email`. It read only `registration.py` and changed only that file. It added the check and the error code but no message, so a sign-up at `throwaway.example` raised `KeyError: 'email_domain_blocked'` in place of a 400 response. The first paragraph of its report ended, "I haven't run it or any tests."
 
 You can name the three places in the prompt. That works only as long as whoever is asking remembers all three, every time they ask.
 
-## Evidence: experiment E4 will give that prompt to the same server laid out in 1, 3, and 5 files
+## Evidence: in a repository of 518 files, one model left out the message in 4 of 10 runs when the rule was spread over five files
 
-Experiment E4 builds the order server in three layouts that give the same answer to every sign-up and pass the same four tests. It hasn't been run yet. The email rules are in one file (the version for AI), in three (the version for people), or in five (the version for people with the message table moved to `messages.py` and the decorator to `decorators.py`). Each layout gets the one-line prompt in 10 fresh sessions.
+Experiment E4 builds the order server in three layouts that give the same answer to every sign-up and pass the same four tests. The email rules are in one file (the version for AI), in three (the version for people), or in five (the version for people with the message table moved to `messages.py` and the decorator to `decorators.py`). Each layout gets the one-line prompt in 10 fresh sessions.
 
-A hidden test (a test the AI never sees, used to judge whether the result is right) judges each run. It expects a 400 response with an error code and a message for an address at `throwaway.example`, a 201 for another domain and for a look-alike, `notthrowaway.example`, and the old answers in the four existing tests.
+A hidden test (a test the AI never sees, used to judge whether the result is right) judges each run. It expects a 400 response with an error code and a message for an address at `throwaway.example`, a 201 for another domain and for a look-alike, `notthrowaway.example`, and the old answers in the four existing tests. A domain typed into the check, in a layout that keeps values in `settings.py`, is counted from the diff, because no test can see it.
 
-E4 also records which files each session opened and which parts of the new rule its change left out. A domain typed into the check, in a layout that keeps values in `settings.py`, is counted from the diff, because no test can see it.
+I ran E4 on 2026-11-22 with Claude Code 2.1.330, in the two repositories from the Prompt section. The small one holds only this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting. The large one is the shop with 518 files, and there I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings. Each cell counts the runs that passed the hidden test. The small three-file layout has 9 runs, because the run used up its credit.
 
-With 10 runs per layout, only a large difference will be visible. If the three layouts pass about equally often, I will have to limit this chapter's claim to larger repositories, or drop it.
+| Layout | Small, Opus at highest effort | Large, Haiku | Large, Sonnet | Large, Opus |
+|---|---|---|---|---|
+| 1 file | 10 of 10 | 10 of 10 | 10 of 10 | 10 of 10 |
+| 3 files | 9 of 9 | 10 of 10 | 10 of 10 | 10 of 10 |
+| 5 files | 10 of 10 | 10 of 10 | 6 of 10 | 10 of 10 |
 
-<!-- [Result slot: experiment E4] Date, tool and model. For each layout: runs out of 10 that passed the hidden test, parts of the rule left out per run, files opened and tool calls per session. -->
+The four failures were all Sonnet, in the five-file layout of the large repository. Each one added the check and the error code and left the message out of `messages.py`, like the run in the Prompt section. In the three-file layout, where the message table sits in the validator class, the same model passed all 10.
+
+The value went missing more often than the message. In the small repository, every session in the three-file and five-file layouts put the domain in `settings.py`. In the large one, Haiku and Sonnet put it there in 2 of their 40 runs in those layouts, and the other 38 typed it into the check in `registration.py`. Opus put it in the settings file in 8 of 10 runs with three files and 6 of 10 with five. No test can see this. The next person who changes the rule has to know that this one value lives in the check and not with the others.
+
+The work grew with the number of files. In the small repository, the median session took 14, 18, and 20 turns (replies from the model) for 1, 3, and 5 files. In the large one, the median Opus session looked at 3.5, 5, and 7 files (files it read or named in a command), and the median Haiku session at 3, 3.5, and 6.
+
+I said that if the layouts passed about equally often, I would limit this chapter's claim to larger repositories. In the small repository they did, so the claim is limited that way. In the large one, the missing message comes from one model in one layout, 4 runs in 10. The misplaced value and the extra work showed up with all three models.
 
 <!-- [Author case slot] A change in which an AI edited one of several places that had to change together: the date, the places, the one it missed, and what caught it. -->
 

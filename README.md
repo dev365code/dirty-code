@@ -42,7 +42,7 @@ This book does not cover how to use AI tools, model rankings, or the future of j
 
 ## Contents
 
-Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. No experiment has been run yet. Each chapter's Evidence section says what its experiment will measure.
+Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. Some experiments were run on 2026-11-22, and their counts are in the Evidence sections of Chapters 4 to 8, 10, 11, 13 to 15, and 17. In the other chapters, the Evidence section says what its experiment will measure.
 
 **Preface.** [To *Clean Code*: we learned to write code for people](manuscript/en/00-preface.md) · draft
 
@@ -104,7 +104,8 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. Toda
 
 ## Status
 
-- November 2026: the outline and experiment plan are set, and writing has begun. The English draft of the whole book is posted: the preface, 18 chapters, and the closing. A Korean draft of every chapter is posted too, linked from the [Korean front page](README.ko.md). The experiments have not been run yet.
+- November 2026: the outline and experiment plan are set, and writing has begun. The English draft of the whole book is posted: the preface, 18 chapters, and the closing. A Korean draft of every chapter is posted too, linked from the [Korean front page](README.ko.md).
+- November 22, 2026: part of the experiments were run (E3 to E7, E9, E10, E12, and E14 to E16, some in a smaller form than designed). Each chapter says what was run, with which models, and how it differed from the design. E1, E2, E8, E11, E13, and the combined experiment in Chapter 16 haven't been run.
 - The manuscript was written in English first. The Korean draft is rewritten for Korean readers from the English one.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.

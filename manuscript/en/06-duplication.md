@@ -157,27 +157,37 @@ In the version for people, a session can satisfy it in at least three ways. It c
 
 The last two change nothing for the other six callers. All three put the commas in the report and pass the three tests.
 
-So the test run can't tell you which of the three ways the session took, and the passing tests give the session no hint that the receipt and the refund export changed too. A session tends to stop once its tests pass (Chapter 14). I haven't measured how often a session takes the first way. The prompt leaves room for that choice: it says where the commas should appear and says nothing about the receipt or the refund export.
+So the test run can't tell you which of the three ways the session took, and the passing tests give the session no hint that the receipt and the refund export changed too. A session tends to stop once its tests pass (Chapter 14). In the runs described below, no session took the first way, but the prompt leaves room for that choice: it says where the commas should appear and says nothing about the receipt or the refund export.
 
 The parameter is what a careful developer might write, and it keeps the other callers safe today. It also leaves a switch in `format_amount` that only one caller uses. *Clean Code* advises against flag arguments like that one and recommends two functions instead. <!-- check against original --> A copy for the settlement report is that second function.
 
 In the version for AI, the same three ways all end inside `settlement.py`, in code that only the settlement report runs.
 
-<!-- [Run record slot: E5] For each version: searches run, source files opened, the function edited, and whether the session searched for other callers first. Date, tool, model. -->
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. In the version for people, one session read every file in the repository, the six other callers among them. It added a parameter to `format_amount`, `grouping=False`, turned it on from `payout_row`, and wrote in the docstring, "Off by default: the refund export is split on commas." In the version for AI, a session searched for `format_amount`, `report_amount`, and `payout_row`, read five files, and changed one line of `report_amount` in `settlement.py`. The first session took 21 turns (replies from the model), and the second took 12.
 
-## Evidence: experiment E5 will count the callers that change when a session is asked to change one
+## Evidence: no session changed another caller, and in the version for people most sessions gave the shared function a switch
 
-Experiment E5 will build the order server two ways, with identical behavior and visible tests. It hasn't been run yet.
+Experiment E5 builds the order server two ways, with identical behavior and visible tests. The first is the version for people: seven callers share `format_amount`, and `refunds.py` and `settlement.py` share `partial_refund_amount`, the rule for how much a returned item refunds. The second is the version for AI plus one copy this chapter advises against: `settlement.py` gets its own copy of that rule. With that extra copy, the experiment can also catch a case where copying goes wrong.
 
-The first is the version for people: seven callers share `format_amount`, and `refunds.py` and `settlement.py` share `partial_refund_amount`, the rule for how much a returned item refunds. The second is the version for AI plus one copy this chapter advises against: `settlement.py` gets its own copy of that rule. With that extra copy, the experiment can also catch a case where copying goes wrong.
+Each version gets two prompts, each in 10 fresh sessions: the one in the Prompt section, and a rule change, `Charge a $5.00 restocking fee: when an item comes back, refund $5.00 less than before.` A hidden test (a test the AI never sees, used to judge whether the result is right) judges each run. After the first prompt it counts the callers, other than the settlement report, whose output changed. After the second it counts the runs in which the customer's refund differs from the amount taken off the payout. I predicted that other callers' output would change only in the first version, and that the refund and the payout would disagree only in the second.
 
-Each version gets two prompts, each in 10 fresh sessions: the one in the Prompt section, and a rule change, `Charge a $5.00 restocking fee: when an item comes back, refund $5.00 less than before.` A hidden test (a test the AI never sees, used to judge whether the result is right) judges each run.
+On 2026-11-22 I ran the first prompt only, with Claude Code 2.1.330, in two repositories. One holds this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting. The other is a made-up shop with 518 files and 1,317 tests, where the seven callers sit among 210 other modules. There I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings. Each version went to 10 fresh sessions per model. The hidden test called each of the six other callers with $1,250.00, an amount that commas would change.
 
-After the first prompt it calls all seven callers with $27.00, $1,250.00, and -$5.00 and counts the callers, other than the settlement report, whose output changed. After the second it counts the runs in which the customer's refund differs from the amount taken off the payout.
+No session changed the output of another caller: 0 of 20 runs in the small repository and 0 of 60 in the large one. My prediction for the first version didn't come true, so with these models and this prompt that failure is uncommon at most.
 
-I predict that other callers' output will change only in the first version, and that the refund and the payout will disagree only in the second. If a version gets zero failures in 10 runs, that shows only that the failure is uncommon.
+The kind of edit did differ.
 
-<!-- [Result slot: experiment E5] Date, tool and model. Out of 10 runs per version and prompt: runs where another caller's output changed, runs where refund and payout disagreed, and the kind of edit. -->
+| Version | Changed `format_amount` in place | Added a parameter to it | Added a second function next to it | Left the shared file alone |
+|---|---|---|---|---|
+| For people, small repository | 0 | 10 | 0 | 0 |
+| For people, large repository | 0 | 12 | 5 | 13 |
+| For AI, both repositories | 0 | 0 | 0 | 40 |
+
+In the version for people, 22 of the 40 sessions left a switch in `format_amount` that only the settlement report turns on, the parameter the Prompt section describes. Five more added a second formatting function to the shared file. In the version for AI the choice never came up, and every session changed the settlement report's own copy.
+
+The version for people also took more work. In the small repository the median session took 20 turns against 15. In the large one the median session looked at more files (files it read or named in a command): 4 against 2.5 for Opus, 3 against 2 for Sonnet, and 3.5 against 3 for Haiku. There, 29 of the 30 sessions in the version for people searched the whole shop for `format_amount`.
+
+So this chapter's main worry, a shared function changed for one caller and broken for the others, didn't show up in 80 runs. What showed up is the second way: the shared function grew a switch for one caller. The restocking fee prompt, which tests the copy that goes wrong, hasn't been run.
 
 <!-- [Author case slot] A real change where an AI's edit to a shared function changed another caller's output. -->
 

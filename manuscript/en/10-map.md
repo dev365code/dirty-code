@@ -111,19 +111,35 @@ In the version for people, a session is likely to list the files, see nothing ab
 
 In the version for AI, the listing points at `refunds/refund_amount.py`. If the session reads `INDEX.md` first, the line for `refunds/` says the same thing in a sentence. The session opens one file to find the function name.
 
-Both sessions can reach the right answer. What I expect to differ is how many steps each one takes, and how often a session stops at a caller and reports it as the answer. I haven't measured either.
+Both sessions can reach the right answer. What I expected to differ is how many steps each one takes, and how often a session stops at a caller and reports it as the answer. The Evidence section has both counts.
 
-<!-- [Run record slot: E9] For each layout: the commands the session ran, the files it opened, and its answer. Date, tool, model. -->
+I ran ten questions of this kind on 2026-11-22 in fresh sessions of Claude Code 2.1.330, in a made-up shop with 518 files and 1,317 tests. None of the ten was about refunds. Here is one of them, asked of all three layouts by Claude Sonnet 5.5: "Where is the code that decides how each payout line looks on the accountant's settlement report?"
 
-## Evidence: experiment E9 will ask ten "where is it?" questions of three layouts
+In every layout, the session's first command searched the contents of all files for `settlement` and `payout`. In the layout for people, it then searched those files for lines that define a function, printed parts of `core/shared.py` and `core/rules.py`, and answered `payout_row` in `core/shared.py`, quoting the function's docstring. That took 5 shell commands. In the layout for AI, it listed the functions in `shop/settlement/report.py` and printed that file, in 4 commands. With `INDEX.md`, it printed the index and then the same file, also in 4. All three answers were right.
 
-Experiment E9 will build the order server in three layouts that hold the same code. The first is the version for people. The second is the version for AI without `INDEX.md`. The third is the version for AI with `INDEX.md`. The second layout is there so I can tell what the names do from what the index does.
+## Evidence: in a shop of 518 files, the three layouts got about the same answers, and generic names cost a little under one tool call per question
+
+Experiment E9 builds the order server in three layouts that hold the same code. The first is the version for people. The second is the version for AI without `INDEX.md`. The third is the version for AI with `INDEX.md`. The second layout is there so I can tell what the names do from what the index does.
 
 Each layout gets ten questions like the one above, about ten different parts of the shop. Each question goes to 5 fresh sessions per layout, 150 sessions in all. An answer counts as right when it names the file and the function that hold the code. E9 counts the right answers and the tool calls each session made before it answered.
 
-E9 hasn't been run yet. This server has a few dozen files, and a session can read a repository that small from end to end. If the three layouts score about the same, I'll say so here, and the claim will be limited to larger repositories.
+This chapter's server has a few dozen files, and a session can read a repository that small from end to end. So I ran E9 on 2026-11-22 in the larger shop from the Prompt section. In its layout for people, the same modules are merged into 30 files with names like `services/manager.py` and `utils/extra.py`. All three layouts pass the same 1,317 tests. I used Claude Code 2.1.330 with Claude Haiku 5.5 and Claude Sonnet 5.5 at their default settings, 150 sessions per model. Claude Opus 5.5 hasn't been run.
 
-<!-- [Result slot: experiment E9] Date, tool and model. For each layout: right answers out of 50, and tool calls per session before answering. -->
+Two of my ten questions turned out to have two right answers, because two functions in the shop do the same job. I left those two out. For the other eight questions there are 40 answers per layout and model.
+
+| Layout | Haiku right | Sonnet right | Tool calls per session, Haiku / Sonnet |
+|---|---|---|---|
+| For people, generic file names | 38 of 40 | 39 of 40 | 4.3 / 4.4 |
+| For AI, without `INDEX.md` | 40 of 40 | 40 of 40 | 3.7 / 3.5 |
+| For AI, with `INDEX.md` | 40 of 40 | 40 of 40 | 3.3 / 3.4 |
+
+The tool calls are averages over all ten questions.
+
+Two of the three wrong answers said the session couldn't find the code that makes a wishlist's share link. When I merged the modules into generic files, the description at the top of each module was lost, so nothing in the file names or the code said that those functions belonged to the wishlist. The third wrong answer named a customer-segment function in place of the loyalty tier function. No answer named a caller in place of the code that decides.
+
+The sessions found code by searching file contents for words from the question, as in the run above, and what they hit were names and docstrings inside the files. Folder names saved a little under one tool call per question, and the index saved a little more.
+
+I said that if the three layouts scored about the same, I would limit the claim to larger repositories. This repository was large, and the layouts still scored about the same, so the claim is narrower than that. Folder names and an index saved these sessions a step. The words inside the files decided whether a session found the code at all.
 
 <!-- [Author case slot] A real case in which an AI looked for something in a repository and the folder names or an index file sent it to the right place, or the wrong one. -->
 

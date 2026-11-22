@@ -177,7 +177,9 @@ The two reviewers have different targets. Reviewer A goes after the code and use
 
 When a finding is real, its failing test becomes the finish line for the fix (Chapter 11). You hand the test to a session, and the fix is done when that test passes and the old tests still pass.
 
-<!-- [Run record slot: E15] For each of the three prompts: the report that came back, word for word, and what happened when each finding was run. Date, tool, model. -->
+I ran two of these prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. The repository's last commit was Change B. A fresh session has no change in front of it, so the first prompt said `Review the last commit and find bugs.` One review with that prompt began, "That fixes the old over-refund on coupon orders but adds two new bugs." Its first finding was the leftover cents, shown with three orders. In one of them, three items at $10.00 with a $10.00 coupon, the customer paid $20.00 and the refunds added up to $19.98. That review took 21 minutes.
+
+With Reviewer A's prompt, a review began, "I found one: `partial_refund_amount` never adds the leftover cents to the last refund." It gave the same kind of order, a table of the three returns with `666`, `666`, and `666` against the rule's `666`, `666`, and `668`, and a failing test. It took 3 minutes. I ran that order against Change B, and the refunds came to `666`, `666`, and `666`, which is 1998 cents of the 2000 paid. I didn't run Reviewer B's prompt.
 
 ## Evidence: I ran the five findings, and one proposed fix made the shop pay back $29.01 on a $29.00 order
 
@@ -187,11 +189,20 @@ After `partial_refund_amount` is changed to add the leftover cents to the last i
 
 The runs are mine, and the reports are examples I wrote. They show why a finding has to be run. They don't show how often a reviewing session produces a finding like the first one.
 
-Experiment E15 will collect real reports. It asks for a review of Change B in three ways. In the first, the session that wrote the change is asked, "Is this right?" To get such sessions, each one is first given the task from Chapter 14, and I keep the runs in which the session wrote Change B. In the second way, a fresh session gets "Review this change and find bugs." In the third, a fresh session gets Reviewer A's prompt. Each way runs 10 times.
+Experiment E15 collects real reports. It asks for a review of Change B in three ways. In the first, the session that wrote the change is asked, "Is this right?" To get such sessions, each one is first given the task from Chapter 14, and I keep the runs in which the session wrote Change B. In the second way, a fresh session gets "Review this change and find bugs." In the third, a fresh session gets Reviewer A's prompt. Each way runs 10 times.
 
 E15 counts the reviews that report the leftover-cent defect with an order that reproduces it. For every review it also counts the findings I could reproduce and the findings I couldn't.
 
-<!-- [Result slot: experiment E15] Date, tool and model. For each way, out of 10 reviews: reviews that reported the leftover-cent defect with a reproducing order, findings reproduced, and findings not reproduced. -->
+I ran two of the three ways on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting: a fresh session with the prompt to find bugs, and a fresh session with Reviewer A's prompt. I didn't run the way that asks the session that wrote the change. The prompt to find bugs said `Review the last commit and find bugs.`, as in the run above. I planned 10 reviews per way and got 9 and 10.
+
+| Way | Reviews that reported the leftover cents | Reviews that also gave an order with its amounts |
+|---|---|---|
+| Fresh session, prompt to find bugs | 9 of 9 | 7 of 9 |
+| Fresh session, Reviewer A's prompt | 10 of 10 | 10 of 10, each with a failing test |
+
+I didn't run every finding of every review, so I can't give the counts of findings reproduced and not reproduced. The reviews also reported other things, such as a second refund when the same item comes back twice, which follows from the same unread argument.
+
+Both ways found the defect this time. The difference was in what came back. Reviewer A's prompt returned a failing test every time, which you can check with one command. The prompt to find bugs returned a written finding, usually with an order in it. It also cost more: an average of $3.63 per review, against $0.64 for Reviewer A's prompt.
 
 <!-- [Author case slot] A real case in which a second AI reader found a defect that the writing session had missed, and one in which a reviewer's finding turned out to be wrong. -->
 

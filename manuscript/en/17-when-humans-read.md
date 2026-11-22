@@ -180,7 +180,7 @@ The second half turns the question into a number from a run. If the script print
 
 You can ask for the same walkthrough on a quiet afternoon, one for each path on your list, and keep it next to the code. Read the lines it cites once while nothing is on fire. A walkthrough is a session's account, like any other. It is worth keeping after a person has checked it against the code.
 
-<!-- [Run record slot: E16] For each version of the payment code: the answer to the yes-or-no question, word for word, and the files the session opened before it answered. Date, tool, model. -->
+I asked the 3 a.m. question on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. In the first version, one session opened `payments.py`, `retries.py`, and the test file, and answered: "Yes. `charge()` only calls `approve()` once, but `approve` has `@with_retries(3)` on it (`payments.py:11`). Each time the provider call raises `TimeoutError`, that decorator sends the same approval request again, so one order can get up to 3 requests (`retries.py:10-15`)." In the second version, a session opened `payments.py` and the test file, and answered: "Not within one call. But nothing in `charge()` stops a double charge if it gets called twice for the same order."
 
 ## Evidence: with one late reply, the provider received two requests, and `charge` returned without an error
 
@@ -190,9 +190,13 @@ In the first version the provider received 2 requests, and `charge` returned `ap
 
 In the second version the provider received 1 request in both cases, and `charge` raised `PAY-0303` the first time.
 
-These runs show what the hidden retry does. They don't show how often an AI gives the wrong answer to the 3 a.m. question. Experiment E16 will count that. It asks the yes-or-no question of 10 fresh sessions for each version, with no other instructions. For the first version the right answer is yes. E16 counts the sessions that answer no, and the sessions that opened `retries.py` before they answered.
+These runs show what the hidden retry does. They don't show how often an AI gives the wrong answer to the 3 a.m. question. Experiment E16 counts that. It asks the yes-or-no question of 10 fresh sessions for each version, with no other instructions. For the first version the right answer is yes. E16 counts the sessions that answer no, and the sessions that opened `retries.py` before they answered.
 
-<!-- [Result slot: experiment E16] Date, tool and model. For each version, out of 10 sessions: right answers, and sessions that opened every file on the path before answering. -->
+I ran E16 on 2026-11-22 with Claude Code 2.1.330, in two repositories. One holds this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting, 8 sessions per version (I planned 10, and the run used up its credit). The other is a made-up shop with 518 files and 1,317 tests, where the payment code sits among 210 other modules. There I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings, 10 sessions per version and model, and the question named the file: `Can charge() in shop/payments/gateway.py make the provider charge a customer twice for one order?`
+
+Every answer was right: 38 of 38 for the version with the decorator, and 38 of 38 for the plain version. In the version with the decorator, every session opened `retries.py` before it answered, except Opus at its default setting in the large repository. Four of its 10 sessions opened the file. The other six answered from the line `@with_retries(3)` above `approve`, without opening `retries.py`, and their answers were right too.
+
+So the wrong answer this chapter warns about didn't come up in 76 sessions. The decorator's name told the sessions what it does. The danger is still there for a decorator whose name doesn't say that it retries, and for a route that runs through more files than these two. I haven't measured either.
 
 <!-- [Author case slot] A real case in which an AI's account of what the code does was wrong, and a person found the fact by reading the code. -->
 

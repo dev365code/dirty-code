@@ -106,17 +106,28 @@ In the version for people, the session has the prompt and three constants. An AI
 
 In the version for AI, the same session reads two comments that say "not 30 or 40" and "not 50" and give a reason. Now the prompt and the file disagree, and the session has to choose. It is likely to keep the values, and a careful session will say in its report that it left them alone and why. It may still change them. A comment is something the session reads. It isn't something the session is forced to obey.
 
-<!-- [Run record slot: E6] For each version: the values after the cleanup, and what the session's report said about them. Date, tool, model. -->
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. The file was the listing above plus one constant marked `# unused since the v2 migration`, so that the prompt's request to remove leftovers had something to remove.
 
-## Evidence: experiment E6 will count how many odd values survive a cleanup
+In the version for people, one session renamed the two constants, deleted the unused one and `RETRY_WAIT_SEC`, and changed 37 to 40 and 48 to 50. Its report then warned about the change it had just made: "Both old values were just under a round number. That often means someone set them below a provider limit on purpose. Nothing in the repo says why they were chosen." It left that check to the reader.
 
-Experiment E6 will build the order server with 10 values that look wrong on purpose: timeouts, batch sizes, retry counts, and rounding rules. One copy of the server has a reason comment above each of the 10. The other copy has the same values with no comments. Each copy gets the cleanup prompt above in 10 fresh sessions.
+In the version for AI, a session deleted only the unused constant and wrote: "I didn't round the constants, because their comments show the current values come from provider limits and rounding would break payments."
 
-For each session, E6 counts how many of the 10 values are unchanged afterward. It also records whether the session's report mentions a value that it kept or changed. A hidden test checks each value. A hidden test is a test the AI never sees, and I use it to judge the result.
+## Evidence: without the reasons, 2 of 9 cleanups changed 37 and 48, and with the reasons none did
 
-E6 hasn't been run yet. If both copies keep about the same number of values, I'll say so here, and this chapter's claim will shrink to the smaller point that the comment helps the human reviewer.
+Experiment E6, as designed, builds the order server with 10 values that look wrong on purpose: timeouts, batch sizes, retry counts, and rounding rules. One copy has a reason comment above each of the 10, and the other has the same values with no comments. Each copy gets the cleanup prompt in 10 fresh sessions, and E6 counts the values left unchanged and the reports that mention them.
 
-<!-- [Result slot: experiment E6] Date, tool and model. For each copy: values unchanged out of 10 per session, and sessions whose report mentioned the odd values. -->
+On 2026-11-22 I ran a smaller version: the file from the Prompt section, with its two odd values. Each version went to fresh sessions of Claude Code 2.1.330 with Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per version and got 9, because the run used up its credit. A hidden test, which the sessions never saw, read the timeout in the approval request and split 100 orders into batches.
+
+| Version | Kept 37 and 48 | Changed them | Report mentioned the values |
+|---|---|---|---|
+| For people, no reasons | 7 of 9 | 2 of 9 (to 35 and 45, and to 40 and 50) | 9 of 9 |
+| For AI, with reasons | 9 of 9 | 0 of 9 | 9 of 9 |
+
+Most sessions kept the values even with no reason in the file. One of them wrote, "I haven't rounded 37 and 48, because that would change what gets sent to the payment provider." Both sessions that changed the values said in their reports that the old values might be provider limits, and asked for a check before merging. A trial run with the same settings, before the nine, also changed them to 40 and 50.
+
+On the same day I gave the version for people to one session each of two other models, at their default settings. Claude Sonnet 5.5 changed the values to 30 and 50, and Claude Haiku 5.5 changed them to 40 and 50. In the version for AI, both kept them.
+
+So the claim holds in a smaller form than I first wrote it. This model usually guessed that odd values were there on purpose, and with the reasons in the file none of its nine sessions changed them. Nine runs per version can show that a cleanup sometimes rounds a value whose reason is written nowhere. They can't show how often. The full 10-value server, and 10 runs of the other models, are still to be done.
 
 <!-- [Author case slot] A real case in which an AI changed, or reported on, a value or a rule whose reason was written nowhere in the files. -->
 

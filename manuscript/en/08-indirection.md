@@ -140,17 +140,21 @@ Edit 2 is the mistake this chapter is about. The session followed two hops corre
 
 In the version for AI, the search for `fee` finds one dictionary with three entries, and the prompt names one of them.
 
-<!-- [Run record slot: E7] For each version: searches run, files and classes opened, the edit made, and the totals for all three methods afterward. Date, tool, model. -->
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. In the version for people, one session didn't search at all. The repository is small, so it listed the files and read all three. It added `fee_rate_percent = 3` to `CardStrategy`, which is Edit 1, and updated the old card test. Afterward the totals were `10300` for a card and `10000` for a bank transfer and for a gift card. Its report said, "The base class already handles per-method fees, so checkout uses the new rate without any other changes." In the version for AI, a session changed the card's entry in the fee table from 0 to 3.
 
-## Evidence: experiment E7 will count wrong edits at 0, 1, and 3 hops
+## Evidence: at 0, 1, and 3 hops, all 120 sessions put the fee on the card and nowhere else
 
-Experiment E7 will build the checkout code in three versions that return the same totals. In the first version the fee table sits next to `checkout_total`, as in the version for AI, so there are no hops. In the second the table is in another module behind one function call, which is one hop. The third is the version for people, with three hops.
+Experiment E7 builds the checkout code in three versions that return the same totals. In the first version the fee table sits next to `checkout_total`, as in the version for AI, so there are no hops. In the second the table is in another module behind one function call, which is one hop. The third is the version for people, with three hops.
 
 Each version gets the prompt above in 10 fresh sessions. A hidden test judges each session. A hidden test is a test the AI never sees, and I use it to decide whether the result is right. This one checks the total for all three payment methods: `10300` for a card, and `10000` for a bank transfer and for a gift card. E7 counts the sessions that pass, the sessions that changed the total for a method the prompt didn't name, and the files each session opened.
 
-E7 hasn't been run yet. This example is small, and a session may well read all of it and choose Edit 1 every time. If the three versions score the same, I'll say so here, and the claim will need a condition about how much code surrounds the hops.
+This example is small, and a session may well read all of it and choose Edit 1 every time. So I ran E7 on 2026-11-22 with Claude Code 2.1.330 in two repositories. One holds this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting. The other is a made-up shop with 518 files and 1,317 tests, where the checkout code sits among 210 other modules. There I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings. Each version went to 10 fresh sessions per model, 120 sessions in all.
 
-<!-- [Result slot: experiment E7] Date, tool and model. For each version, out of 10 sessions: passes, sessions that changed another method's total, files opened per session. -->
+All 120 sessions passed the hidden test, and none changed the total for a bank transfer or a gift card. In the three-hop version, all 40 made Edit 1 and put `fee_rate_percent = 3` in `CardStrategy`. The number of files a session looked at (files it read or named in a command) didn't rise with the hops in any steady way. In the large repository the median Haiku session looked at 4.5, 5, and 6 files at 0, 1, and 3 hops, and the median Opus session at 5, 5, and 3.5.
+
+Something did go wrong, though not where I was looking. The old test said that a card payment of `10000` totals `10000`. Sonnet often added the fee and left that test failing: when the session ended, the full test suite failed in 5, 6, and 8 of its 10 runs at 0, 1, and 3 hops. Haiku and Opus updated the test in every run.
+
+I said that if the three versions scored the same, the claim would need a condition about how much code surrounds the hops. They scored the same in a repository of 518 files as well, so the condition is narrower than size. In this example the hops are short, and each class says what it holds, so a session that follows them lands on the right line. I haven't measured longer chains, or classes whose names say less.
 
 <!-- [Author case slot] A real change in which an AI edited a parent class or a shared layer and changed behavior the prompt didn't mention. -->
 

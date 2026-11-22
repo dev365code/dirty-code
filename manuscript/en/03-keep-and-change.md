@@ -76,16 +76,16 @@ The second rule is longer, and it gives the session the reason along with the li
 
 ## Evidence: each row of the table is tested by the experiment in its own chapter
 
-This chapter runs no experiment of its own. Each row in the table is a claim that a later chapter tests. The table below says which experiment tests which row. None of them has been run yet, so the last column is empty.
+This chapter runs no experiment of its own. Each row in the table is a claim that a later chapter tests. The table below says which experiment tests which row. I ran all of them except E8 on 2026-11-22, some only in part. The last column gives each result in one line, and the chapter gives the details.
 
 | Habit | Experiment | What it counts | Result |
 |---|---|---|---|
-| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | <!-- Result slot: E3 --> |
-| Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it finds the right file from the folder names | <!-- Result slot: E4, E7, E9 --> |
-| Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | <!-- Result slot: E5 --> |
-| Comments | E6 (Chapter 7) | How often a number survives a cleanup when a comment gives its reason | <!-- Result slot: E6 --> |
-| Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | <!-- Result slot: E8 --> |
-| Tests | E12 (Chapter 14) | How often a session changes the assertion when asked to make a test pass | <!-- Result slot: E12 --> |
+| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | One of the five functions: 0 of 60 sessions, in both versions |
+| Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it finds the right file from the folder names | Five files: one model left out a part in 4 of 10 runs. Hops: all 120 right. Generic folder names: 38 and 39 of 40 right against 40 of 40, and about one more tool call |
+| Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | 0 in 80 runs. In the version for people, 22 of 40 sessions gave the shared function a switch |
+| Comments | E6 (Chapter 7) | How often a number survives a cleanup when a comment gives its reason | Two values: changed in 2 of 9 cleanups without the reasons, 0 of 9 with them |
+| Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | <!-- Result slot: E8 --> Not run yet |
+| Tests | E12 (Chapter 14) | How often a session changes the assertion when asked to make a test pass | 0 of 16 runs |
 
 If an experiment shows no difference, I will say so in that chapter and change the row here.
 

@@ -178,7 +178,9 @@ Several sessions in one repository need the same kind of sentence. These lines g
 
 Three decisions stay with you. Simple, separate tasks can run in parallel. Work on money, refunds, and stored data goes to one session at a time. And one person merges, one branch at a time, and runs the tests after every merge.
 
-<!-- [Run record slot: E14] For each prompt: the function the session wrote, the tests it wrote, and whether its report mentions two requests at once. Date, tool, model. -->
+I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. With the first prompt, one session didn't write the version for people. It wrote the check and the subtraction as one statement, `UPDATE gift_cards SET balance = balance - ? WHERE id = ? AND balance >= ?`, and refused when no row changed. Its report explained why: "The obvious version reads the balance, checks it, then writes, which lets two redemptions at the same moment both pass the check." It tried two requests at once in a scratch script and then deleted the script. None of the five tests it left in `test_giftcards.py` sends two requests.
+
+With the second prompt, a session wrote the same statement and a test named `test_second_request_between_check_and_write_pays_at_most_once`. Its report began, "The test failed against a read-check-write version and passed after the fix, and the test file was unchanged between the two runs."
 
 ## Evidence: the two-request test fails on the version for people, and Git merges two passing branches into code that doesn't import
 
@@ -192,9 +194,19 @@ In the second, each session has its own worktree. B's commit lists one file, `sh
 
 In the third, each session works on its own branch. Session A renames `shipping_fee` to `shipping_cost` and updates the test. Session B adds `checkout.py`, which calls `shipping_fee`. Each branch passes its own tests. Git merges both without reporting a conflict, because the two branches touched different files. The merged code fails on import: `ImportError: cannot import name 'shipping_fee' from 'shipping'`. The tests caught it only because they were run after the second merge.
 
-These runs show that the failures exist and what each check catches. They don't show how often a session writes the version for people when the prompt is silent. Experiment E14 will count that. It gives the gift card task to fresh sessions in three forms: the first prompt above, the first prompt plus the guarantee sentence, and the full second prompt. Each form goes to 10 fresh sessions. A hidden test, which the sessions never see, runs a second request between every pair of database statements the first request makes, and checks that the card never pays out more than `5000`. E14 counts the sessions whose function lets both requests through, and the sessions that wrote a two-request test of their own.
+These runs show that the failures exist and what each check catches. They don't show how often a session writes the version for people when the prompt is silent. Experiment E14 counts that. It gives the gift card task to fresh sessions in three forms: the first prompt above, the first prompt plus the guarantee sentence, and the full second prompt. Each form goes to 10 fresh sessions. A hidden test, which the sessions never see, runs a second request between every pair of database statements the first request makes, and checks that the card never pays out more than `5000`. E14 counts the sessions whose function lets both requests through, and the sessions that wrote a two-request test of their own.
 
-<!-- [Result slot: experiment E14] Date, tool and model. For each form, out of 10 sessions: functions that paid both requests, and sessions that wrote a test with two requests. -->
+I ran E14 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 8, 6, and 8 before the run used up its credit. My hidden test was simpler than the one described: it ran the second request once, just before the first request's first write.
+
+| Form | Functions that paid both requests | Sessions that wrote a two-request test |
+|---|---|---|
+| The first prompt | 0 of 8 | 1 of 8 |
+| The first prompt and the guarantee sentence | 0 of 6 | 6 of 6 |
+| The full second prompt | 0 of 8 | 8 of 8 |
+
+No function paid both requests. Every session wrote the check and the subtraction as one statement, even with the first prompt, and all eight reports from the first prompt explained why a read followed by a write would fail. So this model didn't need the guarantee to write safe code here. What the guarantee changed was the test. With the first prompt, 1 session in 8 left a test that sends two requests in `test_giftcards.py`. With the guarantee sentence, every session did. A test in the file keeps checking the guarantee after the session ends, and a sentence in a report doesn't.
+
+The guarantee also made the sessions slower. The median session took 7 minutes with the first prompt, 14 with the guarantee sentence, and 12 with the full prompt. A model at a lower setting, or a race less familiar than a gift card balance, may give different counts. I haven't measured either.
 
 <!-- [Author case slot] A real case from running several AI sessions in one repository: the rule the author added, and the incident that led to it. -->
 

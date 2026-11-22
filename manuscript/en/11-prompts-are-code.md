@@ -159,21 +159,31 @@ Here is one made of lines that Chapters 2, 4, 6, 7, 10, and 14 ask you to add.
 
 The one-line file is "drive carefully." A session was already trying to write good code, and the line doesn't say what good means in this repository. Each line of the second file names something a session does or doesn't do, and each leaves something you can check afterward: a command in the session's record, the name of a new function, the list of changed files in the diff.
 
-<!-- [Run record slot: E10] For the one-line prompt and for the full prompt: the function the session wrote, the files it changed, any question it asked, and its report. Date, tool, model. -->
+I ran both prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. With the one-line prompt, one session read the four files and wrote `if order.paid > FREE_SHIPPING_THRESHOLD: return 0`, with the threshold at `5000`. That is Reading 3. It changed `shipping.py` and `test_shipping.py`, and it asked no question. Its report listed what it had chosen: "Two choices you should check, since 'orders over $50' could be read more than one way." The first choice was that coupons count against the $50, because the check uses `order.paid`.
 
-## Evidence: experiment E10 will send the free-shipping task in three forms and record which reading comes back
+With the full prompt, a session changed the same two files and wrote `order.paid >= 5000`, which is Reading 4. It wrote one test for each example in the finish line, then ran its tests against wrong versions of the function to see them fail. Its report began, "Free shipping now works, and `python3 -m unittest` prints OK," and said that no other file needed changing.
 
-Experiment E10 will give the free-shipping task to fresh sessions in three forms. The first form is the one-line prompt. The second is the one-line prompt followed by the rule and nothing else. The third is the full prompt above. Each form goes to 10 fresh sessions, 30 in all.
+## Evidence: all nine sessions with the one-line prompt wrote the same reading, and it wasn't the shop's rule
+
+Experiment E10 gives the free-shipping task to fresh sessions in three forms. The first form is the one-line prompt. The second is the one-line prompt followed by the rule and nothing else. The third is the full prompt above. Each form goes to 10 fresh sessions, 30 in all.
 
 For every session, E10 runs the function that came back on the two customers from the table. The two answers show which of the four readings the session wrote, because no two readings give the same pair. E10 also takes two things from the session's own record: whether the session asked a question before it changed any code, and whether it changed a file other than `shipping.py` and `test_shipping.py`.
 
 The one-line form has no right answer to score, because the prompt doesn't state the rule. For that form the result is a tally: how many sessions wrote each reading, and how many asked first. For the other two forms the rule is in the prompt, so E10 counts the sessions that wrote Reading 4.
 
-E10 hasn't been run yet. If all 10 sessions that get the one-line prompt write the same reading, I'll say so here. The claim would then be narrower. The sessions agreed with each other, and the prompt still gave nobody a way to know whether they agreed with the owner.
+I ran E10 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 9, 8, and 8 before the run used up its credit.
+
+| Form | Reading 1 | Reading 2 | Reading 3 | Reading 4 | Asked before changing code | Changed another file |
+|---|---|---|---|---|---|---|
+| One line | 0 | 0 | 9 | 0 | 0 | 0 |
+| One line and the rule | 0 | 0 | 0 | 8 | 0 | 0 |
+| Full prompt | 0 | 0 | 0 | 8 | 0 | 0 |
+
+All nine sessions with the one-line prompt wrote Reading 3: free shipping when the customer paid more than $50.00, so an order of exactly $50.00 still pays. That is the narrower case I described before the run. The sessions agreed with each other, and they didn't agree with the rule this shop uses, which is Reading 4. None of them asked first. Every one of the nine reports named the two choices it had made, the amount after the coupon and the exact $50.00, and said what to change if the owner meant something else. So the gap was visible, but only to a person who read the report.
+
+With the rule in the prompt, every session wrote Reading 4 and passed the three examples in the finish line, with or without the rest of the full prompt. In these runs the rule did the work. No session in any form changed a file outside the two named, so the scope lines had nothing to stop.
 
 The maker of one coding agent gives similar advice about its rules file. The documentation for Claude Code says the tool treats that file "as context, not enforced configuration," and it asks for instructions that are "concrete enough to verify." One of its examples is "Use 2-space indentation" instead of "Format code properly." <!-- source: notes/sources.md, rules files and sessions, checked 2026-11-13 --> That is advice from the maker of one tool. It is not a measurement of mine.
-
-<!-- [Result slot: experiment E10] Date, tool and model. For each form, out of 10 sessions: how many wrote each of the four readings, how many asked a question before changing code, and how many changed a file outside the two named. -->
 
 <!-- [Author case slot] The parts the author puts in a task prompt for an AI that writes code, and a case in which a line missing from a prompt led to rework. -->
 
