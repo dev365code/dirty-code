@@ -16,7 +16,7 @@ Your server handles two requests at the same moment, and three AI sessions are w
 
 The code for one request reads the same whether one request runs or a thousand run at once. Nothing in the text of a function says that a second request for the same gift card can arrive while the first is still working.
 
-A session that writes that function works from the prompt and the files. It tests the function the way it wrote it: one request, and then the next. Those tests pass. The failure needs two requests in a particular order, and that order is in no line the session read or ran.
+A session that writes that function works from the prompt and the files. It may well know about this race and write code that holds up under it. But the tests it leaves behind usually send one request and then the next, and those tests pass on safe and unsafe code alike. The failure needs two requests in a particular order, and unless the prompt asks for it, a test the session leaves rarely sends them in that order.
 
 A person who has run a shop for a year knows that it happens. A customer double-clicks the pay button. A phone and a laptop pay with the same gift card in the same second. An AI has no memory of the night it happened to you. So what you know has to be written down as a guarantee, in a sentence like this: "X never happens, even when two requests arrive at the same moment."
 
@@ -40,6 +40,8 @@ class InsufficientBalance(Exception):
 # giftcards.py (the version for people)
 def redeem(db, card_id, amount):
     """Take `amount` cents off a gift card."""
+    if amount <= 0:
+        raise ValueError(f"amount must be more than 0, got {amount}")
     (balance,) = db.execute(
         "SELECT balance FROM gift_cards WHERE id = ?", (card_id,)
     ).fetchone()
@@ -109,7 +111,7 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-`redeem` is easy to read. It reads the balance, checks it, and writes the new balance, in the order a person would explain it. The first two tests each send one request, and they pass.
+`redeem` is easy to read. It refuses an amount of 0 or less, because a negative amount would add money to the card. Then it reads the balance, checks it, and writes the new balance, in the order a person would explain it. The first two tests each send one request, and they pass.
 
 The third test is the guarantee. Two requests each try to take $30.00 off a card that holds $50.00. `GapDB` places the second request in one exact spot: after the first request has checked the balance, and before the first request writes. The test uses no threads, so the second request lands in that spot on every run.
 
@@ -123,6 +125,8 @@ The version for AI replaces `redeem` and nothing else.
 # giftcards.py (the version for AI)
 def redeem(db, card_id, amount):
     """Take `amount` cents off a gift card."""
+    if amount <= 0:
+        raise ValueError(f"amount must be more than 0, got {amount}")
     # One statement on purpose. A SELECT followed by an UPDATE lets two requests
     # that arrive together both pass the balance check.
     done = db.execute(
@@ -178,11 +182,13 @@ Several sessions in one repository need the same kind of sentence. These lines g
 
 Three decisions stay with you. Simple, separate tasks can run in parallel. Work on money, refunds, and stored data goes to one session at a time. And one person merges, one branch at a time, and runs the tests after every merge.
 
-I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. With the first prompt, one session didn't write the version for people. It wrote the check and the subtraction as one statement, `UPDATE gift_cards SET balance = balance - ? WHERE id = ? AND balance >= ?`, and refused when no row changed. Its report explained why: "The obvious version reads the balance, checks it, then writes, which lets two redemptions at the same moment both pass the check." It tried two requests at once in a scratch script and then deleted the script. None of the five tests it left in `test_giftcards.py` sends two requests.
+I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. With the first prompt, one session didn't write the version for people. It wrote the check and the subtraction as one statement, `UPDATE gift_cards SET balance = balance - ? WHERE id = ? AND balance >= ?`, and refused when no row changed. Its report explained why: "The obvious version reads the balance, checks it, then writes, which lets two redemptions at the same moment both pass the check." It tried two requests at once in a scratch script and then deleted the script. None of the five tests it added to `test_giftcards.py` sends two requests.
 
 With the second prompt, a session wrote the same statement and a test named `test_second_request_between_check_and_write_pays_at_most_once`. Its report began, "The test failed against a read-check-write version and passed after the fix, and the test file was unchanged between the two runs."
 
 ## Evidence: the two-request test fails on the version for people, and Git merges two passing branches into code that doesn't import
+
+The runs with fresh sessions come at the end of this section: every session wrote the safe version, and the guarantee sentence changed whether it left a two-request test behind. First, two checks I made by hand.
 
 I ran the listing with each version of `redeem`. With the version for people, the run prints `Ran 3 tests` and `FAILED (failures=1)`. Both requests are paid, and the balance ends at `2000`. With the version for AI, the run prints `Ran 3 tests` and `OK`. One request is paid and the other is refused.
 

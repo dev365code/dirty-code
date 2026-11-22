@@ -46,7 +46,7 @@ The session checks its own work when it can: it runs the tests, reads the failur
 
 Here the tests run and pass, because no test says how a single item's refund is worked out.
 
-Dana isn't a better reader than the AI. People forget, and they misremember: Dana may recall that ticket and get the amount wrong. But she can ask you about the rule this morning, and she's likely to still know it next week. A person has yesterday's memory and a colleague at the next desk, and neither one costs anything. The AI has neither.
+Dana isn't a better reader than the AI. People forget, and they misremember: Dana may recall that ticket and get the amount wrong. But she can ask you about the rule this morning, and she's likely to still know it next week. The session can ask you questions too. But it asks only about a gap it notices, and no file tells it that yesterday's chat settled a rule, so it doesn't know there is something to ask. Dana knows the rule exists, so she knows to ask.
 
 ## Code: yesterday's rule reaches a new session only if a file states it
 

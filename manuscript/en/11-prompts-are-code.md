@@ -121,8 +121,6 @@ and python3 -m unittest prints OK:
 If you find you need to change any other file, stop and tell me why.
 ```
 
-The prompt has five parts, and each part closes a gap that the one-line prompt left open.
-
 The first part is the rule. It is the owner's decision, written once in the words of the shop and once in the words of the code. With `order.paid >= 5000` in the prompt, the session doesn't have to guess how "after the coupon" is spelled in this repository. Only a person at the shop can supply this part.
 
 The second part names the two files the session may change. Without it, a session may add a helper to `orders.py` or tidy something it noticed on the way, and the diff you have to read grows.
@@ -192,7 +190,7 @@ The maker of one coding agent gives similar advice about its rules file. The doc
 - [ ] Take the last prompt you sent for a task that needed more than one round. Mark where it states the rule, the files that may change, what to leave alone, and how to tell the work is done. Write in the parts that are missing, and keep the result in the repository for the next task of that kind.
 - [ ] Before you send a prompt for a task that touches money, paste it to a fresh session with this line: "List the different ways this prompt could be read. Don't write code." Take the list to whoever owns the rule, and put the answers in the prompt.
 - [ ] Put cases with their answers in the finish line. Pick at least one case that two readings of your prompt would answer differently.
-- [ ] Send a prompt you plan to reuse to three fresh sessions and compare the results. Where two results differ, the prompt has a gap.
+- [ ] Send a prompt you plan to reuse to three fresh sessions, and check each result against answers you decided yourself. If the results differ, look for a gap in the prompt or a session that didn't follow it. If they agree, that doesn't prove the prompt is clear: in this chapter's runs, all nine one-line sessions agreed on one reading, and it wasn't the shop's rule.
 - [ ] Open your rules file and read each line as an instruction to a stranger. For each line, ask: "After a session finishes, what would I look at to check that it followed this?" If you can't name anything, rewrite the line or delete it. Keep the file under version control, and when you change a line, rerun a task you've run before and compare the result with last time.
 
 ## Where it breaks

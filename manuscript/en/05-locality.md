@@ -22,7 +22,7 @@ A developer who has spent a year on a small online shop's order server knows whe
 
 She learned that layout in her first weeks. When she does forget one of the three, a reviewer who knows the layout asks about it.
 
-An AI has no memory of earlier sessions, so a new session doesn't know there are three files. The session usually searches for a word from the prompt, opens some of the files the search returns, and starts writing once it has read enough to write something.
+A new session doesn't know there are three files. The session usually searches for a word from the prompt, opens some of the files the search returns, and starts writing once it has read enough to write something.
 
 Suppose the search leads it to `users.py`. The class there has three checks, and each returns an error code such as `email_too_long`. The session can add a fourth check that returns a fourth error code, and the result looks like a finished change. Nothing in `users.py` mentions the table of messages.
 
@@ -196,7 +196,7 @@ The four failures were all Sonnet, in the five-file layout of the large reposito
 
 The value went missing more often than the message. In the small repository, every session in the three-file and five-file layouts put the domain in `settings.py`. In the large one, Haiku and Sonnet put it there in 2 of their 40 runs in those layouts, and the other 38 typed it into the check in `registration.py`. Opus put it in the settings file in 8 of 10 runs with three files and 6 of 10 with five. No test can see this. The next person who changes the rule has to know that this one value lives in the check and not with the others.
 
-The work grew with the number of files. In the small repository, the median session took 14, 18, and 20 turns (replies from the model) for 1, 3, and 5 files. In the large one, the median Opus session looked at 3.5, 5, and 7 files (files it read or named in a command), and the median Haiku session at 3, 3.5, and 6.
+The work grew with the number of files. In the small repository, the median session took 14, 18, and 20 turns (replies from the model) for 1, 3, and 5 files. In the large one, the median Opus session looked at 3.5, 5, and 7 files (files it read or named in a command), and the median Haiku session at 4, 4, and 7.
 
 I said that if the layouts passed about equally often, I would limit this chapter's claim to larger repositories. In the small repository they did, so the claim is limited that way. In the large one, the missing message comes from one model in one layout, 4 runs in 10. The misplaced value and the extra work showed up with all three models.
 

@@ -24,13 +24,11 @@ A human reader is different in each of those ways. A person remembers the code f
 
 So sort your habits into two groups.
 
-The first group is habits that put information into the code. A name that says what a function does is one. A test that states the right answer is another. So is an error message that says what the program was doing when it failed. These habits help a person, and they help an AI more, because the AI can't ask anyone and can't remember what it was told last week.
+The first group is habits that put information into the code. A name that says what a function does is one. A test that states the right answer is another. So is an error message that says what the program was doing when it failed. These habits help a person, and they help an AI more. An AI can ask you a question, but only about a gap it notices, and it can't remember what it was told last week.
 
 The second group is habits that were a bargain with a human reader. A team accepted a cost because a person could cover it. Take a rule that every function must be short. A team accepts that the steps of one task end up in five small functions across three files, because a person who knows the code remembers where the five are. Or take the rule against duplicated code. A team accepts that seven callers share one function, because someone on the team remembers who the seven are. An AI session has no such memory. For this second group, the bargain has to be weighed again.
 
 Weighing again does not mean doing the opposite every time. Today's AI learned to code from code that people wrote, so code written the *Clean Code* way is easy for it to read, and most of the time the old answer still wins. Chapters 4 to 11 go through the cases one at a time, and each chapter names the conditions under which the answer changes.
-
-Under those conditions, this book's advice differs from *Clean Code*'s, and it says so. Chapter 5 keeps the code for one change in one place, even when that makes a function long. Chapter 6 gives a caller its own copy of a function that other callers share. Chapter 8 takes out a layer of classes that a well-known design would keep.
 
 ## Code: seven habits from *Clean Code*, and what each one means for an AI reader
 
@@ -80,8 +78,8 @@ This chapter runs no experiment of its own. Each row in the table is a claim tha
 
 | Habit | Experiment | What it counts | Result |
 |---|---|---|---|
-| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | One of the five functions: 0 of 60 sessions, in both versions |
-| Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it finds the right file from the folder names | Five files: one model left out a part in 4 of 10 runs. Hops: all 120 right. Generic folder names: 38 and 39 of 40 right against 40 of 40, and about one more tool call |
+| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | One of the five functions: 0 of 60 sessions (30 for each version) |
+| Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it names the right file and function when the folders have feature names or generic names | Rule spread over five files: Sonnet left out the message in 4 of 10 runs, and every other model and layout got 10 of 10. Up to three hops: all 120 runs right. Generic file names: Haiku 38 and Sonnet 39 of 40 answers right, against 40 of 40 in feature folders, with about one more tool call per question |
 | Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | 0 in 80 runs. In the version for people, 22 of 40 sessions gave the shared function a switch |
 | Comments | E6 (Chapter 7) | How often a number survives a cleanup when a comment gives its reason | Two values: changed in 2 of 9 cleanups without the reasons, 0 of 9 with them |
 | Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | <!-- Result slot: E8 --> Not run yet |
@@ -91,8 +89,8 @@ If an experiment shows no difference, I will say so in that chapter and change t
 
 ## What people do
 
-- [ ] Open your team's style guide, or your linter's configuration if that's where the rules live. For each rule, ask: "Does this rule put information into the code, or does it save a person some effort?" Mark the rule I for information or E for effort.
-- [ ] Leave the rules you marked I alone. They carry over.
+- [ ] Open your team's style guide, or your linter's configuration if that's where the rules live. For each rule, ask: "Does this rule put information into the code, or does it save a person some effort?" Mark the rule I if it puts information into the code, E if it saves a person effort, or both.
+- [ ] Leave the rules you marked only I alone. They carry over.
 - [ ] For each rule you marked E, write one line next to it: what the rule costs a reader who has no memory of the code. If you can't name a cost, the rule carries over too.
 - [ ] Open your rules file. For each sentence that states a limit without a reason ("under 20 lines," "no comments," "never duplicate"), add the reason, or delete the sentence.
 

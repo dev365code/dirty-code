@@ -24,7 +24,7 @@ What you ask the fresh session matters as much. "Find bugs" has no finish line (
 
 A finding is one session's claim about code that another session wrote. The claim can be wrong, the same way the code can be. Chapter 14 said that when an AI tells you a test failed, you are reading its account of a run you didn't see. A review is the same kind of account. So ask for each finding in a form you can run: an input, what the code returns for it, and what the rule says it should return.
 
-One question finds one kind of problem. A reviewer asked to break the rule looks at the code. It won't tell you that the tests would accept a wrong answer. A second reviewer with a different question looks at a different side.
+A question decides where a reviewer looks. A reviewer asked to break the rule looks at the code, and it is unlikely to report that the tests would accept a wrong answer, because nobody asked about the tests. A second reviewer, asked about the tests, looks there.
 
 ## Code: a "find bugs" report with three findings, and two reports that each come with something to run
 
@@ -91,14 +91,14 @@ The function returns 966, 966, 966. The total is 2898.
 The rule gives the leftover cents to the last item: 966, 966, 968.
 The customer is 2 cents short. The function never reads already_refunded.
 
-    def test_three_returns_add_up_to_what_the_customer_paid(self):
+    def test_three_returns_follow_the_rule(self):
         order = Order({"a": 1000, "b": 1000, "c": 1000}, coupon_discount=100)
         refunds = [
             partial_refund_amount(order, "a", []),
             partial_refund_amount(order, "b", ["a"]),
             partial_refund_amount(order, "c", ["a", "b"]),
         ]
-        self.assertEqual(sum(refunds), order.paid)
+        self.assertEqual(refunds, [966, 966, 968])
 ```
 
 ```text
@@ -114,14 +114,14 @@ divide evenly, and no test returns a second item.
 
 Each of these two reports makes one claim, and you can run all of it.
 
-I wrote these three reports as examples of the forms a finding can take. Then I ran each of the five findings against the listing. The table shows what happened.
+I wrote these three reports as examples of the forms a finding can take. Then I checked each of the five findings against the listing, and ran the four that gave something to run. The table shows what happened.
 
 | Finding | What I ran | What happened |
 |---|---|---|
 | 1. Use `round()` | Reviewer A's order, with `round()` in place of `//` | Refunds of `967`, `967`, and `967`. The shop pays back `2901` on an order that paid `2900`. The existing test still passes. |
 | 2. Remove `already_refunded` | Nothing. The finding gives no input. | The parameter is unused because the last part of the rule was never written. Removing the parameter removes the place where that part goes. |
 | 3. List total of 0 | An order of one item priced `0` | `ZeroDivisionError`. The finding is real if the shop ever sells a free item by itself. |
-| Reviewer A | Its test, against the listing | `AssertionError: 2898 != 2900`. The finding is real. |
+| Reviewer A | Its test, against the listing | `AssertionError: Lists differ: [966, 966, 966] != [966, 966, 968]`. The finding is real. |
 | Reviewer B | Its function, against the test | `Ran 1 test`, `OK`. The finding is real. |
 
 Finding 1 is the engine mounts. It sounds like care for the customer, and the fix it proposes breaks the rule in the other direction. Suppose you had passed the first report to a session with the words "fix these." That session would have had every reason to apply the fix, and the one existing test would have gone on passing.
@@ -173,17 +173,19 @@ Both prompts say what to hand back: a failing test from Reviewer A, a function a
 
 Reviewer A's prompt says what to do when nothing turns up. "No problems found" reads the same whether the reviewer tried forty orders or none. A list of the orders it tried tells you which.
 
-The two reviewers have different targets. Reviewer A goes after the code and uses the rule to do it. Reviewer B goes after the tests. Neither would have found what the other found.
+The two reviewers have different targets. Reviewer A goes after the code and uses the rule to do it. Reviewer B goes after the tests. Each looks first where its prompt points.
 
-When a finding is real, its failing test becomes the finish line for the fix (Chapter 11). You hand the test to a session, and the fix is done when that test passes and the old tests still pass.
+When a finding is real, its failing test becomes the finish line for the fix (Chapter 11). You hand the test to a session. When that test passes and the old tests still pass, check one more order the test doesn't use, worked out by the rule, because a test checks only the orders it names.
 
 I ran two of these prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. The repository's last commit was Change B. A fresh session has no change in front of it, so the first prompt said `Review the last commit and find bugs.` One review with that prompt began, "That fixes the old over-refund on coupon orders but adds two new bugs." Its first finding was the leftover cents, shown with three orders. In one of them, three items at $10.00 with a $10.00 coupon, the customer paid $20.00 and the refunds added up to $19.98. That review took 21 minutes.
 
 With Reviewer A's prompt, a review began, "I found one: `partial_refund_amount` never adds the leftover cents to the last refund." It gave the same kind of order, a table of the three returns with `666`, `666`, and `666` against the rule's `666`, `666`, and `668`, and a failing test. It took 3 minutes. I ran that order against Change B, and the refunds came to `666`, `666`, and `666`, which is 1998 cents of the 2000 paid. I didn't run Reviewer B's prompt.
 
-## Evidence: I ran the five findings, and one proposed fix made the shop pay back $29.01 on a $29.00 order
+## Evidence: I checked the five findings, and one proposed fix made the shop pay back $29.01 on a $29.00 order
 
-Every row of the table is a run on the listing above. <!-- run 2026-11-13, Python 3.9.6 --> Three of the five findings were real: the leftover cents, the constant function that the tests accept, and the division by zero. One finding proposed a fix that pays back $29.01 on a $29.00 order. One finding pointed at a real symptom and asked for the wrong change.
+The reviews by fresh sessions come later in this section: both prompts found the leftover cents, and Reviewer A's prompt returned a failing test every time. First, the five findings from the example reports.
+
+Four rows of the table are runs on the listing above. The second finding gave no input, so its row is my reading of the code. <!-- run 2026-11-13, Python 3.9.6 --> Three of the five findings were real: the leftover cents, the constant function that the tests accept, and the division by zero. One finding proposed a fix that pays back $29.01 on a $29.00 order. One finding pointed at a real symptom and asked for the wrong change.
 
 After `partial_refund_amount` is changed to add the leftover cents to the last item, Reviewer A's test passes and the refunds are `966`, `966`, and `968`. The keyboard test from Chapter 14 still passes.
 
@@ -197,12 +199,14 @@ I ran two of the three ways on 2026-11-22 with Claude Code 2.1.330 and Claude Op
 
 | Way | Reviews that reported the leftover cents | Reviews that also gave an order with its amounts |
 |---|---|---|
-| Fresh session, prompt to find bugs | 9 of 9 | 7 of 9 |
+| Fresh session, prompt to find bugs | 9 of 9 | 8 of 9 |
 | Fresh session, Reviewer A's prompt | 10 of 10 | 10 of 10, each with a failing test |
 
 I didn't run every finding of every review, so I can't give the counts of findings reproduced and not reproduced. The reviews also reported other things, such as a second refund when the same item comes back twice, which follows from the same unread argument.
 
 Both ways found the defect this time. The difference was in what came back. Reviewer A's prompt returned a failing test every time, which you can check with one command. The prompt to find bugs returned a written finding, usually with an order in it. It also cost more: an average of $3.63 per review, against $0.64 for Reviewer A's prompt.
+
+<!-- [Result slot: experiment E15, the session that wrote the change] Date, tool and model. Of 10 sessions that wrote Change B and were then asked "Is this right?": reviews that reported the leftover cents, and reviews that also gave an order with its amounts. -->
 
 <!-- [Author case slot] A real case in which a second AI reader found a defect that the writing session had missed, and one in which a reviewer's finding turned out to be wrong. -->
 

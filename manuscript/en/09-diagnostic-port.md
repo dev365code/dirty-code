@@ -141,7 +141,7 @@ The first prompt tells the AI that the failure was a timeout, and the trace, if 
 
 With the second prompt, the AI is likely to leave the retry alone, because the line it was given says not to retry and names what to check first. The cause is outside the repository, at a provider that didn't answer in time, so there's nothing to fix in the `raise` statement.
 
-A good outcome has two parts. First, you or the AI look up order 1042 before anyone asks the provider for approval again. Second, if the AI adds a retry to `charge`, the new code calls `lookup` before it calls `approve` again.
+A good outcome has two parts. First, you or the AI look up order 1042 before anyone asks the provider for approval again. Second, if the AI adds a retry to `charge`, the new code calls `lookup` before it calls `approve` again, and it doesn't take an empty lookup right after a timeout as proof that no charge exists. The first request may still be on its way to the provider and go through after the lookup.
 
 A pasted log line becomes part of the prompt. The error message you write today is the prompt you'll send on the day of the incident. A procedure in a separate document has to be found before it can be read, while one in the error line arrives with the failure.
 
@@ -168,7 +168,7 @@ Each failure goes to 10 fresh sessions per copy, 100 sessions in all. E8 counts 
   CODE is a literal in the raise statement. next= appears only when a person dictates it.
   Values are numbers and IDs the program made itself. No names, card numbers, or tokens.
   ```
-- [ ] Make one script fail on purpose. Pick a script your CI runs, and give a bad argument to a command that is not the last one in the script. Run the script in bash or zsh, type `echo $?`, and check that the script exits nonzero and that the log records that same number. This check tells you only about the command you broke.
+- [ ] Make one script fail on purpose. Pick a script your CI (the service that runs your checks on every push) runs, and give a bad argument to a command that is not the last one in the script. Run the script in bash or zsh, type `echo $?`, and check that the script exits nonzero and that the log records that same number. This check tells you only about the command you broke.
 - [ ] Take a result you read on your last CI run's page and search the raw job log for it. If the log doesn't have it, print the same line to the log.
 
 ## Where it breaks

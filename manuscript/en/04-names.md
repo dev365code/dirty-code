@@ -16,7 +16,7 @@ Your code has names like that gauge: functions that do a little more than they s
 
 ## Why: your team knows what `get_user` really does, and a new session sees only its name
 
-An AI has no memory, so a new session has never seen any of the functions it is about to call. Say a session needs a customer's email address. The session searches the repository, and one of the lines it finds is this one from `orders.py`.
+A new session has never seen any of the functions it is about to call. Say a session needs a customer's email address. The session searches the repository, and one of the lines it finds is this one from `orders.py`.
 
 ```python
 user = get_user(order.user_id)
@@ -135,7 +135,9 @@ On 2026-11-22 I ran the first of the five functions, the lookup that fills a cac
 
 All 60 passed the hidden test: the right three addresses, and an empty cache afterward. All 60 called `load_user`, and none called `get_user` or `get_user_and_fill_cache`. All 60 looked at `users.py`, with a file read or a shell command. The versions didn't differ in the work either: each model made about the same number of tool calls in both.
 
-The reason is in the prompt. It says not to touch the cache, and a search for `cache` led every session to `users.py`, where the lookup's docstring says that it stores what it loads. So these runs test the case where the prompt names the constraint, and there the name made no difference. The case this chapter warns about is the one where the person forgets that clause, and then the prompt gives a session no word to search for. E3 doesn't measure that case, and neither did these runs.
+The reason is in the prompt. It says not to touch the cache. 52 of the 60 sessions searched for `cache`, and the search led them to `users.py`, where the lookup's docstring says that it stores what it loads. The other 8 printed whole files from the file list and read `users.py` that way. So these runs test the case where the prompt names the constraint, and there the name made no difference. The case this chapter warns about is the one where the person forgets that clause, and then the prompt gives a session no word to search for. E3 doesn't measure that case, and neither did these runs.
+
+<!-- [Result slot: experiment E3, the other four functions] Date, tool and model. For each function and version: passes out of 10, sessions that called the function that writes, and sessions that opened its definition before adding the call. -->
 
 <!-- [Author case slot] A real case in which an AI went by a description of the code, such as a name or a comment, and reported or changed the wrong thing. -->
 

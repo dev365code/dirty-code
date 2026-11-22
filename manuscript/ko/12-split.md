@@ -123,7 +123,7 @@ class Order:
         self.assertEqual(shipping_fee(two), 0)
 ```
 
-세션은 `Order`에 `quantities` 칸을 더하고 `paid`가 그것을 세게 했다. `shipping_fee`는 `order.paid`를 읽으므로 바꿀 것이 없었고, 세션은 그것을 보여 주는 테스트를 썼다. 옛 테스트 넷은 손대지 않은 채로 통과하고, 새 테스트 둘도 통과한다. 실행 결과는 `Ran 6 tests`와 `OK`다.
+세션은 `Order`에 `quantities` 칸을 더하고 `paid`가 단가에 수량을 곱해 결제액을 계산하게 했다. `shipping_fee`는 `order.paid`를 읽으므로 바꿀 것이 없었고, 세션은 그것을 보여 주는 테스트를 썼다. 옛 테스트 넷은 손대지 않은 채로 통과하고, 새 테스트 둘도 통과한다. 실행 결과는 `Ran 6 tests`와 `OK`다.
 
 함수 둘이 빠졌다. `full_refund_amount`와 `payout_total`은 `order.paid`를 부르지 않는다. 둘은 저마다 그 합계를 따로 계산하고, 어느 쪽 계산도 수량을 모른다. 키보드 둘짜리 주문에서 네 함수가 돌려주는 값은 이렇다.
 
@@ -141,14 +141,14 @@ class Order:
 아래는 같은 변경을 네 조각으로 자른 것이다. 이 목록은 코드를 하나도 바꾸기 전에 쓴다.
 
 ```text
-조각 1. orders.py: Order에 quantities를 더하고(없으면 1개), paid가 수량을 센다.
+조각 1. orders.py: Order에 quantities를 더하고(없으면 1개), paid가 단가에 수량을 곱한다.
         확인: 옛 테스트 넷이 통과하고, 넷 가운데 고쳐진 것이 없다.
               새 테스트: 30000원짜리 키보드 둘, 쿠폰 없음 -> paid 60000.
 조각 2. shipping.py: order.paid를 읽으므로 바꿀 것이 없을 수 있다.
         확인: 새 테스트: 30000원짜리 키보드 둘 -> 배송비 0.
-조각 3. settlement.py: payout_total이 수량을 센다.
+조각 3. settlement.py: payout_total이 수량을 반영한다.
         확인: 새 테스트: 30000원짜리 키보드 둘인 주문 하나 -> payout_total 60000.
-조각 4. refunds.py: full_refund_amount가 수량을 센다.
+조각 4. refunds.py: full_refund_amount가 수량을 반영한다.
         확인: 새 테스트: 30000원짜리 키보드 둘, 주문 전체 반품 -> 환불 60000.
         키보드 둘 가운데 하나만 돌아오는 경우는 주인이 규칙을 정해야 한다. 기다린다.
 ```
@@ -196,9 +196,9 @@ settlement.py:3:    return sum(sum(o.prices.values()) - o.coupon_discount for o 
 PLAN.md의 조각 3을 해 줘. 다른 것은 하지 마.
 
 settlement.py의 payout_total은 수량 없이 정가만 더하고 있어.
-수량을 세게 고쳐 줘.
+수량을 반영하게 고쳐 줘.
 
-settlement.py와 test_shop.py만 바꿔.
+settlement.py와 test_shop.py만 바꾸고, PLAN.md에는 조각 표시만 해.
 이미 있는 테스트는 고치지 마. 그 가운데 하나가 실패하면 멈추고
 이유를 말해 줘.
 

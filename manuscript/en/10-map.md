@@ -115,7 +115,7 @@ Both sessions can reach the right answer. What I expected to differ is how many 
 
 I ran ten questions of this kind on 2026-11-22 in fresh sessions of Claude Code 2.1.330, in a made-up shop with 518 files and 1,317 tests. None of the ten was about refunds. Here is one of them, asked of all three layouts by Claude Sonnet 5.5: "Where is the code that decides how each payout line looks on the accountant's settlement report?"
 
-In every layout, the session's first command searched the contents of all files for `settlement` and `payout`. In the layout for people, it then searched those files for lines that define a function, printed parts of `core/shared.py` and `core/rules.py`, and answered `payout_row` in `core/shared.py`, quoting the function's docstring. That took 5 shell commands. In the layout for AI, it listed the functions in `shop/settlement/report.py` and printed that file, in 4 commands. With `INDEX.md`, it printed the index and then the same file, also in 4. All three answers were right.
+In every layout, the session's first command searched the contents of all files for `settlement` and `payout`. In the layout for people, it then searched those files for lines that define a function, printed parts of `core/shared.py` and `core/rules.py`, and answered `payout_row` in `core/shared.py`, quoting the function's docstring. That took 5 calls to the shell tool. In the layout for AI, it listed the functions in `shop/settlement/report.py` and printed that file, in 4 calls. With `INDEX.md`, it printed the index and then the same file, also in 4. All three answers were right.
 
 ## Evidence: in a shop of 518 files, the three layouts got about the same answers, and generic names cost a little under one tool call per question
 
@@ -123,7 +123,7 @@ Experiment E9 builds the order server in three layouts that hold the same code. 
 
 Each layout gets ten questions like the one above, about ten different parts of the shop. Each question goes to 5 fresh sessions per layout, 150 sessions in all. An answer counts as right when it names the file and the function that hold the code. E9 counts the right answers and the tool calls each session made before it answered.
 
-This chapter's server has a few dozen files, and a session can read a repository that small from end to end. So I ran E9 on 2026-11-22 in the larger shop from the Prompt section. In its layout for people, the same modules are merged into 30 files with names like `services/manager.py` and `utils/extra.py`. All three layouts pass the same 1,317 tests. I used Claude Code 2.1.330 with Claude Haiku 5.5 and Claude Sonnet 5.5 at their default settings, 150 sessions per model. Claude Opus 5.5 hasn't been run.
+This chapter's server has a few dozen files, and a session can read a repository that small from end to end. So I ran E9 on 2026-11-22 in the larger shop from the Prompt section. In its layout for people, the same modules are merged into 30 files with names like `services/manager.py` and `utils/extra.py`. The merge also dropped the description at the top of each module, so that layout lost those docstrings as well as the folder and file names. All three layouts pass the same 1,317 tests. I used Claude Code 2.1.330 with Claude Haiku 5.5 and Claude Sonnet 5.5 at their default settings, 150 sessions per model. Claude Opus 5.5 hasn't been run.
 
 Two of my ten questions turned out to have two right answers, because two functions in the shop do the same job. I left those two out. For the other eight questions there are 40 answers per layout and model.
 

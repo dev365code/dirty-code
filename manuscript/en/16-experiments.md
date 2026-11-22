@@ -49,13 +49,13 @@ Each request is sent to a clean copy of Repository A and a clean copy of Reposit
 
 The twenty requests fall into three groups.
 
-Eight requests come from Part II, one from each chapter. They are those chapters' prompts, reworded where a prompt named a file: export the customers' emails without touching the cache, reject sign-ups from a throwaway email domain, put thousands separators in the amounts of the settlement report, clean up the payment constants, add a 3% fee to card payments, find the cause of a failed payment from its error line, say where the refund amount is decided, and add free shipping. In the chapters' own experiments each of these ran in a repository built around it. Here each runs with the other seven habits present.
+Eight requests come from Part II, one from each chapter. They are those chapters' prompts, reworded where a prompt named a file: export the customers' emails without touching the cache, reject sign-ups from a throwaway email domain, put thousands separators in the amounts of the settlement report, clean up the payment constants, add a 3% fee to card payments, find the cause of a failed payment from its error line, say where the refund amount is decided, and add free shipping. Each chapter's own experiment tests its habit in a repository built around that one habit. Here each runs with the other seven habits present.
 
 One of the eight can't be the same in both repositories. The request from Chapter 9 pastes the error line that the server printed, and the two servers print different lines. Each repository gets its own line under the same sentence.
 
 Eight requests are ordinary work that no chapter was built around: a new field on the order, a second coupon type, a bug in a date comparison, a new report. They are there to show whether the shape of the code matters on work that I didn't design as a trap.
 
-Four requests are chosen to favor Repository A. One asks for a new money format in every place a customer sees an amount. In A that is one edit to the shared function. In B it is an edit to each copy. Another asks for a payment method that needs steps of its own, which A's classes were built for. Chapter 6 and Chapter 8 said that these are the cases where their advice costs something, and this group is where that cost is measured.
+Four requests are chosen to favor Repository A. One asks for a change to the arithmetic that all three formatters share, such as storing amounts in tenths of a cent. In A that is one edit to the shared function. In B it is an edit to each of the three formatters, and a copy the session misses prints the wrong amount. Another asks for a payment method that needs steps of its own, which A's classes were built for. Chapter 6 and Chapter 8 said that these are the cases where their advice costs something, and this group is where that cost is measured.
 
 With 20 requests, 2 repositories, and 10 fresh sessions each, one model takes 400 sessions.
 
@@ -86,10 +86,11 @@ The experiment hasn't been run. Whatever the outcome, the numbers will carry the
 My two repositories are a small shop that I built. Yours is the repository that matters to you, and your Git history already holds the material for the same experiment. The steps below replay a change your team has already made.
 
 - [ ] Pick a merged change that added tests along with its fix. Write down the request that led to it in a sentence or two, the way you would have typed it to an AI. Don't use the commit message if it describes the solution.
-- [ ] Make a copy of the repository as it was just before that change, and save the tests the change added. Those are your hidden tests.
+- [ ] Make a copy of the repository as it was just before that change, without its Git history, and save the tests the change added outside the copy. Those are your hidden tests. A worktree or a clone would bring the history along, and a session could read the change and its tests there.
 
   ```sh
-  git worktree add ../replay <commit>~1
+  mkdir ../replay && git archive <commit>~1 | tar -x -C ../replay
+  git -C ../replay init -q && git -C ../replay add -A && git -C ../replay commit -q -m start
   git diff <commit>~1 <commit> -- <test files> > ../hidden.patch
   ```
 
@@ -97,7 +98,7 @@ My two repositories are a small shop that I built. Yours is the repository that 
 - [ ] Change one thing from Part II in a second copy: add the index file from Chapter 10, or move one rule into one file as in Chapter 5. Run the same request ten more times there.
 - [ ] Compare the two rows of ten, and don't read much into a difference of one or two passes. Replay three or four different changes before you decide anything.
 
-I ran the commands in the second and third steps on the repository from Chapter 12, with the commit for piece 3 as the past change. Before any work, the hidden test fails with `AssertionError: 3000 != 6000`. After the change, the run prints `Ran 7 tests` and `OK`. <!-- run 2026-11-13, Git 2.50.1, Python 3.9.6 -->
+I ran the commands in the second and third steps on the repository from Chapter 12, with the commit for piece 3 as the past change. Before any work, the hidden test fails with `AssertionError: 3000 != 6000`. After the change, the run prints `Ran 7 tests` and `OK`. <!-- run 2026-11-22 with git archive, Git 2.50.1, Python 3.9.6 -->
 
 ## Where it breaks
 

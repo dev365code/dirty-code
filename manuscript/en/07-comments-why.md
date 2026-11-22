@@ -14,17 +14,17 @@ Your code has values like that idle setting. What does an AI do with a number wh
 
 > When a value looks wrong on purpose, write the reason next to it, because an AI asked to tidy up may "fix" a value it can't explain.
 
-## Why: the reason for an odd value lives in someone's memory, and a new session can't ask that person
+## Why: the reason for an odd value lives in someone's memory, and nothing in the file tells a new session to ask
 
 Every team has values that look odd and are right. A timeout is 37 seconds when every other timeout is 30. A batch holds 48 items when 50 would be the round number. Someone on the team chose each value after something went wrong, and that person remembers why.
 
 For a human reader, that memory is enough. A new teammate who wonders about the 37 asks around, and someone says, "Don't touch that, the provider cuts us off at 40." The answer travels by word of mouth, so nobody writes it into the file.
 
-An AI has no memory, and a new session can't ask around. The session sees `37` next to a row of round numbers. The name of the constant says what the value is for. It can't say why the value is 37 and not 30. If the prompt asks the session to clean up the file, 37 looks like the kind of thing a cleanup is supposed to fix.
+A new session sees `37` next to a row of round numbers. The name of the constant says what the value is for. It can't say why the value is 37 and not 30. If the prompt asks the session to clean up the file, 37 looks like the kind of thing a cleanup is supposed to fix.
 
 A person who tidies code has the same instinct. The difference is what happens next. A person who is about to change a strange number usually hesitates and asks someone. A session tends to finish the task it was given, and a cleanup that leaves the odd value alone looks unfinished.
 
-*Clean Code* asks you to explain yourself in code before you reach for a comment, and it counts comments that explain intent or warn of consequences among the good ones. <!-- check against original --> This chapter stays inside that advice. A name can say what a value is. Only a comment can say why it isn't the value you'd expect.
+*Clean Code* asks you to explain yourself in code before you reach for a comment, and it counts comments that explain intent or warn of consequences among the good ones. <!-- check against original --> This chapter stays inside that advice. The name of a constant says what its value is for. The reason for an odd value, such as a provider's limit, has to be written where a session will read it, and the closest place is a comment right above the constant.
 
 ## Code: two odd values get one comment each, and nothing else changes
 
@@ -100,15 +100,15 @@ Clean up payments.py. Use consistent names and round values for
 the constants, and remove anything that looks like a leftover.
 ```
 
-This is how people ask for a cleanup. The prompt doesn't list the values that must stay, because the person who wrote it wasn't thinking about them.
+This is how people ask for a cleanup, and this one also asks for round values, so it pushes on exactly the two numbers in question. The prompt doesn't list the values that must stay, because the person who wrote it wasn't thinking about them.
 
 In the version for people, the session has the prompt and three constants. An AI tends to follow a prompt to the letter. The prompt asks for round values, and 37 and 48 are not round. Nothing in the file argues for keeping them, so changing both is the most direct way to do what the prompt says.
 
 In the version for AI, the same session reads two comments that say "not 30 or 40" and "not 50" and give a reason. Now the prompt and the file disagree, and the session has to choose. It is likely to keep the values, and a careful session will say in its report that it left them alone and why. It may still change them. A comment is something the session reads. It isn't something the session is forced to obey.
 
-I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. The file was the listing above plus one constant marked `# unused since the v2 migration`, so that the prompt's request to remove leftovers had something to remove.
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. The file was the listing above with two additions: one constant marked `# unused since the v2 migration`, so that the prompt's request to remove leftovers had something to remove, and a function `approve_request` that puts the timeout into the body of an approval call. The tests were in a separate file.
 
-In the version for people, one session renamed the two constants, deleted the unused one and `RETRY_WAIT_SEC`, and changed 37 to 40 and 48 to 50. Its report then warned about the change it had just made: "Both old values were just under a round number. That often means someone set them below a provider limit on purpose. Nothing in the repo says why they were chosen." It left that check to the reader.
+In the version for people, one session renamed the two constants, deleted the unused one and `RETRY_WAIT_SEC`, and changed 37 to 40 and 48 to 50. Its report then warned about the change it had just made: "Both old values were just under a round number. That often means someone set them below a provider limit on purpose. Nothing in the repo says why they were chosen (there's one commit and no comments)." It left that check to the reader.
 
 In the version for AI, a session deleted only the unused constant and wrote: "I didn't round the constants, because their comments show the current values come from provider limits and rounding would break payments."
 
@@ -127,7 +127,7 @@ Most sessions kept the values even with no reason in the file. One of them wrote
 
 On the same day I gave the version for people to one session each of two other models, at their default settings. Claude Sonnet 5.5 changed the values to 30 and 50, and Claude Haiku 5.5 changed them to 40 and 50. In the version for AI, both kept them.
 
-So the claim holds in a smaller form than I first wrote it. This model usually guessed that odd values were there on purpose, and with the reasons in the file none of its nine sessions changed them. Nine runs per version can show that a cleanup sometimes rounds a value whose reason is written nowhere. They can't show how often. The full 10-value server, and 10 runs of the other models, are still to be done.
+So the claim holds in a smaller form than I first wrote it. This model usually guessed that odd values were there on purpose, and with the reasons in the file none of its nine sessions changed them. Nine runs per version can show that a cleanup sometimes rounds a value whose reason is written nowhere. They can't show how often, and these runs used a prompt that asks for round values, so a cleanup prompt without that push may round them less often. The full 10-value server, and 10 runs of the other models, are still to be done.
 
 <!-- [Author case slot] A real case in which an AI changed, or reported on, a value or a rule whose reason was written nowhere in the files. -->
 

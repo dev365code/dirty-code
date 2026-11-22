@@ -10,7 +10,7 @@ The hand that writes the code has changed. An AI writes it, and an AI reads it f
 
 Deciding what must never break has not changed hands. Does free shipping start at the list total or at the amount the customer paid? May a gift card ever pay out more than it holds? Does a timeout mean "try again" or "look it up first"? None of these answers is in the code until someone decides it. An AI can't decide it, because each answer is a fact about your shop. A person decides, writes the answer down as a sentence, and turns the sentence into a check that can fail.
 
-This book has called those checks guarantees. A guarantee is a small thing: one example with its answer, a test that someone watched fail, a line in a rules file. A person can read every one of them. That is no longer true of the code.
+This book has called those answers guarantees: a sentence that says what must never happen. What keeps a guarantee is small: one example with its answer, and a test that someone watched fail. A line in the rules file passes the guarantee on to the AI, but nothing enforces that line. A person can read every one of those sentences and tests. That is no longer true of the code.
 
 The advice in this book will go out of date. Models will change. Some chapters will matter less, and some habits will be needed that I can't see from here. Chapter 3 said that I expect code written for an AI reader to move further from clean code as time goes on. If that is right, "dirty code" will cover more in five years than it covers in this book. The way to find out is the one this book uses: build the code two ways, give both to a reader that has never seen them, and let a test that the reader can't see decide.
 

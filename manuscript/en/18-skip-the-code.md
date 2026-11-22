@@ -1,4 +1,4 @@
-# Chapter 18. Can we skip the code? We asked AI to write machine code directly
+# Chapter 18. Can we skip the code and have AI write machine code directly?
 
 ## Scene
 
@@ -22,9 +22,9 @@ This book has argued that the person no longer reads the code. So here is the ar
 
 Take speed first. A program written in a compiled language such as C or Rust already runs as machine code. The compiler does its work once, when the program is built, and it isn't there when the program runs. Removing it doesn't make the program faster. The program gets faster only if the AI writes better machine code than the compiler does, and that is a narrower question. The Evidence section has one study of it.
 
-The larger problem is the reader. An AI has no memory. The session that changes this program next month starts from what is in the repository. Part II listed what that session reads by: names it can search for, comments that give reasons, error lines with values, a page that says where things live, tests with names. All of those are in code. None of them is in machine code. If the repository holds only machine code, next month's session has to work out what the number in each register meant before it can change anything.
+The larger problem is the reader. The session that changes this program next month starts from what is in the repository. Part II listed what that session reads by: names it can search for, comments that give reasons, error lines with values, a page that says where things live, tests with names. All of those are in code. None of them is in machine code. If the repository holds only machine code, next month's session has to work out what the number in each register meant before it can change anything.
 
-So code was never kept only for the human. Code is what one session leaves for the next.
+So the source code isn't kept only for people. Each session commits it, with its names and comments, for the session that comes next.
 
 The last problem is where guarantees go. A type on a parameter is a guarantee. So is a check the compiler makes on every build, and so is a test that calls a function by its name. Each of them is attached to something in the code. A compiler is a large set of guarantees that other people already wrote, and it gives the same verdict on the same input every time. An AI doesn't.
 
@@ -112,7 +112,7 @@ If sessions change the assembly as reliably as they change the Rust, the claim a
 
 ## What people do
 
-- [ ] If your team avoided a strict, compiled language because it was slow for people to write, ask whether that reason still holds now that an AI does the writing. Try it on one new service.
+- [ ] If your team avoided a strict, compiled language because it was slow for people to write, ask whether that reason still holds now that an AI does the writing. Try it on one function before one service: have the AI write the same small function in both languages, such as this chapter's refund share, then list the wrong calls the compiler refuses and the ones only a test or a run would catch.
 - [ ] When you choose a language for code an AI will write, list what its compiler checks on every build: types, missing cases, values that may be absent. Each item on the list is a guarantee you don't have to write or remember.
 - [ ] Before you ask for hand-tuned low-level code, measure where the time goes. Tune only that spot, and keep the plain version next to it with a test that runs both on the same inputs and compares the results.
 - [ ] Keep the source in the repository as the record. Machine code is something the build produces. The next session should read the source.

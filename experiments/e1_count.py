@@ -113,8 +113,21 @@ def words(stage):
 
 
 def to_file(args):
-    """명령의 출력을 파일로 보내는가(> 파일, >> 파일). 2>/dev/null 같은 오류 출력은 치지 않는다."""
-    return any(a in (">", ">>") or (a.startswith(">") and not a.startswith(">&")) for a in args)
+    """명령의 출력을 파일로 보내는가(> 파일, >> 파일, notes.md>out.py처럼 낱말에 붙은 것도).
+    2>/dev/null 같은 오류 출력과 >&2는 치지 않는다. 따옴표 안의 'a>b'도 보내기로 보는데, 드물다."""
+    for a in args:
+        if a in (">", ">>"):
+            return True
+        i = a.find(">")
+        if i < 0:
+            continue
+        before, after = a[:i], a[i:].lstrip(">")
+        if not after or after.startswith("&"):
+            continue
+        if before.isdigit() and before != "1":
+            continue
+        return True
+    return False
 
 
 def classify(stage, first):

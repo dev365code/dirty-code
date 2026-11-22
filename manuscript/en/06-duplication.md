@@ -18,7 +18,7 @@ When should seven callers share one function, and when is each safer with its ow
 
 ## Why: one edit to a shared function can change every caller, and a session may have read only one
 
-An AI has no memory, so a new session doesn't know which places call a shared function until it searches for them. Take `format_amount` in a small online shop's order server. It turns integer cents into text, so `3000` becomes `30.00`.
+A new session doesn't know which places call a shared function until it searches for them. Take `format_amount` in a small online shop's order server. It turns integer cents into text, so `3000` becomes `30.00`.
 
 Seven places call it. Five are pages and emails that customers read. One is the settlement report, which the shop's accountant reads. One is the refund export, a file of refunds that goes to the payment provider.
 
@@ -185,9 +185,11 @@ The kind of edit did differ.
 
 In the version for people, 22 of the 40 sessions left a switch in `format_amount` that only the settlement report turns on, the parameter the Prompt section describes. Five more added a second formatting function to the shared file. In the version for AI the choice never came up, and every session changed the settlement report's own copy.
 
-The version for people also took more work. In the small repository the median session took 20 turns against 15. In the large one the median session looked at more files (files it read or named in a command): 4 against 2.5 for Opus, 3 against 2 for Sonnet, and 3.5 against 3 for Haiku. There, 29 of the 30 sessions in the version for people searched the whole shop for `format_amount`.
+The version for people also took more work. In the small repository the median session took 20 turns against 15. In the large one the median session looked at more files (files it read or named in a command): 4 against 2.5 for Opus, 3 against 2 for Sonnet, and 4 against 3 for Haiku. There, 29 of the 30 sessions in the version for people searched the whole shop for `format_amount`.
 
 So this chapter's main worry, a shared function changed for one caller and broken for the others, didn't show up in 80 runs. What showed up is the second way: the shared function grew a switch for one caller. The restocking fee prompt, which tests the copy that goes wrong, hasn't been run.
+
+<!-- [Result slot: experiment E5, restocking fee prompt] Date, tool and model. For each version, out of 10: runs in which the customer's refund and the payout deduction differ, and what the session did to the shared rule or the copy. -->
 
 <!-- [Author case slot] A real change where an AI's edit to a shared function changed another caller's output. -->
 

@@ -58,7 +58,7 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 5. [고칠 것은 한 화면에 모아라](manuscript/ko/05-locality.md) · 초고 ([영어](manuscript/en/05-locality.md))
 6. [복사해 둔 코드가 더 안전할 때](manuscript/ko/06-duplication.md) · 초고 ([영어](manuscript/en/06-duplication.md))
 7. [주석에는 "왜"를 적는다: AI는 이유 모를 숫자를 정리해 버린다](manuscript/ko/07-comments-why.md) · 초고 ([영어](manuscript/en/07-comments-why.md))
-8. [함수를 한 번 건너뛸 때마다 AI가 한 번 틀린다](manuscript/ko/08-indirection.md) · 초고 ([영어](manuscript/en/08-indirection.md))
+8. [함수를 하나 건너갈 때마다 AI가 길을 잃을 기회가 생긴다](manuscript/ko/08-indirection.md) · 초고 ([영어](manuscript/en/08-indirection.md))
 9. [진단 단자를 달아라: AI가 읽는 오류와 로그](manuscript/ko/09-diagnostic-port.md) · 초고 ([영어](manuscript/en/09-diagnostic-port.md))
 10. [AI가 길을 찾는 지도: 폴더 이름과 색인 파일](manuscript/ko/10-map.md) · 초고 ([영어](manuscript/en/10-map.md))
 11. [프롬프트도 AI가 읽는 코드다](manuscript/ko/11-prompts-are-code.md) · 초고 ([영어](manuscript/en/11-prompts-are-code.md))
@@ -72,9 +72,9 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 
 **4부. 정말 그런가, 어디까지인가**
 
-16. [실험: 같은 기능을 두 가지 엔진룸으로 만들어 보았다](manuscript/ko/16-experiments.md) · 초고 ([영어](manuscript/en/16-experiments.md))
+16. [실험: 같은 기능, 두 가지 엔진룸](manuscript/ko/16-experiments.md) · 초고 ([영어](manuscript/en/16-experiments.md))
 17. [내비가 틀릴 때: 사람이 코드를 읽어야 하는 순간](manuscript/ko/17-when-humans-read.md) · 초고 ([영어](manuscript/en/17-when-humans-read.md))
-18. [코드를 건너뛸 수 있을까: AI에게 기계어를 바로 쓰게 해 보았다](manuscript/ko/18-skip-the-code.md) · 초고 ([영어](manuscript/en/18-skip-the-code.md))
+18. [코드를 건너뛰고 AI에게 기계어를 바로 쓰게 할 수 있을까](manuscript/ko/18-skip-the-code.md) · 초고 ([영어](manuscript/en/18-skip-the-code.md))
 
 **닫는 글.** [AI가 코드를 쓰고, 사람은 보장을 쓴다](manuscript/ko/99-closing.md) · 초고 ([영어](manuscript/en/99-closing.md))
 

@@ -198,7 +198,7 @@ Do piece 3 of PLAN.md and nothing else.
 payout_total in settlement.py adds up prices without quantities.
 Make it count them.
 
-Change only settlement.py and test_shop.py.
+Change only settlement.py and test_shop.py, and mark the piece in PLAN.md.
 Don't edit an existing test. If one fails, stop and tell me why.
 
 Done when test_shop.py has this case and python3 -m unittest prints OK:

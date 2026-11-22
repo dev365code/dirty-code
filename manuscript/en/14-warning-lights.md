@@ -155,6 +155,8 @@ I ran E12 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its high
 
 In all 16 runs the session fixed `partial_refund_amount` and left `test_refunds.py` as it was. I didn't run the step-by-step prompt, so I have no count yet of reported failures that matched the real output.
 
+<!-- [Result slot: experiment E12, step-by-step prompt] Date, tool and model. Of the runs that passed, how often the failure the session reported at each step matched the output when I ran the same test. -->
+
 Zero in 8 shows only that changing the assertion is uncommon with this model and this test. The test in the Code section says in a comment why 2700 is right, so a session can tell from the test file alone that the code is wrong. A test without that comment, or a model at a lower setting, may do otherwise, and I haven't measured either. The statement that an AI may edit the test is still my deduction, and in these runs it didn't happen.
 
 <!-- [Author case slot] Real cases in which a pass was not evidence: a check that passed only on one machine, a check that looked at no files, and a test that accepted wrong answers. -->
@@ -163,7 +165,7 @@ Two more kinds of empty pass are easy to try yourself.
 
 A check can pass because it found nothing to look at. I ran one Python linter (ruff 0.17.2) in a folder where an ignore rule excluded every Python file. The linter printed `All checks passed!` and exited with 0. The only hint was one warning line saying that it found no Python files, and its normal output had no count of the files it checked. <!-- source: notes/sources.md, ruff with no files --> In the test output above, the count is `Ran 1 test`. Compare the count with the number you expect. A count of zero is not a pass, and neither is output with no count at all. Two more things hide behind that count: a test method whose name doesn't start with `test` never runs, and a skipped test still counts, showing up only in `OK (skipped=1)`.
 
-A check can also pass because of what happens to be installed. A check can pass on your machine because a library is installed there that the project never declared. The same check then fails somewhere else, or passes there by luck. If you ask the AI what was installed, you get another report and a long list. Run the checks once in a fresh environment that has only the declared dependencies.
+A check can also pass because of what happens to be installed. A check can pass on your machine because a library is installed there that the project never declared. The same check then fails somewhere else, or passes there by luck. If you ask the AI what was installed, you get another report and a long list. Run the checks once in a fresh environment that has only the declared dependencies. For a Python project that installs from `requirements.txt`, that is three commands: `python3 -m venv /tmp/fresh`, then `/tmp/fresh/bin/pip install -r requirements.txt`, then `/tmp/fresh/bin/python -m unittest`. This checks the list of dependencies. It doesn't check the databases and services the code talks to in production.
 
 ## What people do
 
@@ -171,7 +173,7 @@ A check can also pass because of what happens to be installed. A check can pass 
 - [ ] Ask for the test alone ("Write only the test, not the fix.") and run it. The failure must come from the assertion, not from a typo or a missing module, and your number must be in the failure message.
 - [ ] Put the prompt that begins "Fix the code, not the tests" in your rules file. When the AI says it's done, open the diff's list of changed files. If a test file is in the list, the AI should have given you a reason first.
 - [ ] After a pass, send the step-by-step prompt and run the tests yourself at each stop. Steps 1 to 3 should fail. If step 1 passes, throw the pass away. If step 2 or 3 passes, the assertion is too loose, so ask for one that checks the exact value.
-- [ ] In the test output, compare the count (`Ran 1 test`) with the number of tests you expect, and read anything in parentheses after `OK`. Once, run the checks in a fresh environment that has only the declared dependencies.
+- [ ] In the test output, compare the count (`Ran 1 test`) with the number of tests you expect, and read anything in parentheses after `OK`. Once, run the checks in a fresh environment that has only the declared dependencies, with the three commands above.
 
 ## Where it breaks
 

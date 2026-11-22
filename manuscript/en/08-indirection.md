@@ -16,7 +16,7 @@ When an AI starts from the line you pointed at and follows the calls to the code
 
 ## Why: a session has to follow each hop by reading, and it can take a wrong turn at any of them
 
-To change what a program does, a session first has to find the line that decides it. Sometimes that line is right where the call is. Often it isn't. The call goes to a function, the function looks something up in a dictionary, the dictionary returns a class, and the class inherits the method from its parent. I'll call each of those steps a hop.
+To change what a program does, a session first has to find the line that decides it. Sometimes that line is right where the call is. Often it isn't. The call goes to a function, the function looks something up in a dictionary, the dictionary returns a class, and the class inherits the method from its parent. I'll call each of those steps a hop: a place where the reader has to go and read another definition to learn what happens next.
 
 A developer who has worked in the code for a year doesn't follow the hops. The developer knows that card payments end up in `CardStrategy`, and goes straight there.
 
@@ -120,7 +120,7 @@ def checkout_total(order_total, method):
     return order_total + fee
 ```
 
-Both versions return the same totals for all three methods. In this version, adding the card fee means changing `"card": 0` to `"card": 3`. The session that makes the change sees `"bank": 0` and `"gift": 0` on the same line, so it can see what it is not changing. From `checkout_total` to the number there are no hops at all.
+Both versions return the same totals for all three methods. In this version, adding the card fee means changing `"card": 0` to `"card": 3`. The session that makes the change sees `"bank": 0` and `"gift": 0` on the same line, so it can see what it is not changing. From `checkout_total` to the number there are no hops: the table sits right above the function, and the number is in it.
 
 The version for AI gives something up. It has no class for card payments to grow into. If card payments later need a step that the other methods don't, such as asking the customer's bank to confirm the charge, someone will have to bring a class back. That day the class will do a job. Today it holds a number.
 
@@ -150,7 +150,7 @@ Each version gets the prompt above in 10 fresh sessions. A hidden test judges ea
 
 This example is small, and a session may well read all of it and choose Edit 1 every time. So I ran E7 on 2026-11-22 with Claude Code 2.1.330 in two repositories. One holds this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting. The other is a made-up shop with 518 files and 1,317 tests, where the checkout code sits among 210 other modules. There I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings. Each version went to 10 fresh sessions per model, 120 sessions in all.
 
-All 120 sessions passed the hidden test, and none changed the total for a bank transfer or a gift card. In the three-hop version, all 40 made Edit 1 and put `fee_rate_percent = 3` in `CardStrategy`. The number of files a session looked at (files it read or named in a command) didn't rise with the hops in any steady way. In the large repository the median Haiku session looked at 4.5, 5, and 6 files at 0, 1, and 3 hops, and the median Opus session at 5, 5, and 3.5.
+All 120 sessions passed the hidden test, and none changed the total for a bank transfer or a gift card. In the three-hop version, all 40 made Edit 1 and put `fee_rate_percent = 3` in `CardStrategy`. The number of files a session looked at (files it read or named in a command) didn't rise with the hops in any steady way. In the large repository the median Haiku session looked at 5.5, 5.5, and 6 files at 0, 1, and 3 hops, and the median Opus session at 5, 5, and 3.5.
 
 Something did go wrong, though not where I was looking. The old test said that a card payment of `10000` totals `10000`. Sonnet often added the fee and left that test failing: when the session ended, the full test suite failed in 5, 6, and 8 of its 10 runs at 0, 1, and 3 hops. Haiku and Opus updated the test in every run.
 

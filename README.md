@@ -74,7 +74,7 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 16. [The experiment: one feature, two engine bays](manuscript/en/16-experiments.md) · draft
 17. [When the GPS is wrong: the moments people must read code](manuscript/en/17-when-humans-read.md) · draft
-18. [Can we skip the code? We asked AI to write machine code directly](manuscript/en/18-skip-the-code.md) · draft
+18. [Can we skip the code and have AI write machine code directly?](manuscript/en/18-skip-the-code.md) · draft
 
 **Closing.** [AI writes the code. People write the guarantees.](manuscript/en/99-closing.md) · draft
 

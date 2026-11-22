@@ -20,7 +20,7 @@ This book has assumed that you no longer read code line by line. There are momen
 
 One is an outage. Customers are being charged twice, and someone has to decide in the next ten minutes whether to switch payments off. Another is a security report. A test checks the inputs you thought of, and an attacker chooses the one you didn't, so "the tests pass" says little about the sign-in code. A third is a question from outside: an auditor or a customer asks how refunds are calculated and who checked it. In each of these, someone makes a decision that can't be taken back, and that someone is a person who will answer for it. A session can't answer for anything. Tomorrow it won't remember what it approved.
 
-In those moments the AI is still your fastest reader, and you will ask it. What comes back is an account of the code, written by a session that read part of the repository (Chapter 2) and may have stopped one hop short of the line that matters (Chapter 8). On an ordinary day you check an account by running a test. In an outage, the failing case is one that no test covers. If a test had covered it, the bug wouldn't have shipped.
+In those moments the AI is still your fastest reader, and you will ask it. What comes back is an account of the code, written by a session that read part of the repository (Chapter 2) and may have stopped one hop short of the line that matters (Chapter 8). On an ordinary day you check an account by running a test. In an outage, the tests were green when the code shipped. Either no test covers the failing case, or the test that does wasn't run where the code failed (Chapter 14). Either way, the tests can't check the account for you.
 
 So a person reads. And that person is in the same position as the AI. Nobody on the team wrote this code, and nobody has read it since it was merged. The engineer who is woken at 3 a.m. opens the file for the first time, with no memory of it. Part II prepared the code for a reader with no memory, and most of it serves this reader too: a name that says what a function writes, one change in one place, a comment that gives the reason, an error line that carries the values, a page that says where things live.
 
@@ -146,7 +146,7 @@ def charge(order_id, amount_cents, provider):
 
 With this version both tests pass. Everything that happens to a payment request is in one function, in the order it happens. A person who opens `charge` at 3 a.m. can answer "can this send two requests?" from the lines on the screen. The comment gives the reason, so the next session asked to make payments more resilient reads it before it adds a retry (Chapter 7).
 
-This is the advice of Chapter 8, applied more strictly. In most code a layer that does a job today can stay. In code on the list of what people must read, behavior that changes what happens to money doesn't go into a decorator, a hook, or a parent class, even when that would be tidier.
+This is the advice of Chapter 8, applied more strictly. In most code a layer that does a job today can stay. In code on the list of what people must read, behavior that changes what happens to money doesn't go into a decorator, a hook, or a parent class that you write, even when that would be tidier. Where a framework or a library adds such behavior and you can't move it, put a comment at the call site that says where it is.
 
 ## Prompt: a yes-or-no question at 3 a.m., and a prompt that asks for a route you can check
 
@@ -184,6 +184,8 @@ I asked the 3 a.m. question on 2026-11-22 in fresh sessions of Claude Code 2.1.3
 
 ## Evidence: with one late reply, the provider received two requests, and `charge` returned without an error
 
+The answers from fresh sessions come later in this section: all 76 were right. First, what the hidden retry does when I run it.
+
 I ran both versions with a provider whose first reply is late. <!-- run 2026-11-13, Python 3.9.6 -->
 
 In the first version the provider received 2 requests, and `charge` returned `approval-2`. No exception was raised, so nothing was logged. With three late replies the provider received 3 requests, and only then did `charge` raise `PAY-0303`. Its message told the reader not to retry after the code had already retried twice.
@@ -202,15 +204,15 @@ So the wrong answer this chapter warns about didn't come up in 76 sessions. The 
 
 ## What people do
 
-- [ ] Write the list of code that a person must be able to read: code that moves money, sign-in and permissions, personal data, and anything that can't be undone, such as deleting records or emailing customers. Keep the list in the repository. A dozen files is a list. Half the repository isn't.
+- [ ] Write the list of code that a person must be able to read: code that moves money, sign-in and permissions, personal data, and anything that can't be undone, such as deleting records or emailing customers. Keep the list in the repository. Keep it short enough that a person can read every change to those files, about a dozen files. If it keeps growing, keep the paths where a person would have to make a decision that can't be undone.
 - [ ] For code on the list, a person reads every change before it merges, line by line. The list is short so that this stays affordable.
-- [ ] On each path in the list, look for behavior that the function body doesn't show: decorators, hooks, parent classes, settings that change what the code does. Move it into the function, or put a comment at the call site that says where it is.
+- [ ] On each path in the list, look for behavior that the function body doesn't show: decorators, hooks, parent classes, settings that change what the code does. Move it into the function. Where you can't, because a framework or a library adds it, put a comment at the call site that says where it is.
 - [ ] For each path, ask for the walkthrough with file and line for one concrete case, and read the lines it cites. Ask for it again when the path changes.
 - [ ] Twice a year, pick one path and have someone follow it from the request to the database without asking the AI. Count it as part of being on call.
 
 ## Where it breaks
 
-If nobody reads code for a year, nobody can. The list in this chapter is short, and reading a dozen files twice a year won't keep a team able to read the other two thousand. A developer who has only ever prompted has no river road to remember. This is a cost of working the way this book describes, and the practice above reduces it without removing it.
+If nobody on the team reads code for a year, the team loses the skill. The list in this chapter is short, and reading a dozen files twice a year won't keep a team able to read the other two thousand. A developer who has only ever prompted has no river road to remember. This is a cost of working the way this book describes, and the practice above reduces it without removing it.
 
 A list that grows stops working. Every team that has an outage wants to add the file that caused it. If the list reaches half the repository, people are reading everything again, at the speed Chapter 1 started from. When you add a file, ask what decision a person would have to make from it.
 
