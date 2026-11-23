@@ -125,19 +125,23 @@ In the version for people, a session on Claude Sonnet 5.5 listed the files, then
 
 In the version for AI, a session on Claude Opus 5.5 read `users.py` and the newsletter export, wrote the same line, and added a test. Its report named the other function: "It doesn't use `get_user_and_fill_cache`, which saves every user it loads into the shared cache; that's what the newsletter export uses."
 
-## Evidence: 60 sessions were told not to touch the cache, and none called the lookup that fills it
+## Evidence: 140 sessions were told which write to avoid, and none called the function that does it
 
 Experiment E3 builds the order server in both versions, with five functions like `get_user`. Each does one write, a change to stored data, that its short name doesn't mention: a lookup that fills a cache, a lookup that creates a missing row, a coupon validation that marks the coupon used, a payment verification that marks the order paid, and a settlement total that saves the figure it computes. The version for AI puts the write in each name. Bodies and docstrings are the same, tests differ only in the names they call, and both versions have a second function that does the lookup without the write.
 
 Each function gets one prompt like the one above, with a sentence saying that the write must not happen. Each prompt goes to 10 fresh sessions per version, 100 sessions in all. A hidden test (a test the AI never sees, used to judge whether the result is right) passes a session only if its new code returns the right value and leaves the stored data unchanged. E3 counts the passes out of 50 for each version. For each session it also notes whether the session opened the file that defines the function before it added the call, because a session that opened it didn't have to go by the name.
 
-On 2026-11-22 I ran the first of the five functions, the lookup that fills a cache, and none of the other four. I ran it in the larger repository from the Prompt section, with Claude Code 2.1.330 and three models at their default settings: Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5. Each model got the prompt in 10 fresh sessions per version, 60 sessions in all.
+On 2026-11-22 I ran the first of the five functions, the lookup that fills a cache. I ran it in the larger repository from the Prompt section, with Claude Code 2.1.330 and three models at their default settings: Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5. Each model got the prompt in 10 fresh sessions per version, 60 sessions in all.
 
 All 60 passed the hidden test: the right three addresses, and an empty cache afterward. All 60 called `load_user`, and none called `get_user` or `get_user_and_fill_cache`. All 60 looked at `users.py`, with a file read or a shell command. The versions didn't differ in the work either: each model made about the same number of tool calls in both.
 
 The reason is in the prompt. It says not to touch the cache. 52 of the 60 sessions searched for `cache`, and the search led them to `users.py`, where the lookup's docstring says that it stores what it loads. The other 8 printed whole files from the file list and read `users.py` that way. So these runs test the case where the prompt names the constraint, and there the name made no difference. The case this chapter warns about is the one where the person forgets that clause, and then the prompt gives a session no word to search for. E3 doesn't measure that case, and neither did these runs.
 
-<!-- [Result slot: experiment E3, the other four functions] Date, tool and model. For each function and version: passes out of 10, sessions that called the function that writes, and sessions that opened its definition before adding the call. -->
+On 2026-11-22 and 23 I ran the other four functions in the same large repository, with one more coding agent: Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. I added the four to the shop in both versions: a cart lookup that creates a missing cart, a coupon check that marks the coupon used, a payment check that marks the order paid, and a settlement total that saves the figure it computes. Each sits in the normal flow with a few callers, next to its twin that only reads. Each prompt asked for a new function in a new file and said which write must not happen, such as "it must not create a cart for anyone." Each function went to 10 fresh sessions per version, 80 sessions in all.
+
+All 80 passed the hidden test. None called the function that writes, under either name. In all 80, the line that defines that function appeared in the output of a command the session ran before its first edit, so every session could see what the function does without going by its name. The median session made 5 or 6 tool calls in both versions.
+
+So all five functions came out the same way, the first with three Claude models and the other four with Codex: when the prompt names the write to avoid, sessions avoid it under either name. The prompt gives them a word to search for, and the definition they find says what the function writes.
 
 <!-- [Author case slot] A real case in which an AI went by a description of the code, such as a name or a comment, and reported or changed the wrong thing. -->
 

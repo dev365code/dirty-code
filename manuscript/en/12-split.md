@@ -215,7 +215,9 @@ The prompt forbids edits to existing tests. The old tests are what this piece is
 
 The prompt says where to stop. A session that finishes piece 3 and sees piece 4 in the plan may go on to do it, and piece 4 has a line that waits for the owner.
 
-<!-- [Run record slot: E13] For the one-line prompt and for the four prompts: the files each session opened and changed, the tests it added, and its report. Date, tool, model. -->
+On 2026-11-22 I gave this change to fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting, in a copy of the listing's repository. With the one-line prompt, a session listed the files, printed all five with one `cat` command, and changed `orders.py`, `refunds.py`, `settlement.py`, and `test_shop.py`. It gave `Order` a `quantities` field in which a missing item counts as one, made `full_refund_amount` and `payout_total` return `paid`, and added one test with two keyboards that checks all four functions. Its report began, "Orders now support multiple units of the same item."
+
+With the four prompts, each piece went to its own fresh session. Each session read `PLAN.md` and the files its piece names, changed only the files its prompt allowed, added the test its prompt asked for, ran the tests, and marked its piece done in `PLAN.md`. None of the four could commit. The sandbox I ran the sessions in doesn't let a session write to `.git`, and each session said so in its report: "The commit is blocked because the workspace denies writes to `.git/index.lock`."
 
 ## Evidence: with the two places missed, the tests print OK, and the examples for pieces 3 and 4 fail
 
@@ -229,13 +231,17 @@ These runs show what each check can tell you. They don't show how often a sessio
 
 I also tested what a commit per piece buys. I committed after each piece and planted a slip in piece 2: the change that added the shipping test also turned `>=` into `>` in `shipping_fee`. All eight tests still passed after piece 4. Then I ran a check that the tests don't contain: a customer who paid exactly $50.00 ships free. It failed. `git bisect run` with that check tried two commits and named the commit of piece 2. <!-- run 2026-11-13, Git 2.50.1 --> Had the whole change been one commit, the same failure would have pointed at the whole change.
 
-Experiment E13 will measure the part I wrote by hand. It gives the quantity change to fresh sessions in three forms. The first form is the one-line prompt. The second is one prompt that contains the whole plan, with all four pieces and their examples. The third is four prompts, one per piece, each sent to a fresh session. Each form runs 10 times.
+Experiment E13 measures the part I wrote by hand. It gives the quantity change to fresh sessions in three forms. The first form is the one-line prompt. The second is one prompt that contains the whole plan, with all four pieces and their examples. The third is four prompts, one per piece, each sent to a fresh session. Each form runs 10 times.
 
 A hidden test judges each run. A hidden test is a test the AI never sees, and I use it to decide whether the result is right. This one checks the four functions on the order of two keyboards and on the old orders. E13 counts the runs that pass. For each run that fails, it records how many changed lines the failure points at: the whole diff in the first two forms, and one piece's diff in the third.
 
 The second form is there to separate what the plan does from what the cutting does. If the second and third forms pass equally often, then cutting adds nothing to the AI's success on a change this small, and the chapter's claim rests on what cutting does for the person who checks.
 
-<!-- [Result slot: experiment E13] Date, tool and model. For each form, out of 10 runs: passes, the function that failed in each failing run, and the number of changed lines the failure points at. -->
+I ran E13 on 2026-11-22 with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting, 10 runs per form. All 30 runs passed the hidden test: 10 of 10 with the one-line prompt, 10 of 10 with the whole plan in one prompt, and 10 of 10 with four prompts. No run failed, so no failure pointed at any lines. For scale, the whole change came to about 30 changed lines in each form, and in the third form each piece's diff was 5 to 15 lines.
+
+The one-line prompt didn't miss the two places that I wrote into the example by hand. In a repository of five files, every session printed all five before its first edit and changed every function that read `prices`.
+
+The second and third forms passed equally often. So on a change this small, cutting it up added nothing to the AI's success, and this chapter's claim rests on what cutting does for the person who checks. One thing did differ between the forms. The plan has a line that waits for the owner: returning one keyboard of two. All 10 sessions that got the whole plan reported that this case still waits for the owner's rule. None of the 10 sessions with the one-line prompt mentioned it, because nothing in the repository raises the question. The commit per piece couldn't be tested, since no session could commit.
 
 <!-- [Author case slot] A real case in which a large task handed over in one piece stopped partway: what could be recovered from the files, and what was lost. -->
 

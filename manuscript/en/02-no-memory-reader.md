@@ -122,11 +122,13 @@ The second and third copies differ in which sessions get to read the rule. A com
 
 The rules file is read when a session starts, before the first search. Even then, a rules file is context the session reads, not a setting the tool enforces, so a session may not follow the entry every time. <!-- source: notes/sources.md, rules files and sessions --> Experiment E2 counts how often it does.
 
-<!-- [Run record slot: E2] For each copy: files opened, commands run, and the `partial_refund_amount` written. Date, tool, and model. -->
+On 2026-11-22 I sent this prompt to fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. Each copy holds four files: the rules file, `orders.py`, `refunds.py`, and the test. In every copy, every session listed the files first and then printed all four with one `cat` command. So in the second copy every session read the comment, and in the third every session read the rules file.
 
-## Evidence: experiment E2 will count how many of 10 fresh sessions follow the rule in each copy
+A session in the first copy wrote a rule of its own. Its `partial_refund_amount` works out the share of the payment for all the items returned so far, this one included, and rounds it down. Then it subtracts the rounded share for the items returned before this one, and refunds the difference. Its docstring says, "Refund the increase in the cumulative share of the order payment." A session in the second copy wrote the rule in the comment: each share rounded down, and the item refunded last gets whatever is left of the payment. A session in the third copy wrote the same thing from the rules file.
 
-Experiment E2 uses the three copies from the Prompt section, and each gets the same prompt in 10 fresh sessions. It hasn't been run yet.
+## Evidence: every session that could read the rule followed it, and without the rule the sessions wrote a different one that agrees on two items
+
+Experiment E2 uses the three copies from the Prompt section, and each gets the same prompt in 10 fresh sessions.
 
 A hidden test judges each run. A hidden test is a test the AI never sees, and I use it to decide whether the result is right. This one calls `partial_refund_amount` to play out every order in which a customer could return the items of a coupon order one at a time, for one order that splits into whole cents and one that leaves cents over.
 
@@ -134,7 +136,19 @@ It gives each run one of four marks: "right" if every refund is the amount the r
 
 If a copy gets zero misses in 10 runs, that shows only that misses are rare in that copy. A miss that happens one time in ten doesn't show up at all in 10 runs about 35% of the time.
 
-<!-- [Result slot: experiment E2] Date, tool and model, and for each copy the runs marked right, over, under, and did not run out of 10, with files opened and tool calls per session. -->
+I ran E2 on 2026-11-22 with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting, 10 fresh sessions per copy.
+
+| Copy | Right | Over | Under | Did not run |
+|---|---|---|---|---|
+| Rule written nowhere | 9 | 1 | 0 | 0 |
+| Rule in a comment in `full_refund_amount` | 10 | 0 | 0 | 0 |
+| Rule in the rules file | 10 | 0 | 0 | 0 |
+
+Every session in every copy opened the same four files. The median session made 4.5, 5.5, and 5 tool calls in the three copies, where a tool call is one shell command or one file edit.
+
+The first row looks almost as good as the other two. It isn't. Nine of the ten sessions in the first copy wrote the rule from the run above, and the tenth rounded each share to the nearest cent, which refunded one cent more than the rule on the first return. On any order of two items, the rule from the run above gives the same refunds as the written rule, so the hidden test's two orders couldn't tell them apart. The hidden test also played out a third order that it reported but didn't mark: three items at $10.00 with a $10.00 coupon, so the customer paid $20.00. There the written rule refunds `666`, `666`, and `668`, whatever order the items come back in. All ten sessions in the first copy differed from it, nine of them with `666`, `667`, and `667`. All twenty sessions in the other two copies matched it.
+
+So the written rule was followed every time a session could read it. In this repository every session read every file, so the comment reached as many sessions as the rules file did. Telling the two places apart needs a repository large enough that a session doesn't read everything, and E2's copies aren't that large. Without the rule, each session wrote a reasonable rule of its own, and nothing in the old test showed that it differed from yesterday's.
 
 ## What people do
 

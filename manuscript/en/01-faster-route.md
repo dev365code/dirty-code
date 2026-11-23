@@ -89,7 +89,9 @@ When an order is canceled, refund the customer too.
 
 The prompt doesn't say where canceling or refunding lives in the repository, so the AI has to find out. It tends to search for words like `cancel` and `refund`, open the files the search returns, and run the tests if there are any. The AI also decides when it has read enough. A fresh session given the same line may open different files, because the same prompt doesn't lead to the same steps every time.
 
-<!-- [Run record slot: E1] This one line given to 10 fresh sessions: the files each one opened and the commands it ran before its first edit, in order. Date, tool and model. -->
+On 2026-11-22 I gave this line to 10 fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. Each session worked in its own copy of a small repository: `orders.py` with a `cancel_order` that only cancels, `refunds.py` with the 7-day rule above, and a test file. Before its first edit, every session did the same two things. First it listed the files, with `ls -a` and `rg --files` (a command that prints the names of the files in the repository). Then it printed all three files with one `cat` command. So every session had `refund_amount` and its 7-day window on screen before it changed anything.
+
+All 10 changes refunded the customer on a cancellation inside the window and passed the tests. All 10 reports mentioned the seven-day window, and each said in some form what happens after it, such as "cancellations after the window preserve any prior refunds." The repository has three files, so reading all of them took one command. In a larger repository, a session has to choose what to read.
 
 On this change you wrote one line. If you then read only what the diff showed, you read one function. Whatever reading happened in between was the AI's.
 
@@ -103,9 +105,9 @@ In those 30 days, 8,819 calls to the shell tool ran a command that reads a file'
 
 These counts have limits. They don't say how much of each file the AI took in, or how often it read the same file again. I counted nothing on my own side, so the counts can't say that the AI reads code more often than a person does. And I didn't count who reads first. That part needs no count: if you hand over a task without opening the code, the AI opens the code before you do. <!-- author check: E1 preliminary count -->
 
-E1, the first experiment in this book's plan, is a count in one code repository. It counts how often the AI reads code files, through the read tool or a shell command, and how often a person does, in an editor or a diff. It also gives the one-line prompt above to 10 fresh sessions and records what each session opens and runs before its first edit.
+E1, the first experiment in this book's plan, is a count in one code repository. It counts how often the AI reads code files, through the read tool or a shell command, and how often a person does, in an editor or a diff. It also gives the one-line prompt above to 10 fresh sessions and records what each session opens and runs before its first edit. That second part is the run described in the Prompt section. The count in one repository, of the AI's reads against a person's, hasn't been made.
 
-<!-- [Result slot: experiment E1] Dates, repository, tool and model, and the two counts. -->
+<!-- [Result slot: experiment E1] Dates, repository, tool and model, and the two counts (the AI's reads and a person's, in one repository). -->
 
 ## What people do
 

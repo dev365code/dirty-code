@@ -145,15 +145,21 @@ A good outcome has two parts. First, you or the AI look up order 1042 before any
 
 A pasted log line becomes part of the prompt. The error message you write today is the prompt you'll send on the day of the incident. A procedure in a separate document has to be found before it can be read, while one in the error line arrives with the failure.
 
-<!-- [Run record slot: E8] For each prompt: files the AI opened, tool calls, what it changed. Date, tool, model. -->
+On 2026-11-22 I sent both prompts to fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. The repository is a small order server whose provider client, `provider_client.py`, has `lookup`. With the short line, a session searched for `PaymentError`, printed `payments.py`, `provider_client.py`, `checkout.py`, `refunds.py`, and the tests, and changed `charge`: after a timeout it now calls `provider.lookup(order_id)`, returns the approval if the lookup finds one, and raises `PaymentError` if it doesn't. It added a test and made five tool calls. With the long line, a session searched for `PAY-0303`, read the same files except `refunds.py`, and made the same change and a test in four tool calls. Neither session asked the provider for approval a second time.
 
-## Evidence: experiment E8 will plant five failures and report each one two ways
+## Evidence: with either line every session fixed its failure, and only the long line let the report say which order to check
 
-Experiment E8 will test whether what the error line says changes what the AI does next. Two copies of the order server differ only in that line: one copy has the short line, and the other has the line with the values and the next step. I plant five failures in both copies. One of the five, this approval timeout, can't be reproduced.
+Experiment E8 tests whether what the error line says changes what the AI does next. Two copies of the order server differ only in that line: one copy has the short line, and the other has the line with the values and the next step. I plant five failures in both copies. One of the five, this approval timeout, can't be reproduced.
 
-Each failure goes to 10 fresh sessions per copy, 100 sessions in all. E8 counts the sessions that name the true cause, the sessions that write code that asks for approval again without looking the charge up first, and the tool calls. E8 hasn't been run yet.
+Each failure goes to 10 fresh sessions per copy, 100 sessions in all. E8 counts the sessions that name the true cause, the sessions that write code that asks for approval again without looking the charge up first, and the tool calls.
 
-<!-- [Result slot: experiment E8] Date, tool and model, sessions per failure, sessions that named the true cause, sessions that asked for approval again without a lookup, tool calls. -->
+I ran E8 on 2026-11-22 with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting. Besides the approval timeout, the planted failures were a coupon turned away at exactly its minimum, a country code that arrives in lower case, a refund counted twice before its check, and safety stock subtracted twice.
+
+All 100 sessions passed the hidden test for their failure, with either line. For the timeout, passing means only that no second charge happens. In the other four, every session named the line of code at fault and fixed it. No session asked for approval again without a lookup: all 20 sessions given the timeout read `provider_client.py`, found `lookup`, and called it after the timeout. The median session made between 4.5 and 6 tool calls per failure, and on each failure the two copies were no more than half a call apart.
+
+The difference was in what the reports could tell you. With the short line, 39 of the 50 reports said that the line alone couldn't show whether the bug they had fixed was what happened in production, or which order it happened to. All 10 reports on the timeout said so. With the long line, every report on the four failures that can be reproduced used the values from the line, such as order 2318 or `KB-01`, and all 10 reports on the timeout named order 1042 as the order whose charge still had to be checked.
+
+So with this model and this repository, the values and `next=` didn't change whether the code got fixed. The provider client is one short file, and a session that reads it finds `lookup` without being told. What the long line changed is the first part of a good outcome from the Prompt section: the report said which order to look up before anyone asks the provider again.
 
 <!-- [Author case slot] Two real cases: a check result that existed only on a screen the AI's tools couldn't read, and a log that recorded exit code 0 for every command. -->
 

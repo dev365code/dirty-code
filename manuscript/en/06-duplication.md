@@ -165,7 +165,7 @@ In the version for AI, the same three ways all end inside `settlement.py`, in co
 
 I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. In the version for people, one session read every file in the repository, the six other callers among them. It added a parameter to `format_amount`, `grouping=False`, turned it on from `payout_row`, and wrote in the docstring, "Off by default: the refund export is split on commas." In the version for AI, a session searched for `format_amount`, `report_amount`, and `payout_row`, read five files, and changed one line of `report_amount` in `settlement.py`. The first session took 21 turns (replies from the model), and the second took 12.
 
-## Evidence: no session changed another caller, and in the version for people most sessions gave the shared function a switch
+## Evidence: no session changed another caller, and when the refund rule changed, the sessions split the shared rule and merged the copy back
 
 Experiment E5 builds the order server two ways, with identical behavior and visible tests. The first is the version for people: seven callers share `format_amount`, and `refunds.py` and `settlement.py` share `partial_refund_amount`, the rule for how much a returned item refunds. The second is the version for AI plus one copy this chapter advises against: `settlement.py` gets its own copy of that rule. With that extra copy, the experiment can also catch a case where copying goes wrong.
 
@@ -187,9 +187,20 @@ In the version for people, 22 of the 40 sessions left a switch in `format_amount
 
 The version for people also took more work. In the small repository the median session took 20 turns against 15. In the large one the median session looked at more files (files it read or named in a command): 4 against 2.5 for Opus, 3 against 2 for Sonnet, and 4 against 3 for Haiku. There, 29 of the 30 sessions in the version for people searched the whole shop for `format_amount`.
 
-So this chapter's main worry, a shared function changed for one caller and broken for the others, didn't show up in 80 runs. What showed up is the second way: the shared function grew a switch for one caller. The restocking fee prompt, which tests the copy that goes wrong, hasn't been run.
+So this chapter's main worry, a shared function changed for one caller and broken for the others, didn't show up in 80 runs. What showed up is the second way: the shared function grew a switch for one caller.
 
-<!-- [Result slot: experiment E5, restocking fee prompt] Date, tool and model. For each version, out of 10: runs in which the customer's refund and the payout deduction differ, and what the session did to the shared rule or the copy. -->
+I ran the restocking fee prompt on 2026-11-22 in the small repository, with a second coding agent: Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. Each version went to 10 fresh sessions. The hidden test returned items from three orders, one of them with a coupon, and compared, for each return, the customer's refund with the amount taken off the shop's payout.
+
+| Version | Runs in which the refund and the payout deduction differ | What the session did |
+|---|---|---|
+| For people: `refunds.py` and `settlement.py` share `partial_refund_amount` | 10 of 10 | Split the rule in two: a new function for the item's share of what was paid, which the payout deduction now calls, and the refund, which takes $5.00 off that share |
+| For AI, plus a copy of the rule in `settlement.py` | 0 of 10 | Deleted the copy, imported the rule from `refunds.py`, and changed the payout test's expected value from 3000 to 2500 |
+
+My prediction was the other way around. In the version for people, the payout deduction calls the shared rule, and a visible test expects the keyboard's deduction to be 3000. Taking the fee inside the shared rule would have made that test fail. Every session kept it passing by giving the payout deduction its own function at the old amount. After that change, on each return in the hidden test, the shop's payout loses $5.00 more than the customer gets back. Eight of the ten reports said so, in a sentence like "Shop payout deductions still use the item's pre-fee amount." One said only that the settlement payout test still passed, and one didn't mention the payout.
+
+In the version with the copy, every session found the copy, treated it as the same rule, deleted it, and had the payout deduction call the rule in `refunds.py`. Then it took off the fee in that one place. So the copy didn't go wrong. The shared rule came apart instead: the sessions split it so that one of its two callers would keep its old answer.
+
+Which deduction is right is a business question that the prompt didn't settle. If the fee stays with the shop, the deduction should shrink with the refund, as it did in the version with the copy. If the fee goes to someone else, the version for people did the right thing. Neither version's code says whose fee it is, and no session asked.
 
 <!-- [Author case slot] A real change where an AI's edit to a shared function changed another caller's output. -->
 

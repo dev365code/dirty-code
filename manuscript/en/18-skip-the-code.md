@@ -94,9 +94,13 @@ With the Rust source, the session searches for `refund_share` and finds it. It c
 
 With only the machine code, the session starts by working out which register holds the list total. Nothing says. It adds a check for zero and has to invent a way to tell the caller, because there is no type to carry a refusal. Then it has to find every caller, and those are bytes as well. If it misses one, nothing fails.
 
-<!-- [Run record slot: E11] For one task: the assembly a session wrote directly, the Rust it wrote, how many rounds each took to pass the tests, and what a fresh session did with the change request in each case. Date, tool, model. -->
+On 2026-11-23 I gave this task and nine others like it to fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. The prompts named the file to write and gave the function's C signature, so that the hidden test could call any of the three versions the same way, and they said that `list_total` is never 0.
 
-## Evidence: one study in which AI made compiled programs faster, and what my three runs show
+The session asked for assembly checked the chip with `uname -m` and the compiler's version, then wrote `refund_share.s` with one shell command: 36 lines that keep the product as a 128-bit number and divide that, so the multiplication can't overflow before the division. It never assembled the file, and the file passed the hidden test as written. The session asked for Rust wrote seven lines that also multiply in 128 bits, with `u128`, compiled them together with a small test of its own, and ran the test. Neither needed a second try.
+
+For the change request, a fresh session got the function with two callers: one adds two shares, and one multiplies a share by a count. One group got the Rust source, `lib.rs`. The other got only the assembly that `rustc` makes from that source, `lib.s`. In both, the function already returned 0 for a list total of 0, a check I had added so that the library would build. The request was the one above, with one sentence added: when the function refuses, both callers must return -1. With the source, the session changed the return type to `Option<u64>`, returned `None` for a list total of 0, and made each caller return -1 on `None`. With only the assembly, the session added a comment, `// Return the share in x0 and a failure flag in w1.`, set that flag on both paths out of the function, and added a check of the flag after each call in both callers. Both sessions built the library and tested the refusal before they reported.
+
+## Evidence: one study in which AI made compiled programs faster, and 50 runs in which the assembly did as well as the Rust
 
 One study measured the narrow question about speed. In 2025, Wei and others built a benchmark of 8,072 assembly programs, 130 lines long on average, and asked whether language models can produce assembly that runs faster than what an optimizing compiler produces. The task was to take a program and return a faster one that behaves the same. Of the 23 models they tested, the strongest general-purpose one passed the tests on 51.5% of the programs, and its programs ran 1.43 times as fast on average as the output of `gcc -O3`. A model they trained for this one task passed on 95.0%, with an average speedup of 1.46 times. <!-- source: notes/sources.md, SuperCoder, arXiv:2505.11480, abstract of version 4, checked 2026-11-13 -->
 
@@ -104,11 +108,23 @@ Three things about that result matter here. The speed is real: on small programs
 
 My own runs are the table above. <!-- run 2026-11-13: Python 3.9.6; rustc 1.99.1 on the Rust Playground; Apple clang 21 on arm64 --> They show where the checks are in each version of one small function. They don't show what an AI does when it is asked for machine code.
 
-Experiment E11 will ask. It has two halves. In the first, fresh sessions write the same 10 to 20 small tasks three ways: in Python, in Rust, and directly in assembly. Hidden tests judge each result. E11 counts the tasks that pass, the rounds of fixing each took, and how fast the result runs. The Rust version, compiled with optimization, is the baseline, which separates what the choice of language gains from what skipping the compiler gains. In the second half, a fresh session gets a change request for each finished task. One group gets the Rust source. The other gets only the assembly. E11 counts how many changes pass.
+Experiment E11 asks. It has two halves. In the first, fresh sessions write the same 10 to 20 small tasks three ways: in Python, in Rust, and directly in assembly. Hidden tests judge each result. E11 counts the tasks that pass, the rounds of fixing each took, and how fast the result runs. The Rust version, compiled with optimization, is the baseline, which separates what the choice of language gains from what skipping the compiler gains. In the second half, a fresh session gets a change request for each finished task. One group gets the Rust source. The other gets only the assembly. E11 counts how many changes pass.
 
 If sessions change the assembly as reliably as they change the Rust, the claim at the top of this chapter is wrong, and I will rewrite it.
 
-<!-- [Result slot: experiment E11] Date, tool and model. For each of the three ways: tasks passed, rounds of fixing, and running time against compiled Rust. For the change requests: passes with the source, and passes with the assembly alone. -->
+I ran E11 on 2026-11-23 with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting. There were 10 tasks, each a few lines of arithmetic on whole numbers: the refund share, a shipping fee, a coupon discount, a card fee, tax rounded to the cent, loyalty points, an even split, the stock available, a late fee, and a bulk total. Each task went to one fresh session per way, 30 sessions in the first half, and each finished task got one change request per group, 20 sessions in the second half. The baseline for speed is a reference Rust version of each task, compiled with `-C opt-level=3`. Each time is the fastest of three runs of 50 million calls.
+
+| Way | Tasks passed | Rounds of fixing | Running time against the baseline, median (range) |
+|---|---|---|---|
+| Python | 10 of 10 | 0 | 96 times as long (64 to 145) |
+| Rust | 10 of 10 | 0 | 1.2 times (0.9 to 2.8) |
+| arm64 assembly | 10 of 10 | 0 | 1.2 times (0.9 to 4.9) |
+
+Every session wrote its file once and never had to fix it. Four of the ten sessions that wrote assembly never assembled what they wrote, and all four files passed. Two of the assembly versions ran faster than the baseline, and one of the Rust versions did.
+
+The change requests passed 10 of 10 with the Rust source and 10 of 10 with the assembly alone. Every session that got only the assembly had to invent a way to tell the caller, as the Prompt section said it would, and every one did. Two things made that easier than the Prompt section expected. The assembly that `rustc` produces keeps each function's name as a label, so the session could see which function was which. And the calling convention fixes which register holds each argument, so the session could tell where each input was: the list total was in `x2`. In two of the tasks, the refund share among them, the library both groups started from already returned 0 for the input to refuse, a check I had added so that the library would build. There the assembly already had a branch for that input. In the other eight the refusal was a new condition, such as a rate above 100 percent, and the sessions wrote the comparison themselves.
+
+That meets the condition I set above: sessions changed the assembly as reliably as they changed the Rust. So for programs this small, the claim at the top of this chapter is wrong, and it has to be rewritten. Two limits on that result stay. Each program had one function and two callers in one file, so finding every caller took no search, and a missed caller is the failure this chapter worries about most. And every task was a few lines of arithmetic, with none of the input checks, data structures, and calls between modules of a real service.
 
 ## What people do
 

@@ -195,18 +195,28 @@ Experiment E15 collects real reports. It asks for a review of Change B in three 
 
 E15 counts the reviews that report the leftover-cent defect with an order that reproduces it. For every review it also counts the findings I could reproduce and the findings I couldn't.
 
-I ran two of the three ways on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting: a fresh session with the prompt to find bugs, and a fresh session with Reviewer A's prompt. I didn't run the way that asks the session that wrote the change. The prompt to find bugs said `Review the last commit and find bugs.`, as in the run above. I planned 10 reviews per way and got 9 and 10.
+I ran two of the three ways on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting: a fresh session with the prompt to find bugs, and a fresh session with Reviewer A's prompt. With Claude I didn't run the way that asks the session that wrote the change. The prompt to find bugs said `Review the last commit and find bugs.`, as in the run above. I planned 10 reviews per way and got 9 and 10.
 
 | Way | Reviews that reported the leftover cents | Reviews that also gave an order with its amounts |
 |---|---|---|
 | Fresh session, prompt to find bugs | 9 of 9 | 8 of 9 |
 | Fresh session, Reviewer A's prompt | 10 of 10 | 10 of 10, each with a failing test |
 
-I didn't run every finding of every review, so I can't give the counts of findings reproduced and not reproduced. The reviews also reported other things, such as a second refund when the same item comes back twice, which follows from the same unread argument.
+For these reviews I didn't run every finding, so I can't give their counts of findings reproduced and not reproduced. The reviews also reported other things, such as a second refund when the same item comes back twice, which follows from the same unread argument.
 
 Both ways found the defect this time. The difference was in what came back. Reviewer A's prompt returned a failing test every time, which you can check with one command. The prompt to find bugs returned a written finding, usually with an order in it. It also cost more: an average of $3.63 per review, against $0.64 for Reviewer A's prompt.
 
-<!-- [Result slot: experiment E15, the session that wrote the change] Date, tool and model. Of 10 sessions that wrote Change B and were then asked "Is this right?": reviews that reported the leftover cents, and reviews that also gave an order with its amounts. -->
+On 2026-11-22 I ran all three ways with a second coding agent, Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting, 10 times each, so that the three could be compared on one model. To get sessions that had written Change B, I gave fresh sessions the task from Chapter 14 with `Make the tests pass.` The first 10 all wrote Change B, each with one check added that returns 0 when the list total or the item's price is 0. Then each was asked `Is this right?`
+
+| Way, with Codex | Reviews that reported the leftover cents | Reviews that also gave an order with its amounts |
+|---|---|---|
+| The session that wrote the change, asked `Is this right?` | 10 of 10, each as something the test leaves open | 0 of 10 |
+| Fresh session, prompt to find bugs | 8 of 10 | 8 of 10 |
+| Fresh session, Reviewer A's prompt | 10 of 10 | 10 of 10, each with a failing test |
+
+Every answer from a session that wrote the change began with yes: "Yes for the tested case," or "Yes for the behavior the test specifies." Each then said that rounding each item down can leave cents unrefunded when every item comes back, and that `already_refunded` is still unused. None gave an order, and none said plainly that the change was wrong. A typical closing sentence: "Whether those belong in this function depends on the refund policy and what the caller already handles." A person who reads only the first word of each answer hears yes ten times.
+
+Each fresh session with the prompt to find bugs that reported the leftover cents gave an order with it, such as two 100-cent items with a 1-cent coupon: the customer pays 199 cents, and the two refunds are 99 cents each. The two that missed it reported other things, a division by zero on an order whose prices are all 0 and a negative refund when the coupon is larger than the order. With Reviewer A's prompt, all 10 used the same order, a $30.00 keyboard and a $20.00 mouse with a $5.01 coupon. I ran all 10 of their tests against Change B, and every one failed, for example with `AssertionError: 1799 != 1800`. I also ran each kind of finding from the reviews with the prompt to find bugs on Change B: the leftover cent, the division by zero, the negative refund, and, from one review, a second $27.00 refund when the keyboard comes back twice. All four happened as reported. So with Codex I can give the count that E15 asks for: every finding in the 20 fresh reviews reproduced, and none failed to.
 
 <!-- [Author case slot] A real case in which a second AI reader found a defect that the writing session had missed, and one in which a reviewer's finding turned out to be wrong. -->
 

@@ -74,16 +74,16 @@ The second rule is longer, and it gives the session the reason along with the li
 
 ## Evidence: each row of the table is tested by the experiment in its own chapter
 
-This chapter runs no experiment of its own. Each row in the table is a claim that a later chapter tests. The table below says which experiment tests which row. I ran all of them except E8 on 2026-11-22, some only in part. The last column gives each result in one line, and the chapter gives the details.
+This chapter runs no experiment of its own. Each row in the table is a claim that a later chapter tests. The table below says which experiment tests which row. I ran all of them on 2026-11-22 and 23, some only in part, with two coding agents: Claude Code with Claude models, and Codex CLI, OpenAI's coding agent, with gpt-6.2-sol. The last column gives each result in one line, and the chapter gives the details.
 
 | Habit | Experiment | What it counts | Result |
 |---|---|---|---|
-| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | One of the five functions: 0 of 60 sessions (30 for each version) |
+| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | All five functions: 0 of 140 sessions (one function in 60 sessions with Claude models, the other four in 80 with Codex) |
 | Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it names the right file and function when the folders have feature names or generic names | Rule spread over five files: Sonnet left out the message in 4 of 10 runs, and every other model and layout got 10 of 10. Up to three hops: all 120 runs right. Generic file names: Haiku 38 and Sonnet 39 of 40 answers right, against 40 of 40 in feature folders, with about one more tool call per question |
-| Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | 0 in 80 runs. In the version for people, 22 of 40 sessions gave the shared function a switch |
+| Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | 0 in 80 runs. In the version for people, 22 of 40 sessions gave the shared function a switch. With a restocking fee to charge (Codex), the refund and the payout deduction came apart in 10 of 10 runs with the shared rule and 0 of 10 with the copy |
 | Comments | E6 (Chapter 7) | How often a number survives a cleanup when a comment gives its reason | Two values: changed in 2 of 9 cleanups without the reasons, 0 of 9 with them |
-| Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | <!-- Result slot: E8 --> Not run yet |
-| Tests | E12 (Chapter 14) | How often a session changes the assertion when asked to make a test pass | 0 of 16 runs |
+| Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | Codex: all 100 sessions fixed their failure with either line. With the short line, 39 of 50 reports said the line couldn't show what had failed in production |
+| Tests | E12 (Chapter 14) | How often a session changes the assertion when asked to make a test pass | 0 of 16 runs with Claude, 0 of 20 with Codex |
 
 If an experiment shows no difference, I will say so in that chapter and change the row here.
 

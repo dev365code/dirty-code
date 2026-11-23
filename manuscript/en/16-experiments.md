@@ -49,19 +49,23 @@ Each request is sent to a clean copy of Repository A and a clean copy of Reposit
 
 The twenty requests fall into three groups.
 
-Eight requests come from Part II, one from each chapter. They are those chapters' prompts, reworded where a prompt named a file: export the customers' emails without touching the cache, reject sign-ups from a throwaway email domain, put thousands separators in the amounts of the settlement report, clean up the payment constants, add a 3% fee to card payments, find the cause of a failed payment from its error line, say where the refund amount is decided, and add free shipping. Each chapter's own experiment tests its habit in a repository built around that one habit. Here each runs with the other seven habits present.
+Eight requests come from Part II, one from each chapter. They are those chapters' prompts, reworded where a prompt named a file: export the customers' emails without touching the cache, reject sign-ups from a throwaway email domain, put thousands separators in the amounts of the settlement report, clean up the payment constants, add a 3% fee to card payments, find the cause of a rejected coupon from its error line, say where the refund amount is decided, and add free shipping. Each chapter's own experiment tests its habit in a repository built around that one habit. Here each runs with the other seven habits present.
 
-One of the eight can't be the same in both repositories. The request from Chapter 9 pastes the error line that the server printed, and the two servers print different lines. Each repository gets its own line under the same sentence.
+One of the eight can't be the same in both repositories. The request from Chapter 9 pastes the error line that the server printed, and the two servers print different lines. Each repository gets its own line under the same sentence. The failure behind the line is also different from Chapter 9's. A timed-out approval leaves no bug for a test to catch, so in both repositories I planted a coupon that is turned away at exactly its minimum.
 
 Eight requests are ordinary work that no chapter was built around: a new field on the order, a second coupon type, a bug in a date comparison, a new report. They are there to show whether the shape of the code matters on work that I didn't design as a trap.
 
-Four requests are chosen to favor Repository A. One asks for a change to the arithmetic that all three formatters share, such as storing amounts in tenths of a cent. In A that is one edit to the shared function. In B it is an edit to each of the three formatters, and a copy the session misses prints the wrong amount. Another asks for a payment method that needs steps of its own, which A's classes were built for. Chapter 6 and Chapter 8 said that these are the cases where their advice costs something, and this group is where that cost is measured.
+Four requests are chosen to favor Repository A. One asks to fix how negative amounts are shown, a mistake in the arithmetic that all three formatters share. In A that is one edit to the shared function. In B it is an edit to each of the three copies, and a copy the session misses prints the wrong amount. Another asks for a payment method that needs a step of its own, which A's classes were built for. The other two come from the places where Chapters 5 and 7 say their advice breaks: translators who change the sign-up messages while the server runs, and a batch limit that the provider has raised while B's reason comment still gives the old one. Chapters 5 through 8 said that these are the cases where their advice costs something, and this group is where that cost is measured.
 
 With 20 requests, 2 repositories, and 10 fresh sessions each, one model takes 400 sessions.
 
-<!-- [Run record slot: combined experiment] For two requests, one from each of the first two groups: what one session did in Repository A and what one did in Repository B, step by step. Date, tool, model. -->
+On 2026-11-23 I ran all 400 with Codex CLI 0.171.0, OpenAI's coding agent, and the model gpt-6.2-sol at its default setting. Here is one session per repository on two of the requests.
 
-## Evidence: 400 sessions per model, judged by hidden tests and reported request by request
+The first is Chapter 7's cleanup of the payment code. In Repository A, the session listed the files, printed the rules file, the payment modules in `services/`, the money helpers, and two test files, and searched for `37`, `48`, and the names of the constants. Then it edited five files. It renamed the constants, deleted the unused provider URL and retry delay, changed `APPROVE_TIMEOUT_SEC = 37` to `APPROVAL_TIMEOUT_SECONDS = 40`, changed the settlement batch size from 48 to 50, and edited two tests to expect 40 and 50. Its report said that it had "rounded the approval timeout from 37 to 40 seconds and the settlement batch size from 48 to 50 orders." All 259 visible tests passed. In Repository B, the session printed `INDEX.md` first, as B's rules file says to, then everything in the `payments` folder, renamed the constants and two functions, and deleted the same leftovers. It kept 37. Its report said it had kept "the documented 37-second timeout, which leaves three seconds to record the timeout before the provider closes the connection." In B the batch size sits in the `settlement` folder, and the session didn't open it.
+
+The second is an ordinary bug: a customer who bought on November 30 was refused a return on December 1. In both repositories the session searched for the return check, printed it with its tests, changed the date comparison to count calendar days, checked the reported dates, and ran the tests. It took 7 tool calls in A and 8 in B, one of them to read `INDEX.md`. Both reports said that a purchase on November 30 can now be returned through December 7.
+
+## Evidence: on the first model both repositories passed 190 of 200 runs, and each lost a different request
 
 For every session the experiment records the date, the tool and the model, the prompt, whether both hidden checks passed, the files the session opened, its tool calls, the tokens it used, and the time it took.
 
@@ -77,9 +81,47 @@ The two repositories may pass about equally often. That would fit what Chapter 3
 
 Repository A may pass more often. Then some habit in B costs more than it gives, and the chapters' own experiments have to show which one.
 
-The experiment hasn't been run. Whatever the outcome, the numbers will carry their date and model. I plan to run the same 400 sessions on a second model as well, to see whether the result belongs to one model's habits.
+I ran the 400 sessions on one model first, on 2026-11-23, with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting. The same 400 on a second model, with Claude Code, come next, to see whether the result belongs to one model's habits. In the table, files opened are the repository's files that a session printed with a command such as `cat` or `sed -n`, and a tool call is one shell command or one file edit. Both are medians over the 10 runs.
 
-<!-- [Result slot: combined experiment] Date, tool and model. One row per request: passes out of 10 in A and in B, runs that broke behavior the request didn't ask for, and the median files opened and tool calls. Totals for each of the three groups. -->
+| Request | Group | A passes | B passes | A: files opened, tool calls | B: files opened, tool calls |
+|---|---|---|---|---|---|
+| R01 Export emails without touching the cache (Ch. 4) | 1 | 10 | 10 | 5.5, 5 | 6, 6 |
+| R02 Reject a throwaway email domain (Ch. 5) | 1 | 10 | 10 | 5, 5 | 2.5, 7 |
+| R03 Thousands separators in the settlement report (Ch. 6) | 1 | 10 | 10 | 3.5, 6 | 3, 6.5 |
+| R04 Clean up the payment constants (Ch. 7) | 1 | 0 | 10 | 10.5, 6 | 9, 7 |
+| R05 A 3% fee on card payments (Ch. 8) | 1 | 10 | 10 | 4, 7 | 7, 7 |
+| R06 Find the cause from the error line (Ch. 9) | 1 | 10 | 10 | 2, 6 | 3.5, 7 |
+| R07 Say where a refund's amount is decided (Ch. 10) | 1 | 10 | 10 | 0, 2 | 1.5, 2 |
+| R08 Free shipping, with a finish line (Ch. 11) | 1 | 10 | 10 | 7, 5 | 8, 7.5 |
+| R09 An optional gift message on an order | 2 | 10 | 10 | 6, 6.5 | 5.5, 8.5 |
+| R10 Percentage coupons | 2 | 10 | 10 | 6, 5.5 | 6, 6 |
+| R11 Returns across a month boundary | 2 | 10 | 10 | 3.5, 5.5 | 4, 7 |
+| R12 A daily sales summary | 2 | 10 | 10 | 9.5, 7.5 | 6.5, 7 |
+| R13 A low-stock watch list | 2 | 10 | 10 | 5.5, 5 | 6, 7 |
+| R14 Deactivate a customer | 2 | 10 | 10 | 5.5, 6.5 | 10.5, 7 |
+| R15 An expiry date on coupons | 2 | 10 | 10 | 3, 6 | 5.5, 7 |
+| R16 Let a customer turn off notifications | 2 | 10 | 10 | 5, 5 | 7, 8 |
+| R17 A negative amount shown as `--2.77` | 3 | 10 | 10 | 3, 4.5 | 5, 6.5 |
+| R18 A payment method with a confirmation step | 3 | 10 | 10 | 4, 6 | 9.5, 7 |
+| R19 Change the sign-up messages while the server runs | 3 | 10 | 10 | 5.5, 6 | 3, 7 |
+| R20 Settlement batches of 100 | 3 | 10 | 0 | 2, 5 | 4, 4 |
+| **Group 1** (Part II's prompts) | | **70 of 80** | **80 of 80** | 4.5, 6 | 5, 7 |
+| **Group 2** (ordinary work) | | **80 of 80** | **80 of 80** | 5, 6 | 6, 7 |
+| **Group 3** (chosen to favor A) | | **40 of 40** | **30 of 40** | 3, 5 | 4, 6 |
+| **All** | | **190 of 200** | **190 of 200** | 5, 6 | 6, 7 |
+
+A search doesn't count as opening a file, so on R07 the sessions in A, which read the function in the output of a search, opened none. Ten runs broke behavior the request didn't ask for, all of them in A on R04. No run in B broke anything it wasn't asked to change.
+
+Two of the hidden checks first asked for something their request didn't say. The check for the throwaway domain (R02) wanted the error code `email_blocked`, and every session in both repositories named its code `email_domain_blocked`. The check for the watch list (R13) wanted `ValueError` for a threshold like `-1` or `1.5`, and every session raised the shop's own `StockError`. Neither request names an error. I took those two demands out, left the rest of both checks as they were, confirmed that the corrected checks still fail on the unchanged repositories and pass on the reference solutions, and judged those 40 runs again. All 40 passed, and the table shows the corrected counts.
+
+That is the second of the three outcomes. The two repositories passed equally often, 190 times in 200 each, and 18 of the 20 requests passed 10 times in 10 in both. Each repository lost one request, all ten times.
+
+- In Repository A, the cleanup of the payment constants (R04). Every session rounded the approval timeout from 37 to 40 seconds, and nine also rounded the batch size from 48 to 50. Nothing in A says why either value was chosen. This is the failure Chapter 7 predicts.
+- In Repository B, the batches of 100 (R20). Every session stopped before changing the batch size and asked first, because of a line in B's rules file: "Don't change a value whose comment gives a reason. If you think the reason is out of date, tell me and wait." The request had said that the provider now accepts 100 and asked for exactly that change. In a real session you would answer, and the change would likely follow. The hidden check counts what the session did, and it changed nothing.
+
+B also cost a little more work. The median session in B made 7 tool calls against 6 in A, and every session in B printed `INDEX.md`, as B's rules file tells it to. The median session in B also used about a fifth more tokens: 101,000 against 83,000, counting the ones the model read from its cache. The median session took 30 seconds in B and 26 in A.
+
+So with this model, the eight habits together didn't make Repository B pass more often. They decided which request failed. A lost the request that touched a value with no reason written next to it, and B lost the request that changed a value with a reason, because B's rules file told the session to wait. By what I wrote above, this outcome limits each chapter's claim to the cases its own experiment isolates. I'll make that change in each chapter after the second model has run.
 
 ## What people do
 

@@ -28,7 +28,7 @@ For more than five years my job was to catch fraud and money laundering at crypt
 
 Every claim in this book comes with an experiment. The same feature is built in two shapes. The same request is sent to fresh sessions at least ten times. Tests that the AI never sees decide which runs succeeded.
 
-In this draft, some experiments have been run and some haven't. Where one has, the chapter's Evidence section gives the date, the tool, the models, the number of runs, and the counts, and says where the run differed from the design. Where one hasn't, the section says what it will measure. Nothing in the text is a made-up result. Where I ran something myself while writing, such as a listing or a command, the text says "I ran" and reports what happened.
+In this draft, most experiments have been run, some only in part, and a few haven't. I ran them on 2026-11-22 and 23 with two coding agents: Claude Code with Claude models, and Codex CLI, OpenAI's coding agent, with the model gpt-6.2-sol. Where an experiment has run, the chapter's Evidence section gives the date, the tool, the models, the number of runs, and the counts, and says where the run differed from the design. Where one hasn't, the section says what it will measure. Nothing in the text is a made-up result. Where I ran something myself while writing, such as a listing or a command, the text says "I ran" and reports what happened.
 
 If a result goes against a claim, I will change the claim and say so in that chapter.
 
