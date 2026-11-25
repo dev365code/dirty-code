@@ -191,7 +191,7 @@ Both rewrites met that condition with both models: the sessions changed the batc
 
 A comment can be wrong, and an AI tends to believe it. Suppose the provider raises its limit from 48 to 100 and nobody updates the comment. A session that reads "the provider's settlement call rejects more than 48 IDs" will keep defending a limit that no longer exists. So treat a reason comment as part of the code: when the value or the reason changes, change the comment in the same commit. A comment that repeats the value helps here, because a comment that says 37 above a constant set to 45 is visibly out of date.
 
-This happened in my own work, in October 2026. A brief I sent to an AI that writes code carried a new decision, and the repository still held an old reason against it. The AI followed the old reason and said so in its report, and only one of the six changes I expected was made. Since then, a brief that overturns something written in the repository names the record it replaces, by file and line. <!-- author check: case C11 -->
+This happened in my own work, in October 2026. A brief I sent to an AI that writes code carried a new decision, and the repository still held an old reason against it. The AI followed the old reason and said so in its report, and only one of the six changes I expected was made. Since then, a brief that overturns something written in the repository names the record it replaces, by file and line. <!-- case C11, notes/cases.md -->
 
 Comments about what the code does are a different thing. `# loop over the orders` repeats the line below it and goes stale the first time someone edits that line. This chapter asks for one kind of comment only: the reason behind something that looks wrong.
 

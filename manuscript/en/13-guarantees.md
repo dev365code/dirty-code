@@ -182,7 +182,7 @@ Several sessions in one repository need the same kind of sentence. These lines g
 
 Three decisions stay with you. Simple, separate tasks can run in parallel. Work on money, refunds, and stored data goes to one session at a time. And one person merges, one branch at a time, and runs the tests after every merge.
 
-These three come from my own work. In September 2026 I settled the first two this way: whether a task may run in parallel depends on whether a one-line description is enough to do it without a mistake, not on whether the files overlap, and a task that needs judgment runs alone even when it looks simple. Commits are made by one hand, one after another. <!-- author check: case C9 -->
+These three come from my own work. In September 2026 I settled the first two this way: whether a task may run in parallel depends on whether a one-line description is enough to do it without a mistake, not on whether the files overlap, and a task that needs judgment runs alone even when it looks simple. Commits are made by one hand, one after another. <!-- case C9, notes/cases.md -->
 
 I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. With the first prompt, one session didn't write the version for people. It wrote the check and the subtraction as one statement, `UPDATE gift_cards SET balance = balance - ? WHERE id = ? AND balance >= ?`, and refused when no row changed. Its report explained why: "The obvious version reads the balance, checks it, then writes, which lets two redemptions at the same moment both pass the check." It tried two requests at once in a scratch script and then deleted the script. None of the five tests it added to `test_giftcards.py` sends two requests.
 
@@ -214,7 +214,7 @@ In the second, each session has its own worktree. B's commit lists one file, `sh
 
 In the third, each session works on its own branch. Session A renames `shipping_fee` to `shipping_cost` and updates the test. Session B adds `checkout.py`, which calls `shipping_fee`. Each branch passes its own tests. Git merges both without reporting a conflict, because the two branches touched different files. The merged code fails on import: `ImportError: cannot import name 'shipping_fee' from 'shipping'`. The tests caught it only because they were run after the second merge.
 
-Sessions share more than files and branches. In November 2026 a session set a command to wait until a program X had finished and then start the next step: `while pgrep -f "X"; do sleep 15; done`. The waiting command's own command line contained the text X, so `pgrep` found the waiting command itself, and the next step didn't start. Several commands were waiting this way, each holding the others and itself. Now steps that must run in order go into one script, which starts each step and waits for it to finish. <!-- author check: case C14 -->
+Sessions share more than files and branches. In November 2026 a session set a command to wait until a program X had finished and then start the next step: `while pgrep -f "X"; do sleep 15; done`. The waiting command's own command line contained the text X, so `pgrep` found the waiting command itself, and the next step didn't start. Several commands were waiting this way, each holding the others and itself. Now steps that must run in order go into one script, which starts each step and waits for it to finish. <!-- case C14, notes/cases.md -->
 
 ## What people do
 
