@@ -125,6 +125,12 @@ New chapters will appear in this repository. Turn on **Watch** to hear about the
 
 Wooyong Lee spent more than five years catching fraud and money laundering at Korean crypto exchanges, including Bithumb and Digital X. No one can read every transaction an exchange handles in a day, so he wrote rules that read them and flagged what looked wrong. Today he builds AI agents in Seoul, and AI writes much of the code he works with. *Dirty Code* takes the same approach to code.
 
+## License
+
+The text of this book, in English and in Korean, and its cover are licensed under [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](LICENSE) (CC BY-NC-ND 4.0). You may copy and share them unchanged and for free, as long as you name the author and link to this repository. Selling them, using them in a paid course, or publishing a changed version or a translation needs the author's permission.
+
+The code is licensed under the [MIT License](LICENSE-CODE). That covers the code examples in the chapters and the scripts in `experiments/`. You may use, change, and ship the code, at work too, as long as you keep the copyright notice.
+
 ---
 
-<sub>© 2026 Wooyong Lee. All rights reserved. Please credit the source when quoting.</sub>
+<sub>© 2026 Wooyong Lee. Text and cover: CC BY-NC-ND 4.0. Code: MIT.</sub>

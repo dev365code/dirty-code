@@ -97,13 +97,13 @@ On this change you wrote one line. If you then read only what the diff showed, y
 
 ## Evidence: in 30 days of my logs, 8,819 shell calls read a code file, and the read tool opened one 377 times
 
-I've been building a few open-source verification tools with the work split across AI sessions. I do not read the code line by line. I read reports and the results of checks. <!-- author check: casebook preamble -->
+I've been building a few open-source verification tools with the work split across AI sessions. I do not read the code line by line. I read reports and the results of checks.
 
 On November 11, 2026, I counted the tool calls in the previous 30 days of logs from one coding agent, Claude Code, on one computer. A tool call is one use of a tool, such as the shell tool, which runs commands, or the read tool, which opens a file. The logs cover every folder I worked in, not only code repositories, and they include six models.
 
-In those 30 days, 8,819 calls to the shell tool ran a command that reads a file's contents and named a code file. I counted searches such as `grep` as reading. The read tool opened a code file 377 times. So if you count only the read tool, you miss most of the times the AI read code. The script that does the counting, and its rules for what counts as a read, are in `experiments/e1_count.py`. <!-- author check: E1 preliminary count -->
+In those 30 days, 8,819 calls to the shell tool ran a command that reads a file's contents and named a code file. I counted searches such as `grep` as reading. The read tool opened a code file 377 times. So if you count only the read tool, you miss most of the times the AI read code. The script that does the counting, and its rules for what counts as a read, are in `experiments/e1_count.py`.
 
-These counts have limits. They don't say how much of each file the AI took in, or how often it read the same file again. I counted nothing on my own side, so the counts can't say that the AI reads code more often than a person does. And I didn't count who reads first. That part needs no count: if you hand over a task without opening the code, the AI opens the code before you do. <!-- author check: E1 preliminary count -->
+These counts have limits. They don't say how much of each file the AI took in, or how often it read the same file again. I counted nothing on my own side, so the counts can't say that the AI reads code more often than a person does. And I didn't count who reads first. That part needs no count: if you hand over a task without opening the code, the AI opens the code before you do.
 
 E1, the first experiment in this book's plan, gives the one-line prompt above to 10 fresh sessions and records what each session opens and runs before its first edit. That is the run described in the Prompt section.
 
