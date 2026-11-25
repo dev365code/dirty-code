@@ -12,7 +12,7 @@ An AI wrote your code. Who is the second garage, and what do you ask it to show 
 
 ## Claim
 
-> Ask a fresh session for an input that breaks the rule, written as a failing test, and run every finding yourself before you act on it.
+> Give the reviewer the rule and ask for an input that breaks it, written as a failing test, and run every finding yourself before you act on it.
 
 <!-- Claim draft for the owner, 2026-11-25. Before: "Have a fresh session inspect what another session wrote, give each inspector a different question, and act on a finding only after you have run it yourself." -->
 
@@ -183,7 +183,7 @@ I ran two of these prompts on 2026-11-22 in fresh sessions of Claude Code with C
 
 With Reviewer A's prompt, a review began, "I found one: `partial_refund_amount` never adds the leftover cents to the last refund." It gave the same kind of order, a table of the three returns with `666`, `666`, and `666` against the rule's `666`, `666`, and `668`, and a failing test. It took 3 minutes. I ran that order against Change B, and the refunds came to `666`, `666`, and `666`, which is 1998 cents of the 2000 paid. I didn't run Reviewer B's prompt.
 
-## Evidence: the sessions that wrote the change all answered yes, and every fresh review with Reviewer A's prompt returned a failing test
+## Evidence: with Reviewer A's prompt every review returned a failing test, from a fresh session or from the session that wrote the change
 
 Experiment E15 collects real reports. It asks for a review of Change B in three ways. In the first, the session that wrote the change is asked, "Is this right?" To get such sessions, each one is first given the task from Chapter 14, and I keep the runs in which the session wrote Change B. In the second way, a fresh session gets "Review this change and find bugs." In the third, a fresh session gets Reviewer A's prompt. Each way runs 10 times.
 
@@ -212,7 +212,16 @@ Every answer from a session that wrote the change began with yes: "Yes for the t
 
 Each fresh session with the prompt to find bugs that reported the leftover cents gave an order with it, such as two 100-cent items with a 1-cent coupon: the customer pays 199 cents, and the two refunds are 99 cents each. The two that missed it reported other things, a division by zero on an order whose prices are all 0 and a negative refund when the coupon is larger than the order. With Reviewer A's prompt, all 10 used the same order, a $30.00 keyboard and a $20.00 mouse with a $5.01 coupon. I ran all 10 of their tests against Change B, and every one failed, for example with `AssertionError: 1799 != 1800`. I also ran each kind of finding from the reviews with the prompt to find bugs on Change B: the leftover cent, the division by zero, the negative refund, and, from one review, a second $27.00 refund when the keyboard comes back twice. All four happened as reported. So with Codex I can give the count that E15 asks for: every finding in the 20 fresh reviews reproduced, and none failed to.
 
-<!-- [E15X: the two empty cells of the 2x2, Codex, 2026-11-25] -->
+On 2026-11-25 I filled the two cells that those three ways leave empty, with Codex, 10 times each. In one, the session that wrote Change B got Reviewer A's prompt in place of `Is this right?`. In the other, a fresh session got the yes-or-no question about the last commit: `Is the last commit right?`
+
+| Reviewer | Asked whether the change is right | Asked for an input that breaks the rule (Reviewer A's prompt) |
+|---|---|---|
+| The session that wrote the change | Mentioned the leftover cents in 10 of 10, as something the test leaves open, and gave no order | Gave an order and a failing test in 10 of 10 |
+| A fresh session | Mentioned the leftover cents in 9 of 10, each with an order, as a question for the refund policy | Gave an order and a failing test in 10 of 10 |
+
+The question decided what came back. Asked for an input that breaks the rule, the session that wrote the change did as well as a fresh one. All ten opened with an order. One was a $1.00 keyboard and a $1.00 mouse with a 1-cent coupon, where the last refund is 99 cents and the rule says 100, and every answer came with a test that fails on such a difference.
+
+Asked whether the change was right, neither kind of session said that it was wrong about the leftover cents. A fresh session described the leftover with an order in 9 of 10 answers, and each of those left the verdict to the refund policy, as in "it's only a bug if returning every item should refund the full payment." The rule was in Reviewer A's prompt and nowhere in the repository, so a session asked only whether the change was right had no rule to hold it against. The broad question found something else instead: all ten fresh sessions reported that the change makes a refund on an order whose prices are all 0 raise `ZeroDivisionError`, which Reviewer A's prompt didn't ask about.
 
 I also checked the five findings of the example reports from the Code section. Four rows of that section's table are runs on the listing. The second finding gave no input, so its row is my reading of the code. <!-- run 2026-11-13, Python 3.9.6 --> Three of the five findings were real: the leftover cents, the constant function that the tests accept, and the division by zero. One finding proposed a fix that pays back $29.01 on a $29.00 order. One finding pointed at a real symptom and asked for the wrong change.
 
@@ -224,7 +233,7 @@ The runs are mine, and the reports are examples I wrote. They show why a finding
 
 ## What people do
 
-- [ ] Don't ask the session that wrote a change whether the change is right. Open a fresh session for the review, and tell it not to change any file.
+- [ ] Don't ask the session that wrote a change whether the change is right: all ten such sessions in E15 began their answer with yes. Ask it, or a fresh session, for an input that breaks the rule, and tell the reviewer not to change any file.
 - [ ] Give the reviewer the rule, and ask for an input that breaks it, written as a failing test.
 - [ ] Give a second reviewer a different question: "Write a wrong version that these tests would still pass, and show the test run."
 - [ ] Run every finding yourself before anything is changed. A finding that arrives as a failing test takes one command. Send back a finding that arrives without one: "Show me the input."
@@ -236,7 +245,7 @@ A reviewer is an AI, and it can be wrong in both directions. It reports problems
 
 A pointed prompt needs a rule to point at. Reviewer A could break the rule because someone had written the rule down. Where nobody has, the first job is to decide the rule, and no reviewer can do that for you.
 
-Two reviewers that run on the same model can share a blind spot. I expect a different question to help more than a second copy of the same question, and I haven't measured it. For the code that matters most, a person still reads it (Chapter 17).
+Two reviewers that run on the same model can share a blind spot. In E15 a different question found a different problem: the broad question found the division by zero, and the pointed one returned the rule's failing test. I haven't measured two copies of the same question. For the code that matters most, a person still reads it (Chapter 17).
 
 Reviews cost a session each, and reading their findings costs your time. A typo fix doesn't need two reviewers. A change to money, to stored data, or to anything on your list of guarantees (Chapter 13) does.
 

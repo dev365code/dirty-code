@@ -155,7 +155,14 @@ The first function of E3 in the large repository, with "so look them up without 
 
 A report that mentions the cache isn't always a warning: the Haiku reports that filled it named the shared cache as a reason to use the lookup.
 
-<!-- [Chapter 15's two cells] -->
+### Chapter 15: the two empty cells of the review experiment
+
+Codex with gpt-6.2-sol, 10 reviews per cell. The cells marked E15 ran on 2026-11-22, and the other two on 2026-11-25. Read by hand: whether the review reported the leftover cents, and whether it gave an order with its amounts.
+
+| Reviewer | Asked whether the change is right | Asked for an input that breaks the rule (Reviewer A's prompt) |
+|---|---|---|
+| The session that wrote the change | Leftover cents mentioned in 10, as something the test leaves open; no order (E15) | Order and failing test in 10 |
+| A fresh session | Leftover cents mentioned in 9, each with an order, each leaving the verdict to the refund policy; all 10 also reported a division by zero | Order and failing test in 10 (E15) |
 
 ## The other experiments
 

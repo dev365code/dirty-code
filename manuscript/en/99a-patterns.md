@@ -201,7 +201,7 @@ even when two requests for the same card arrive at the same moment.
 - Evidence: the method is the point. No session weakened an assertion (0 of 16 runs with Claude Opus 5.5, 0 of 20 with Codex, E12), and the chapter shows by hand that a weakened assertion and a fixed implementation both print `OK`.
 - Not for a check that can't fail, such as a linter set up to check zero files. Fix the check first.
 
-## 16. A fresh session asked to break the rule, with a failing test as the answer (Chapter 15)
+## 16. A reviewer asked to break the rule, with a failing test as the answer (Chapter 15)
 
 ```text
 Find an order and a sequence of returns for which
@@ -211,9 +211,9 @@ Write it as a test that fails.
 ```
 
 - The finding arrives as something you can run with one command.
-- A person pays for one more session per change, and for running every finding before acting on it.
+- A person pays for writing the rule into the prompt, for one more session per change when the reviewer is a fresh one, and for running every finding before acting on it.
 - *Clean Code*: new.
-- Evidence: pays off with Codex. Asked `Is this right?`, all 10 sessions that wrote the change began with yes and gave no order that shows the defect. A fresh session with this prompt returned a failing test in all 10 reviews (E15). <!-- [Codex E15X result to add] -->
+- Evidence: pays off with Codex. Asked `Is this right?`, all 10 sessions that wrote the change began with yes and gave no order that shows the defect. With this prompt, a failing test came back in all 10 reviews by a fresh session and in all 10 by the session that wrote the change (E15). A fresh session asked whether the change was right gave an order in 9 of 10 answers, and left the verdict to the refund policy in all 9.
 - Not for a typo fix. Two reviewers cost more than the change.
 
 ## 17. A short list of code a person must be able to read, written for a person (Chapter 17)
