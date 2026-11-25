@@ -12,9 +12,11 @@ AI writes your code now, and you have stopped reading it. Is code the gearbox in
 
 ## Claim
 
-> Even if an AI can write machine code directly, code stays and its human reader goes away, because the next session has to read what this session wrote and a guarantee needs a place to attach.
+> In small programs an AI changed machine code as reliably as source, so what keeps source in the repository is the checks that attach to it: types the compiler enforces and tests that call a function by name.
 
-## Why: next month's session has to read what today's session wrote, and machine code gives it nothing to read by
+<!-- Claim draft for the owner, 2026-11-25. Before: "Even if an AI can write machine code directly, code stays and its human reader goes away, because the next session has to read what this session wrote and a guarantee needs a place to attach." -->
+
+## Why I expected code to stay: the next session reads what this one wrote, and a guarantee needs a place to attach
 
 Today the path from a wish to a running program has four steps. A person writes a prompt. An AI writes code. A compiler turns the code into machine code. The machine runs it.
 
@@ -22,13 +24,13 @@ This book has argued that the person no longer reads the code. So here is the ar
 
 Take speed first. A program written in a compiled language such as C or Rust already runs as machine code. The compiler does its work once, when the program is built, and it isn't there when the program runs. Removing it doesn't make the program faster. The program gets faster only if the AI writes better machine code than the compiler does, and that is a narrower question. The Evidence section has one study of it.
 
-The larger problem is the reader. The session that changes this program next month starts from what is in the repository. Part II listed what that session reads by: names it can search for, comments that give reasons, error lines with values, a page that says where things live, tests with names. All of those are in code. None of them is in machine code. If the repository holds only machine code, next month's session has to work out what the number in each register meant before it can change anything.
+The larger problem, I expected, was the reader. The session that changes this program next month starts from what is in the repository. Part II listed what that session reads by: names it can search for, comments that give reasons, error lines with values, a page that says where things live, tests with names. All of those are in code. None of them is in machine code. If the repository held only machine code, I expected next month's session to have to work out what the number in each register meant before it could change anything.
 
-So the source code isn't kept only for people. Each session commits it, with its names and comments, for the session that comes next.
+So I expected each session to keep committing the source, with its names and comments, for the session that comes next, even if no person read it.
 
 The last problem is where guarantees go. A type on a parameter is a guarantee. So is a check the compiler makes on every build, and so is a test that calls a function by its name. Each of them is attached to something in the code. A compiler is a large set of guarantees that other people already wrote, and it gives the same verdict on the same input every time. An AI doesn't.
 
-That is my answer before the experiment. Experiment E11, described in the Evidence section, can change it.
+That was my answer before the experiment. Experiment E11, in the Evidence section, tested it.
 
 ## Code: the same function in Python, in Rust, and in twelve bytes of machine code
 
@@ -58,7 +60,7 @@ The third version is assembly for the arm64 chip in my Mac. Assembly is machine 
 
 Look at what each version says. The Python version names the three inputs and describes the result. The Rust version does that too, and it adds that each input is a whole number that can't be negative. In the assembly, the function's name survives as a label. `price`, `paid`, and `list_total` have become `x0`, `x1`, and `x2`, and the sentence about cents and rounding is gone.
 
-All three return `2700` for a $30.00 keyboard on an order with a $50.00 list total that the customer paid $45.00 for. They part ways on input that should never arrive. I ran each one.
+All three return `2700` for a $30.00 keyboard on an order with a $50.00 list total that the customer paid $45.00 for. They part ways on input that should never arrive. I ran each one. <!-- run 2026-11-13: Python 3.9.6; rustc 1.99.1 on the Rust Playground; Apple clang 21 on arm64 -->
 
 | Call | Python | Rust | arm64 assembly |
 |---|---|---|---|
@@ -94,25 +96,19 @@ With the Rust source, the session searches for `refund_share` and finds it. It c
 
 With only the machine code, the session starts by working out which register holds the list total. Nothing says. It adds a check for zero and has to invent a way to tell the caller, because there is no type to carry a refusal. Then it has to find every caller, and those are bytes as well. If it misses one, nothing fails.
 
-On 2026-11-23 I gave this task and nine others like it to fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. The prompts named the file to write and gave the function's C signature, so that the hidden test could call any of the three versions the same way, and they said that `list_total` is never 0.
+On 2026-11-23 I gave this task and nine others like it to fresh sessions of Codex CLI, OpenAI's coding agent, with gpt-6.2-sol. The prompts named the file to write and gave the function's C signature, so that the hidden test could call any of the three versions the same way, and they said that `list_total` is never 0.
 
 The session asked for assembly checked the chip with `uname -m` and the compiler's version, then wrote `refund_share.s` with one shell command: 36 lines that keep the product as a 128-bit number and divide that, so the multiplication can't overflow before the division. It never assembled the file, and the file passed the hidden test as written. The session asked for Rust wrote seven lines that also multiply in 128 bits, with `u128`, compiled them together with a small test of its own, and ran the test. Neither needed a second try.
 
 For the change request, a fresh session got the function with two callers: one adds two shares, and one multiplies a share by a count. One group got the Rust source, `lib.rs`. The other got only the assembly that `rustc` makes from that source, `lib.s`. In both, the function already returned 0 for a list total of 0, a check I had added so that the library would build. The request was the one above, with one sentence added: when the function refuses, both callers must return -1. With the source, the session changed the return type to `Option<u64>`, returned `None` for a list total of 0, and made each caller return -1 on `None`. With only the assembly, the session added a comment, `// Return the share in x0 and a failure flag in w1.`, set that flag on both paths out of the function, and added a check of the flag after each call in both callers. Both sessions built the library and tested the refusal before they reported.
 
-## Evidence: one study in which AI made compiled programs faster, and 50 runs in which the assembly did as well as the Rust
+## Evidence: in 50 runs the assembly did as well as the Rust, and one study found that AI can make compiled programs faster
 
-One study measured the narrow question about speed. In 2025, Wei and others built a benchmark of 8,072 assembly programs, 130 lines long on average, and asked whether language models can produce assembly that runs faster than what an optimizing compiler produces. The task was to take a program and return a faster one that behaves the same. Of the 23 models they tested, the strongest general-purpose one passed the tests on 51.5% of the programs, and its programs ran 1.43 times as fast on average as the output of `gcc -O3`. A model they trained for this one task passed on 95.0%, with an average speedup of 1.46 times. <!-- source: notes/sources.md, SuperCoder, arXiv:2505.11480, abstract of version 4, checked 2026-11-13 -->
+Experiment E11 has two halves. In the first, fresh sessions write the same 10 to 20 small tasks three ways: in Python, in Rust, and directly in assembly. Hidden tests judge each result. E11 counts the tasks that pass, the rounds of fixing each took, and how fast the result runs. The Rust version, compiled with optimization, is the baseline, which separates what the choice of language gains from what skipping the compiler gains. In the second half, a fresh session gets a change request for each finished task. One group gets the Rust source. The other gets only the assembly. E11 counts how many changes pass.
 
-Three things about that result matter here. The speed is real: on small programs, an AI found machine code that a compiler didn't. The correctness is judged by tests, and even the trained model failed them on one program in twenty. And the yardstick was a compiler's output, which exists only because there was source code to compile. The study shows an AI improving on compiled code. It doesn't show an AI doing without the code.
+Before the runs I wrote down this condition: if sessions change the assembly as reliably as they change the Rust, the claim I had written at the top of this chapter is wrong, and I will rewrite it.
 
-My own runs are the table above. <!-- run 2026-11-13: Python 3.9.6; rustc 1.99.1 on the Rust Playground; Apple clang 21 on arm64 --> They show where the checks are in each version of one small function. They don't show what an AI does when it is asked for machine code.
-
-Experiment E11 asks. It has two halves. In the first, fresh sessions write the same 10 to 20 small tasks three ways: in Python, in Rust, and directly in assembly. Hidden tests judge each result. E11 counts the tasks that pass, the rounds of fixing each took, and how fast the result runs. The Rust version, compiled with optimization, is the baseline, which separates what the choice of language gains from what skipping the compiler gains. In the second half, a fresh session gets a change request for each finished task. One group gets the Rust source. The other gets only the assembly. E11 counts how many changes pass.
-
-If sessions change the assembly as reliably as they change the Rust, the claim at the top of this chapter is wrong, and I will rewrite it.
-
-I ran E11 on 2026-11-23 with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting. There were 10 tasks, each a few lines of arithmetic on whole numbers: the refund share, a shipping fee, a coupon discount, a card fee, tax rounded to the cent, loyalty points, an even split, the stock available, a late fee, and a bulk total. Each task went to one fresh session per way, 30 sessions in the first half, and each finished task got one change request per group, 20 sessions in the second half. The baseline for speed is a reference Rust version of each task, compiled with `-C opt-level=3`. Each time is the fastest of three runs of 50 million calls.
+I ran E11 on 2026-11-23 with Codex (gpt-6.2-sol). There were 10 tasks, each a few lines of arithmetic on whole numbers: the refund share, a shipping fee, a coupon discount, a card fee, tax rounded to the cent, loyalty points, an even split, the stock available, a late fee, and a bulk total. Each task went to one fresh session per way, 30 sessions in the first half, and each finished task got one change request per group, 20 sessions in the second half. The baseline for speed is a reference Rust version of each task, compiled with `-C opt-level=3`. Each time is the fastest of three runs of 50 million calls.
 
 | Way | Tasks passed | Rounds of fixing | Running time against the baseline, median (range) |
 |---|---|---|---|
@@ -124,7 +120,13 @@ Every session wrote its file once and never had to fix it. Four of the ten sessi
 
 The change requests passed 10 of 10 with the Rust source and 10 of 10 with the assembly alone. Every session that got only the assembly had to invent a way to tell the caller, as the Prompt section said it would, and every one did. Two things made that easier than the Prompt section expected. The assembly that `rustc` produces keeps each function's name as a label, so the session could see which function was which. And the calling convention fixes which register holds each argument, so the session could tell where each input was: the list total was in `x2`. In two of the tasks, the refund share among them, the library both groups started from already returned 0 for the input to refuse, a check I had added so that the library would build. There the assembly already had a branch for that input. In the other eight the refusal was a new condition, such as a rate above 100 percent, and the sessions wrote the comparison themselves.
 
-That meets the condition I set above: sessions changed the assembly as reliably as they changed the Rust. So for programs this small, the claim at the top of this chapter is wrong, and it has to be rewritten. Two limits on that result stay. Each program had one function and two callers in one file, so finding every caller took no search, and a missed caller is the failure this chapter worries about most. And every task was a few lines of arithmetic, with none of the input checks, data structures, and calls between modules of a real service.
+That meets the condition: sessions changed the assembly as reliably as they changed the Rust. So for programs this small, the claim I had written was wrong, and the claim at the top of this chapter is the rewritten one. Two limits on that result stay. Each program had one function and two callers in one file, so finding every caller took no search, and a missed caller is the failure this chapter worries about most. And every task was a few lines of arithmetic, with none of the input checks, data structures, and calls between modules of a real service.
+
+What stays after that result is the other half of my first answer, the place where a guarantee attaches. In the Prompt section, the Rust compiler stopped the build at a caller that still treated the result as a plain number, and it would have done the same for a caller in another file. Nothing in the assembly checks its callers. The sessions found both callers, and both sat in one short file. So in this experiment, what the source gave the next session and the assembly didn't was its checks, the types the compiler enforces and the tests that call a function by name.
+
+One study measured the narrow question about speed. In 2025, Wei and others built a benchmark of 8,072 assembly programs, 130 lines long on average, and asked whether language models can produce assembly that runs faster than what an optimizing compiler produces. The task was to take a program and return a faster one that behaves the same. Of the 23 models they tested, the strongest general-purpose one passed the tests on 51.5% of the programs, and its programs ran 1.43 times as fast on average as the output of `gcc -O3`. A model they trained for this one task passed on 95.0%, with an average speedup of 1.46 times. <!-- source: notes/sources.md, SuperCoder, arXiv:2505.11480, abstract of version 4, checked 2026-11-13 -->
+
+Three things about that result matter here. The speed is real: on small programs, an AI found machine code that a compiler didn't. The correctness is judged by tests, and even the trained model failed them on one program in twenty. And the yardstick was a compiler's output, which exists only because there was source code to compile. The study shows an AI improving on compiled code. It doesn't show an AI doing without the code.
 
 ## What people do
 
@@ -135,10 +137,12 @@ That meets the condition I set above: sessions changed the assembly as reliably 
 
 ## Where it breaks
 
-The layer can disappear when the machine under it changes, as it did in the electric car. Suppose an AI could write machine code together with a proof that the code does what a short statement says, and a small, trusted program could check the proof. Then the guarantee would have somewhere else to attach, and the argument about guarantees would weaken. The argument about the next reader would remain, unless the statement and the proof became what the next session reads. They would then be the code.
+The layer can disappear when the machine under it changes, as it did in the electric car. Suppose an AI could write machine code together with a proof that the code does what a short statement says, and a small, trusted program could check the proof. Then the guarantee would have somewhere else to attach, and the reason this chapter gives for keeping the source would weaken. The statement and the proof would be what the next session reads, and they would then be the code.
 
-The next-reader argument depends on sessions having no memory. If a system comes to remember reliably everything it has built, it will need less from the repository, and this argument will have to be made again.
+The part of my first answer about the next reader may still hold for larger programs, and it depends on sessions having no memory. If a system comes to remember reliably everything it has built, it will need less from the repository.
 
 A compiler checks only what it is set to check. Built in release mode, the Rust version above doesn't check the multiplication for overflow. `refund_share(2^63, 4, 2)` returns `0`, the same wrong answer the assembly gives, and a debug build stops instead with `attempt to multiply with overflow`. A guarantee is only there if someone turned it on.
 
-"Code stays" doesn't mean that today's languages stay. They were designed for people to write and read. A language chosen because a machine can check it and the next session can find its way in it may be one that people find tedious. Chapter 3 said that code arranged for an AI reader already differs from clean code in places, and that I expect the differences to grow. The same may happen to languages, and this book's title covers that too.
+Keeping the source doesn't mean keeping today's languages. They were designed for people to write and read. A language chosen because a machine can check it and the next session can find its way in it may be one that people find tedious.
+
+Chapters 5 to 8 differ from *Clean Code* in four places today, and I expect code to move further in that direction: arranged for the session that reads it next and for the checks that run on it, even where a person finds it harder to follow. A modern engine bay already works that way. A person who opens the hood sees a plastic cover, and the scan tool plugged in under the dashboard reads P0303 and names the cylinder. The evidence for that expectation is thin. This chapter's ten small programs are the furthest my experiments reached. In the other chapters, the version for AI mostly passed as often as the version for people, and I think most of this book's advice costs a person reader little. This book's title covers that expectation too.

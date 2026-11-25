@@ -14,7 +14,9 @@ When an AI changes one rule in your code, what tells it how many places that rul
 
 ## Claim
 
-> An AI edits only the places it finds, so keep the code that one change touches in one place.
+> In a repository too large to read whole, an AI can miss the part of a rule that sits in another file, so keep the lines one change touches in one function where you can.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "An AI edits only the places it finds, so keep the code that one change touches in one place." -->
 
 ## Why: a new session edits the file its search finds, and that file doesn't mention the other two
 
@@ -172,9 +174,9 @@ In the version for AI, reading that function shows three complete rules, each wi
 
 The session may open those two files anyway. A case-sensitive search for `email` also returns the three lines of the message table in `validation.py`. But a session doesn't run the same searches every time, so one fresh session can make all three edits and the next can stop after one.
 
-I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330. With the files shown here and Claude Opus 5.5 at its highest effort setting, every session listed the files and then read all of them, so the searches above never mattered. In the version for AI, one session read `users.py` and the test file, added the rule and its message inside `register`, and changed those two files. In the version for people, a session read `settings.py`, `users.py`, and `validation.py`, and put each part where its kind already lived: the domain in `settings.py`, the message in `validation.py`, and the check in `users.py`. In both versions the new tests called `register`.
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code. With the files shown here and Claude Opus 5.5 at its highest effort setting, every session listed the files and then read all of them, so the searches above never mattered. In the version for AI, one session read `users.py` and the test file, added the rule and its message inside `register`, and changed those two files. In the version for people, a session read `settings.py`, `users.py`, and `validation.py`, and put each part where its kind already lived: the domain in `settings.py`, the message in `validation.py`, and the check in `users.py`. In both versions the new tests called `register`.
 
-I also ran the prompt in a larger repository: a made-up shop with 518 files and 1,317 tests, where the email rules sit among 210 other modules, so a session has to search. In that repository `register` lives in `registration.py`. One session there, on Claude Sonnet 5.5 in the five-file layout, ran two searches, `grep -rniE "sign.?up|register|email" -l .` and a search for `email`. It read only `registration.py` and changed only that file. It added the check and the error code but no message, so a sign-up at `throwaway.example` raised `KeyError: 'email_domain_blocked'` in place of a 400 response. The first paragraph of its report ended, "I haven't run it or any tests."
+I also ran the prompt in the large repository described in Appendix A, a made-up shop of 518 files where the email rules sit among 210 other modules, so a session has to search. In that repository `register` lives in `registration.py`. One session there, on Claude Sonnet 5.5 in the five-file layout, ran two searches, `grep -rniE "sign.?up|register|email" -l .` and a search for `email`. It read only `registration.py` and changed only that file. It added the check and the error code but no message, so a sign-up at `throwaway.example` raised `KeyError: 'email_domain_blocked'` in place of a 400 response. The first paragraph of its report ended, "I haven't run it or any tests."
 
 You can name the three places in the prompt. That works only as long as whoever is asking remembers all three, every time they ask.
 
@@ -182,9 +184,9 @@ You can name the three places in the prompt. That works only as long as whoever 
 
 Experiment E4 builds the order server in three layouts that give the same answer to every sign-up and pass the same four tests. The email rules are in one file (the version for AI), in three (the version for people), or in five (the version for people with the message table moved to `messages.py` and the decorator to `decorators.py`). Each layout gets the one-line prompt in 10 fresh sessions.
 
-A hidden test (a test the AI never sees, used to judge whether the result is right) judges each run. It expects a 400 response with an error code and a message for an address at `throwaway.example`, a 201 for another domain and for a look-alike, `notthrowaway.example`, and the old answers in the four existing tests. A domain typed into the check, in a layout that keeps values in `settings.py`, is counted from the diff, because no test can see it.
+A hidden test judges each run. It expects a 400 response with an error code and a message for an address at `throwaway.example`, a 201 for another domain and for a look-alike, `notthrowaway.example`, and the old answers in the four existing tests. A domain typed into the check, in a layout that keeps values in `settings.py`, is counted from the diff, because no test can see it.
 
-I ran E4 on 2026-11-22 with Claude Code 2.1.330, in the two repositories from the Prompt section. The small one holds only this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting. The large one is the shop with 518 files, and there I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings. Each cell counts the runs that passed the hidden test. The small three-file layout has 9 runs, because the run used up its credit.
+I ran E4 on 2026-11-22 with Claude Code in both repositories from the Prompt section: Claude Opus 5.5 at its highest effort setting in the small one, and Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings in the large one. Each cell counts the runs that passed the hidden test. The small three-file layout has 9 runs, because the run used up its credit.
 
 | Layout | Small, Opus at highest effort | Large, Haiku | Large, Sonnet | Large, Opus |
 |---|---|---|---|---|
@@ -196,9 +198,19 @@ The four failures were all Sonnet, in the five-file layout of the large reposito
 
 The value went missing more often than the message. In the small repository, every session in the three-file and five-file layouts put the domain in `settings.py`. In the large one, Haiku and Sonnet put it there in 2 of their 40 runs in those layouts, and the other 38 typed it into the check in `registration.py`. Opus put it in the settings file in 8 of 10 runs with three files and 6 of 10 with five. No test can see this. The next person who changes the rule has to know that this one value lives in the check and not with the others.
 
-The work grew with the number of files. In the small repository, the median session took 14, 18, and 20 turns (replies from the model) for 1, 3, and 5 files. In the large one, the median Opus session looked at 3.5, 5, and 7 files (files it read or named in a command), and the median Haiku session at 4, 4, and 7.
+The work grew with the number of files. In the small repository, the median session took 14, 18, and 20 turns for 1, 3, and 5 files. In the large one, the median Opus session opened 3.5, 5, and 7 files, and the median Haiku session 4, 4, and 7.
 
-I said that if the layouts passed about equally often, I would limit this chapter's claim to larger repositories. In the small repository they did, so the claim is limited that way. In the large one, the missing message comes from one model in one layout, 4 runs in 10. The misplaced value and the extra work showed up with all three models.
+I said that if the layouts passed about equally often, I would limit this chapter's claim to larger repositories. In the small repository they did, so the claim is limited that way.
+
+## Where this chapter's opinion differs from *Clean Code*: it keeps the whole rule in `register`
+
+*Clean Code* asks for small functions and classes that each do one thing. <!-- check against original --> A design that follows that advice tends to split a rule like this one into pieces: a check in a validator class, a decorator that wires it in, a table of messages, and a value in a settings file. This chapter keeps the rule's check, value, and message together in `register`, even though the function grows with every rule.
+
+A new session edits the files its search finds and stops when its change looks complete, so a part of the rule in a file it never opened stays as it was.
+
+The layout also carries a convention that no file states: in the version for people, values belong in `settings.py`. In the large repository, Opus followed it in 14 of its 20 runs with three or five files, and Haiku and Sonnet in 2 of their 40. In the other runs the domain went into the check, where the next person won't look for it.
+
+How far the experiment backs this opinion: in the large repository, Sonnet left out the message in 4 of 10 runs with five files, and every other model and layout passed every run. The misplaced value and the extra work showed up with all three models. So the opinion changed whether a change passed in one case: a repository too large to read whole, a rule spread over five files, and one of the three models.
 
 <!-- [Author case slot] A change in which an AI edited one of several places that had to change together: the date, the places, the one it missed, and what caught it. -->
 
@@ -219,4 +231,4 @@ Some parts can't move. If operations change values while the server is running, 
 
 One screen also has a size limit. A session tends to read a `users.py` that holds everything about customers one section at a time, because reading the whole file uses up its context window. <!-- no source: how a session reads a long file, written as a tendency --> So move together only the lines that one change touches.
 
-In a repository as small as this chapter's example, a session may simply open every file, and then it has seen every part of the rule. Larger context windows and better search should make that possible in bigger repositories too. The session would then have the message table in front of it, and it would still spend three reads where the one-function version needs one.
+In a repository as small as this chapter's example, a session may simply open every file, and then it has seen every part of the rule. A session that can read a larger repository whole will see the message table too, and it will still spend three reads where the one-function version needs one.

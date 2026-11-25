@@ -1,28 +1,20 @@
-# Chapter 10. The map AI navigates by: folder names and an index file
-
-## Scene
-
-A courier has a parcel for "the house with the blue door on Mill Road." Mill Road turns out to have three blue doors. The courier parks, walks up to the first one, and rings the bell. Wrong house. The second one has nobody home. A neighbor finally points across the street.
-
-The next parcel says "14 Mill Road." The courier drives to number 14 and hands it over. It takes one look at the numbers on the gates.
-
-The person who wrote "the blue door" wasn't being careless. Everyone on Mill Road knows which house that is.
-
-When an AI comes into your repository to find the refund code, what do your folder names give it: an address, or a blue door?
+# Chapter 10. AI finds code by the words in your files, and an index saves it a step
 
 ## Claim
 
-> An AI finds its way by the names of folders and files, so name them for what's inside, and keep one page that says what lives where.
+> An AI finds code by searching the words inside your files, so the names and descriptions in the files matter most, and folder names and an index save it about one step.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "An AI finds its way by the names of folders and files, so name them for what's inside, and keep one page that says what lives where." Title before: "The map AI navigates by: folder names and an index file" -->
 
 ## Why: a session's first look at your repository is a list of names
 
 A developer who has worked in a repository for a year knows where things are. Ask where the refund math lives, and the developer says "`utils/helpers.py`, near the bottom" without looking. The name of that file never had to mean anything, because nobody found the code by its name.
 
-A new session finds everything by looking. The cheapest thing it can look at is the list of folders and files, which costs one command and a few lines of text. If the names in that list say what's inside, the list alone answers the question "where is the refund code?" If the names are `utils`, `common`, `helpers`, and `misc`, the list answers nothing, and the session has to search inside the files.
+A new session finds everything by looking, and it can look in two ways. It can list the folders and files, which costs one command and a few lines of text, or it can search inside the files for a word from your question. In this chapter's runs the sessions searched first. A search hits the words inside the files: function names, docstrings, and comments. So those words decide whether a session finds the code, and folder and file names help it decide which hit to open first.
 
-Searching inside files often works. If the code uses the word `refund`, a search for `refund` finds it. But the search returns every line with that word: the function, its callers, its tests, and an old comment. The session then has to choose which of those hits to open first. A file named `refunds/refund_amount.py` tells the session where to start. A file named `utils/helpers.py` tells it nothing.
+If the code uses the word `refund`, a search for `refund` finds it. But the search returns every line with that word: the function, its callers, its tests, and an old comment. The session then has to choose which of those hits to open first. A file named `refunds/refund_amount.py` tells the session where to start. A file named `utils/helpers.py` tells it nothing.
 
-A search also fails when your words and the code's words differ. You ask about "money back," and the code says `reversal`. A folder name the session can see in the first listing bridges that gap. A function buried in a helper file doesn't.
+A search also fails when your words and the code's words differ. You ask about "money back," and the code says `reversal`. A docstring that says "the money a customer gets back" bridges that gap, and so does a folder name the session sees in its first listing. A function with neither, in a helper file, can't be found by the words of your question.
 
 Names can only say so much. They can't say that two folders have to agree with each other, or which file to open first. That's what the index file is for. An index file is one page at the top of the repository that lists what lives where. A session that reads it has the map before it takes a step.
 
@@ -113,7 +105,7 @@ In the version for AI, the listing points at `refunds/refund_amount.py`. If the 
 
 Both sessions can reach the right answer. What I expected to differ is how many steps each one takes, and how often a session stops at a caller and reports it as the answer. The Evidence section has both counts.
 
-I ran ten questions of this kind on 2026-11-22 in fresh sessions of Claude Code 2.1.330, in a made-up shop with 518 files and 1,317 tests. None of the ten was about refunds. Here is one of them, asked of all three layouts by Claude Sonnet 5.5: "Where is the code that decides how each payout line looks on the accountant's settlement report?"
+I ran ten questions of this kind on 2026-11-22 in fresh sessions of Claude Code, in the large repository of Appendix A, a made-up shop of 518 files. None of the ten was about refunds. Here is one of them, asked of all three layouts by Claude Sonnet 5.5: "Where is the code that decides how each payout line looks on the accountant's settlement report?"
 
 In every layout, the session's first command searched the contents of all files for `settlement` and `payout`. In the layout for people, it then searched those files for lines that define a function, printed parts of `core/shared.py` and `core/rules.py`, and answered `payout_row` in `core/shared.py`, quoting the function's docstring. That took 5 calls to the shell tool. In the layout for AI, it listed the functions in `shop/settlement/report.py` and printed that file, in 4 calls. With `INDEX.md`, it printed the index and then the same file, also in 4. All three answers were right.
 
@@ -123,7 +115,7 @@ Experiment E9 builds the order server in three layouts that hold the same code. 
 
 Each layout gets ten questions like the one above, about ten different parts of the shop. Each question goes to 5 fresh sessions per layout, 150 sessions in all. An answer counts as right when it names the file and the function that hold the code. E9 counts the right answers and the tool calls each session made before it answered.
 
-This chapter's server has a few dozen files, and a session can read a repository that small from end to end. So I ran E9 on 2026-11-22 in the larger shop from the Prompt section. In its layout for people, the same modules are merged into 30 files with names like `services/manager.py` and `utils/extra.py`. The merge also dropped the description at the top of each module, so that layout lost those docstrings as well as the folder and file names. All three layouts pass the same 1,317 tests. I used Claude Code 2.1.330 with Claude Haiku 5.5 and Claude Sonnet 5.5 at their default settings, 150 sessions per model. Claude Opus 5.5 hasn't been run.
+This chapter's server has a few dozen files, and a session can read a repository that small from end to end. So I ran E9 on 2026-11-22 in the larger shop from the Prompt section. In its layout for people, the same modules are merged into 30 files with names like `services/manager.py` and `utils/extra.py`. The merge also dropped the description at the top of each module, so that layout lost those docstrings as well as the folder and file names. All three layouts pass the same 1,317 tests. I used Claude Haiku 5.5 and Claude Sonnet 5.5 at their default settings, 150 sessions per model. I didn't run this experiment with Claude Opus 5.5.
 
 Two of my ten questions turned out to have two right answers, because two functions in the shop do the same job. I left those two out. For the other eight questions there are 40 answers per layout and model.
 
@@ -139,7 +131,7 @@ Two of the three wrong answers said the session couldn't find the code that make
 
 The sessions found code by searching file contents for words from the question, as in the run above, and what they hit were names and docstrings inside the files. Folder names saved a little under one tool call per question, and the index saved a little more.
 
-I said that if the three layouts scored about the same, I would limit the claim to larger repositories. This repository was large, and the layouts still scored about the same, so the claim is narrower than that. Folder names and an index saved these sessions a step. The words inside the files decided whether a session found the code at all.
+I said that if the three layouts scored about the same, I would limit the claim to larger repositories. This repository was large, and the layouts still scored about the same, so the claim is narrower than that. Folder names and an index saved these sessions a step. The words inside the files, the function names and the description at the top of each module, decided whether a session found the code at all. *Clean Code*'s advice to choose names that reveal intent covers the first of those. <!-- check against original -->
 
 <!-- [Author case slot] A real case in which an AI looked for something in a repository and the folder names or an index file sent it to the right place, or the wrong one. -->
 
@@ -147,7 +139,7 @@ I said that if the three layouts scored about the same, I would limit the claim 
 
 - [ ] List the files whose names say nothing: `git ls-files | grep -iE "(utils|helpers|common|misc)"`. For each one, write down in a few words what's actually inside. Those words are the names the files should have.
 - [ ] Ask a fresh session three questions of the form "Where is the code that decides X? Name the file and the function. Don't change anything." Use three things your business cares about. Check each answer by opening the file, and count the files the session opened on the way.
-- [ ] Write `INDEX.md` at the top of the repository: one or two lines per top-level folder, saying what it holds, which file to start at, and which other folder it has to agree with. Then add one line to your rules file (the instruction file in your repository that the AI reads when it starts work): "Read INDEX.md before you search."
+- [ ] Write `INDEX.md` at the top of the repository: one or two lines per top-level folder, saying what it holds, which file to start at, and which other folder it has to agree with. Then add one line to your rules file: "Read INDEX.md before you search."
 - [ ] Check the index against the folders whenever the folders change. These two commands print a folder that the index names and that doesn't exist, and a folder that exists and isn't in the index:
 
   ```sh
@@ -165,6 +157,6 @@ Renaming folders has a cost. Imports change, open branches conflict, and the his
 
 Some names aren't yours to choose. A web framework may require folders called `models`, `views`, and `migrations`. Leave those alone and let the index say which business each one serves.
 
-In a small repository, none of this matters much. A session can list every file and open most of them. The gap between an address and a blue door grows as the repository does.
+In a small repository, none of this matters much: a session can list every file and open most of them.
 
-Better search will take over part of this. A tool that searches code by meaning can find the refund math whatever the file is called. It still can't know that the payout report has to match the refund amount to the cent. Someone has to write that sentence down, and the index is where a session will look for it.
+A tool that searches code by meaning can find the refund math whatever the file is called. It still can't know that the payout report has to match the refund amount to the cent. Someone has to write that sentence down, and the index is one place where a session can find it.

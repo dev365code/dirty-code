@@ -29,6 +29,8 @@
 !/manuscript/en/18-skip-the-code.md
 !/manuscript/en/00-preface.md
 !/manuscript/en/99-closing.md
+!/manuscript/en/00a-terms.md
+!/manuscript/en/99b-how-the-experiments-ran.md
 
 .DS_Store
 __pycache__/

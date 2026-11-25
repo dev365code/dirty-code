@@ -89,7 +89,7 @@ When an order is canceled, refund the customer too.
 
 The prompt doesn't say where canceling or refunding lives in the repository, so the AI has to find out. It tends to search for words like `cancel` and `refund`, open the files the search returns, and run the tests if there are any. The AI also decides when it has read enough. A fresh session given the same line may open different files, because the same prompt doesn't lead to the same steps every time.
 
-On 2026-11-22 I gave this line to 10 fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. Each session worked in its own copy of a small repository: `orders.py` with a `cancel_order` that only cancels, `refunds.py` with the 7-day rule above, and a test file. Before its first edit, every session did the same two things. First it listed the files, with `ls -a` and `rg --files` (a command that prints the names of the files in the repository). Then it printed all three files with one `cat` command. So every session had `refund_amount` and its 7-day window on screen before it changed anything.
+On 2026-11-22 I gave this line to 10 fresh sessions of Codex CLI, OpenAI's coding agent, with the model gpt-6.2-sol (Appendix A gives the setup). Each session worked in its own copy of a small repository: `orders.py` with a `cancel_order` that only cancels, `refunds.py` with the 7-day rule above, and a test file. Before its first edit, every session did the same two things. First it listed the files, with `ls -a` and `rg --files` (a command that prints the names of the files in the repository). Then it printed all three files with one `cat` command. So every session had `refund_amount` and its 7-day window on screen before it changed anything.
 
 All 10 changes refunded the customer on a cancellation inside the window and passed the tests. All 10 reports mentioned the seven-day window, and each said in some form what happens after it, such as "cancellations after the window preserve any prior refunds." The repository has three files, so reading all of them took one command. In a larger repository, a session has to choose what to read.
 
@@ -123,4 +123,4 @@ If you track down a bug yourself and only then hand over the fix, you read the c
 
 A person has to read some code no matter who read it first: code behind an outage, security code, regulated code. For that code, what matters is that a person can still follow it on the day they have to. Chapter 17 takes that up.
 
-Better models and tools may carry memory from one session to the next. The AI would then reread less. On a task you hand over, it would still open the code before you do.
+A tool may one day carry memory from one session to the next, and then the AI will reread less. On a task you hand over, it will still open the code before you do.

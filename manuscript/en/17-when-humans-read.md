@@ -12,15 +12,17 @@ Your AI reads your code faster than you do, and it is usually right. On the nigh
 
 ## Claim
 
-> Keep a short list of the code a person must be able to read, shape that code so a person can follow it, and have people read it regularly, because on the night the AI's account is wrong, someone has to read the code itself.
+> Keep a short list of the code a person must be able to read on the night of an outage, and write that code for a person: everything that happens to money in one function, in the order it happens.
 
-## Why: some decisions can't be taken back, a person answers for them, and the AI's account of the code can be wrong
+<!-- Claim draft for the owner, 2026-11-25. Before: "Keep a short list of the code a person must be able to read, shape that code so a person can follow it, and have people read it regularly, because on the night the AI's account is wrong, someone has to read the code itself." -->
+
+## Why: some decisions can't be taken back, and a person answers for them
 
 This book has assumed that you no longer read code line by line. There are moments when that stops being true.
 
 One is an outage. Customers are being charged twice, and someone has to decide in the next ten minutes whether to switch payments off. Another is a security report. A test checks the inputs you thought of, and an attacker chooses the one you didn't, so "the tests pass" says little about the sign-in code. A third is a question from outside: an auditor or a customer asks how refunds are calculated and who checked it. In each of these, someone makes a decision that can't be taken back, and that someone is a person who will answer for it. A session can't answer for anything. Tomorrow it won't remember what it approved.
 
-In those moments the AI is still your fastest reader, and you will ask it. What comes back is an account of the code, written by a session that read part of the repository (Chapter 2) and may have stopped one hop short of the line that matters (Chapter 8). On an ordinary day you check an account by running a test. In an outage, the tests were green when the code shipped. Either no test covers the failing case, or the test that does wasn't run where the code failed (Chapter 14). Either way, the tests can't check the account for you.
+In those moments the AI is still your fastest reader, and you will ask it. In this chapter's experiment every session's account of the code was right. But the person who switches payments off, or answers the auditor, answers for the account too, and has to be able to check it against the code. On an ordinary day you check an account by running a test. In an outage, the tests were green when the code shipped. Either no test covers the failing case, or the test that does wasn't run where the code failed (Chapter 14). Either way, the tests can't check the account for you.
 
 So a person reads. And that person is in the same position as the AI. Nobody on the team wrote this code, and nobody has read it since it was merged. The engineer who is woken at 3 a.m. opens the file for the first time, with no memory of it. Part II prepared the code for a reader with no memory, and most of it serves this reader too: a name that says what a function writes, one change in one place, a comment that gives the reason, an error line that carries the values, a page that says where things live.
 
@@ -180,25 +182,19 @@ The second half turns the question into a number from a run. If the script print
 
 You can ask for the same walkthrough on a quiet afternoon, one for each path on your list, and keep it next to the code. Read the lines it cites once while nothing is on fire. A walkthrough is a session's account, like any other. It is worth keeping after a person has checked it against the code.
 
-I asked the 3 a.m. question on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. In the first version, one session opened `payments.py`, `retries.py`, and the test file, and answered: "Yes. `charge()` only calls `approve()` once, but `approve` has `@with_retries(3)` on it (`payments.py:11`). Each time the provider call raises `TimeoutError`, that decorator sends the same approval request again, so one order can get up to 3 requests (`retries.py:10-15`)." In the second version, a session opened `payments.py` and the test file, and answered: "Not within one call. But nothing in `charge()` stops a double charge if it gets called twice for the same order."
+I asked the 3 a.m. question on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. In the first version, one session opened `payments.py`, `retries.py`, and the test file, and answered: "Yes. `charge()` only calls `approve()` once, but `approve` has `@with_retries(3)` on it (`payments.py:11`). Each time the provider call raises `TimeoutError`, that decorator sends the same approval request again, so one order can get up to 3 requests (`retries.py:10-15`)." In the second version, a session opened `payments.py` and the test file, and answered: "Not within one call. But nothing in `charge()` stops a double charge if it gets called twice for the same order."
 
-## Evidence: with one late reply, the provider received two requests, and `charge` returned without an error
+## Evidence: all 76 sessions answered the 3 a.m. question right, and the hidden retry sent a second request without an error
 
-The answers from fresh sessions come later in this section: all 76 were right. First, what the hidden retry does when I run it.
+Experiment E16 asks the yes-or-no question of 10 fresh sessions for each version, with no other instructions. For the first version the right answer is yes. E16 counts the sessions that answer no, and the sessions that opened `retries.py` before they answered.
 
-I ran both versions with a provider whose first reply is late. <!-- run 2026-11-13, Python 3.9.6 -->
-
-In the first version the provider received 2 requests, and `charge` returned `approval-2`. No exception was raised, so nothing was logged. With three late replies the provider received 3 requests, and only then did `charge` raise `PAY-0303`. Its message told the reader not to retry after the code had already retried twice.
-
-In the second version the provider received 1 request in both cases, and `charge` raised `PAY-0303` the first time.
-
-These runs show what the hidden retry does. They don't show how often an AI gives the wrong answer to the 3 a.m. question. Experiment E16 counts that. It asks the yes-or-no question of 10 fresh sessions for each version, with no other instructions. For the first version the right answer is yes. E16 counts the sessions that answer no, and the sessions that opened `retries.py` before they answered.
-
-I ran E16 on 2026-11-22 with Claude Code 2.1.330, in two repositories. One holds this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting, 8 sessions per version (I planned 10, and the run used up its credit). The other is a made-up shop with 518 files and 1,317 tests, where the payment code sits among 210 other modules. There I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings, 10 sessions per version and model, and the question named the file: `Can charge() in shop/payments/gateway.py make the provider charge a customer twice for one order?`
+I ran E16 on 2026-11-22 with Claude Code in two repositories. In this chapter's files I used Claude Opus 5.5 at its highest effort setting, 8 sessions per version (I planned 10, and the run used up its credit). In the large repository of Appendix A, where the payment code sits among 210 other modules, I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings, 10 sessions per version and model, and the question named the file: `Can charge() in shop/payments/gateway.py make the provider charge a customer twice for one order?`
 
 Every answer was right: 38 of 38 for the version with the decorator, and 38 of 38 for the plain version. In the version with the decorator, every session opened `retries.py` before it answered, except Opus at its default setting in the large repository. Four of its 10 sessions opened the file. The other six answered from the line `@with_retries(3)` above `approve`, without opening `retries.py`, and their answers were right too.
 
-So the wrong answer this chapter warns about didn't come up in 76 sessions. The decorator's name told the sessions what it does. The danger is still there for a decorator whose name doesn't say that it retries, and for a route that runs through more files than these two. I haven't measured either.
+So the wrong answer that this chapter's scene imagines didn't come up in 76 sessions. The decorator's name told the sessions what it does. The danger is still there for a decorator whose name doesn't say that it retries, and for a route that runs through more files than these two. I haven't measured either.
+
+What the hidden retry does, I checked by running both versions with a provider whose first reply is late. <!-- run 2026-11-13, Python 3.9.6 --> In the first version the provider received 2 requests, and `charge` returned `approval-2`. No exception was raised, so nothing was logged. With three late replies the provider received 3 requests, and only then did `charge` raise `PAY-0303`. Its message told the reader not to retry after the code had already retried twice. In the second version the provider received 1 request in both cases, and `charge` raised `PAY-0303` the first time.
 
 <!-- [Author case slot] A real case in which an AI's account of what the code does was wrong, and a person found the fact by reading the code. -->
 
@@ -220,4 +216,4 @@ Reading misses things too. People reviewed code for decades and bugs shipped any
 
 The example assumes a provider that charges on every request. If the provider lets the shop mark a repeated request as the same charge, a retry is safe, and the decorator is fine. Whether that is true of your provider is exactly what a person has to know before the outage.
 
-Better models will give a wrong account less often. The decision to switch payments off, and the answer to the auditor, will still belong to a person, and that person will need to have read the code at least once.
+However often the account is right, the decision to switch payments off and the answer to the auditor belong to a person, and that person needs to have read the code at least once.

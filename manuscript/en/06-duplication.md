@@ -14,7 +14,9 @@ When should seven callers share one function, and when is each safer with its ow
 
 ## Claim
 
-> When a function's callers change for different reasons, give each its own copy, because an AI asked to change one may change them all.
+> When different people decide what each caller of a function should output, give each caller its own copy, and write next to the copy who decides.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "When a function's callers change for different reasons, give each its own copy, because an AI asked to change one may change them all." -->
 
 ## Why: one edit to a shared function can change every caller, and a session may have read only one
 
@@ -163,15 +165,15 @@ The parameter is what a careful developer might write, and it keeps the other ca
 
 In the version for AI, the same three ways all end inside `settlement.py`, in code that only the settlement report runs.
 
-I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. In the version for people, one session read every file in the repository, the six other callers among them. It added a parameter to `format_amount`, `grouping=False`, turned it on from `payout_row`, and wrote in the docstring, "Off by default: the refund export is split on commas." In the version for AI, a session searched for `format_amount`, `report_amount`, and `payout_row`, read five files, and changed one line of `report_amount` in `settlement.py`. The first session took 21 turns (replies from the model), and the second took 12.
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. In the version for people, one session read every file in the repository, the six other callers among them. It added a parameter to `format_amount`, `grouping=False`, turned it on from `payout_row`, and wrote in the docstring, "Off by default: the refund export is split on commas." In the version for AI, a session searched for `format_amount`, `report_amount`, and `payout_row`, read five files, and changed one line of `report_amount` in `settlement.py`. The first session took 21 turns, and the second took 12.
 
 ## Evidence: no session changed another caller, and when the refund rule changed, the sessions split the shared rule and merged the copy back
 
 Experiment E5 builds the order server two ways, with identical behavior and visible tests. The first is the version for people: seven callers share `format_amount`, and `refunds.py` and `settlement.py` share `partial_refund_amount`, the rule for how much a returned item refunds. The second is the version for AI plus one copy this chapter advises against: `settlement.py` gets its own copy of that rule. With that extra copy, the experiment can also catch a case where copying goes wrong.
 
-Each version gets two prompts, each in 10 fresh sessions: the one in the Prompt section, and a rule change, `Charge a $5.00 restocking fee: when an item comes back, refund $5.00 less than before.` A hidden test (a test the AI never sees, used to judge whether the result is right) judges each run. After the first prompt it counts the callers, other than the settlement report, whose output changed. After the second it counts the runs in which the customer's refund differs from the amount taken off the payout. I predicted that other callers' output would change only in the first version, and that the refund and the payout would disagree only in the second.
+Each version gets two prompts, each in 10 fresh sessions: the one in the Prompt section, and a rule change, `Charge a $5.00 restocking fee: when an item comes back, refund $5.00 less than before.` A hidden test judges each run. After the first prompt it counts the callers, other than the settlement report, whose output changed. After the second it counts the runs in which the customer's refund differs from the amount taken off the payout. I predicted that other callers' output would change only in the first version, and that the refund and the payout would disagree only in the second.
 
-On 2026-11-22 I ran the first prompt only, with Claude Code 2.1.330, in two repositories. One holds this chapter's files, and there I used Claude Opus 5.5 at its highest effort setting. The other is a made-up shop with 518 files and 1,317 tests, where the seven callers sit among 210 other modules. There I used Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings. Each version went to 10 fresh sessions per model. The hidden test called each of the six other callers with $1,250.00, an amount that commas would change.
+On 2026-11-22 I ran the first prompt with Claude Code in two repositories: this chapter's files, with Claude Opus 5.5 at its highest effort setting, and the large repository of Appendix A, where the seven callers sit among 210 other modules, with Claude Haiku 5.5, Claude Sonnet 5.5, and Claude Opus 5.5 at their default settings. Each version went to 10 fresh sessions per model. The hidden test called each of the six other callers with $1,250.00, an amount that commas would change.
 
 No session changed the output of another caller: 0 of 20 runs in the small repository and 0 of 60 in the large one. My prediction for the first version didn't come true, so with these models and this prompt that failure is uncommon at most.
 
@@ -185,11 +187,11 @@ The kind of edit did differ.
 
 In the version for people, 22 of the 40 sessions left a switch in `format_amount` that only the settlement report turns on, the parameter the Prompt section describes. Five more added a second formatting function to the shared file. In the version for AI the choice never came up, and every session changed the settlement report's own copy.
 
-The version for people also took more work. In the small repository the median session took 20 turns against 15. In the large one the median session looked at more files (files it read or named in a command): 4 against 2.5 for Opus, 3 against 2 for Sonnet, and 4 against 3 for Haiku. There, 29 of the 30 sessions in the version for people searched the whole shop for `format_amount`.
+The version for people also took more work. In the small repository the median session took 20 turns against 15. In the large one the median session opened more files: 4 against 2.5 for Opus, 3 against 2 for Sonnet, and 4 against 3 for Haiku. There, 29 of the 30 sessions in the version for people searched the whole shop for `format_amount`.
 
 So this chapter's main worry, a shared function changed for one caller and broken for the others, didn't show up in 80 runs. What showed up is the second way: the shared function grew a switch for one caller.
 
-I ran the restocking fee prompt on 2026-11-22 in the small repository, with a second coding agent: Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. Each version went to 10 fresh sessions. The hidden test returned items from three orders, one of them with a coupon, and compared, for each return, the customer's refund with the amount taken off the shop's payout.
+I ran the restocking fee prompt on 2026-11-22 in the small repository with a second coding agent, Codex CLI with gpt-6.2-sol. Each version went to 10 fresh sessions. The hidden test returned items from three orders, one of them with a coupon, and compared, for each return, the customer's refund with the amount taken off the shop's payout.
 
 | Version | Runs in which the refund and the payout deduction differ | What the session did |
 |---|---|---|
@@ -200,7 +202,17 @@ My prediction was the other way around. In the version for people, the payout de
 
 In the version with the copy, every session found the copy, treated it as the same rule, deleted it, and had the payout deduction call the rule in `refunds.py`. Then it took off the fee in that one place. So the copy didn't go wrong. The shared rule came apart instead: the sessions split it so that one of its two callers would keep its old answer.
 
-Which deduction is right is a business question that the prompt didn't settle. If the fee stays with the shop, the deduction should shrink with the refund, as it did in the version with the copy. If the fee goes to someone else, the version for people did the right thing. Neither version's code says whose fee it is, and no session asked.
+Neither version's code says whose fee the restocking fee is, and no session asked. That question decides which deduction is right. If the fee stays with the shop, the deduction should shrink with the refund, as it did in the version with the copy. If the fee goes to someone else, the version for people did the right thing.
+
+The copy of the refund rule in that version had no comment saying it was kept on purpose, and its docstring described the money the customer gets back. So the sessions that deleted it and called the rule in `refunds.py` did what this chapter advises, in Where it breaks, for a rule that two places must agree on.
+
+## Where this chapter's opinion differs from *Clean Code*: a caller whose output someone else decides gets its own copy
+
+*Clean Code* counts duplication among the main sources of bad code and asks for each piece of logic to live in one place. <!-- check against original --> This chapter gives a caller its own copy when a different person decides what it outputs. The settlement report gets a copy because the accountant decides its format, and the refund export gets one because the payment provider decides its format. A rule that two places must agree on, such as the refund rule, stays in one shared function.
+
+A session knows only the callers its searches returned, so with its own copy the settlement report can change while the other six callers keep their output, whether or not the session searched for them.
+
+How far the experiments back this opinion: the failure the copies guard against, a shared function changed for one caller and broken for the others, happened in none of the 80 runs. The cost of sharing did show up. In the version for people, 22 of 40 sessions left a switch in the shared function that only one caller uses, and in the large repository every model opened more files. So in these runs the copies changed the shape of the code that came back, and no run in either version broke another caller.
 
 <!-- [Author case slot] A real change where an AI's edit to a shared function changed another caller's output. -->
 
@@ -208,7 +220,7 @@ Which deduction is right is a business question that the prompt didn't settle. I
 
 - [ ] Pick three functions from wherever your shared helpers live (`utils.py`, `helpers.py`, `common/`). For each, run `grep -rn --include="*.py" "format_amount" .` with its name in place of `format_amount`, and beside each caller write who decides that caller's output. The search misses a call made through an import alias and a template that uses the function as a filter.
 - [ ] Where one caller's answer differs from the others, send this with your own names: "Give settlement.py its own copy of format_amount, named report_amount, and call it from payout_row. Don't change any output or any other caller. Above the copy, add a comment that starts `# Own copy of format_amount on purpose:` and gives the reason." Then read the copy in the diff against the original function, since the tests cover only the amounts they use.
-- [ ] Add this to your rules file (an instruction file kept in the repository that the AI reads when it starts work): "Before editing a function with more than one caller, list the callers and say which ones the change is for. If it isn't for all of them, change only the caller that needs it. Before moving code into a shared function, say who decides each caller's output." A session can skip these lines, and its search for callers has the same gaps as yours.
+- [ ] Add this to your rules file: "Before editing a function with more than one caller, list the callers and say which ones the change is for. If it isn't for all of them, change only the caller that needs it. Before moving code into a shared function, say who decides each caller's output." A session can skip these lines, and its search for callers has the same gaps as yours.
 
 ## Where it breaks
 
@@ -220,6 +232,4 @@ A copy also duplicates anything inside it that really is one rule. All three for
 
 The comment helps a session find the other two, but a copy made without the comment doesn't show up in that search. Three copies of five lines are manageable. Three copies of fifty lines are not. When callers differ in one detail of a long function, keep the function shared and make that detail a parameter.
 
-Better models and tools should make the in-place edit rarer. A session that lists every caller before it edits a shared function would see the refund export.
-
-The session would still need to know that the provider's program splits rows on commas. A search returns that fact only if someone wrote it down, as the docstring on `refund_export_row` does. <!-- no source: prediction -->
+A session that lists every caller before it edits a shared function would see the refund export. It would still need to know that the provider's program splits rows on commas. A search returns that fact only if someone wrote it down, as the docstring on `refund_export_row` does. <!-- no source: prediction -->

@@ -14,7 +14,9 @@ So where is the rule you spent an hour working out?
 
 ## Claim
 
-> AI remembers nothing from yesterday, so all it knows about your code today is what you tell it and what it finds in your files.
+> If a rule you settled in yesterday's chat isn't written in a file, today's new session writes a reasonable rule of its own.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "AI remembers nothing from yesterday, so all it knows about your code today is what you tell it and what it finds in your files." -->
 
 ## Why: a new session starts with the prompt and the files, and yesterday's rule is in neither
 
@@ -47,6 +49,8 @@ The session checks its own work when it can: it runs the tests, reads the failur
 Here the tests run and pass, because no test says how a single item's refund is worked out.
 
 Dana isn't a better reader than the AI. People forget, and they misremember: Dana may recall that ticket and get the amount wrong. But she can ask you about the rule this morning, and she's likely to still know it next week. The session can ask you questions too. But it asks only about a gap it notices, and no file tells it that yesterday's chat settled a rule, so it doesn't know there is something to ask. Dana knows the rule exists, so she knows to ask.
+
+*Clean Code* writes for a reader like Dana: a developer on the team who remembers yesterday and can ask a colleague. A new session does neither. So this chapter asks for something that *Clean Code*'s reader didn't need: the rule written in a file that the session will read.
 
 ## Code: yesterday's rule reaches a new session only if a file states it
 
@@ -122,7 +126,7 @@ The second and third copies differ in which sessions get to read the rule. A com
 
 The rules file is read when a session starts, before the first search. Even then, a rules file is context the session reads, not a setting the tool enforces, so a session may not follow the entry every time. <!-- source: notes/sources.md, rules files and sessions --> Experiment E2 counts how often it does.
 
-On 2026-11-22 I sent this prompt to fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. Each copy holds four files: the rules file, `orders.py`, `refunds.py`, and the test. In every copy, every session listed the files first and then printed all four with one `cat` command. So in the second copy every session read the comment, and in the third every session read the rules file.
+On 2026-11-22 I sent this prompt to fresh sessions of Codex CLI with gpt-6.2-sol. Each copy holds four files: the rules file, `orders.py`, `refunds.py`, and the test. In every copy, every session listed the files first and then printed all four with one `cat` command. So in the second copy every session read the comment, and in the third every session read the rules file.
 
 A session in the first copy wrote a rule of its own. Its `partial_refund_amount` works out the share of the payment for all the items returned so far, this one included, and rounds it down. Then it subtracts the rounded share for the items returned before this one, and refunds the difference. Its docstring says, "Refund the increase in the cumulative share of the order payment." A session in the second copy wrote the rule in the comment: each share rounded down, and the item refunded last gets whatever is left of the payment. A session in the third copy wrote the same thing from the rules file.
 
@@ -136,7 +140,7 @@ It gives each run one of four marks: "right" if every refund is the amount the r
 
 If a copy gets zero misses in 10 runs, that shows only that misses are rare in that copy. A miss that happens one time in ten doesn't show up at all in 10 runs about 35% of the time.
 
-I ran E2 on 2026-11-22 with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting, 10 fresh sessions per copy.
+I ran E2 on 2026-11-22 with Codex (gpt-6.2-sol), 10 fresh sessions per copy.
 
 | Copy | Right | Over | Under | Did not run |
 |---|---|---|---|---|
@@ -146,7 +150,7 @@ I ran E2 on 2026-11-22 with Codex CLI 0.171.0 and gpt-6.2-sol at its default set
 
 Every session in every copy opened the same four files. The median session made 4.5, 5.5, and 5 tool calls in the three copies, where a tool call is one shell command or one file edit.
 
-The first row looks almost as good as the other two. It isn't. Nine of the ten sessions in the first copy wrote the rule from the run above, and the tenth rounded each share to the nearest cent, which refunded one cent more than the rule on the first return. On any order of two items, the rule from the run above gives the same refunds as the written rule, so the hidden test's two orders couldn't tell them apart. The hidden test also played out a third order that it reported but didn't mark: three items at $10.00 with a $10.00 coupon, so the customer paid $20.00. There the written rule refunds `666`, `666`, and `668`, whatever order the items come back in. All ten sessions in the first copy differed from it, nine of them with `666`, `667`, and `667`. All twenty sessions in the other two copies matched it.
+The first row looks almost as good as the other two, but nine of the ten sessions in the first copy wrote the rule from the run above, and the tenth rounded each share to the nearest cent, which refunded one cent more than the rule on the first return. On any order of two items, the rule from the run above gives the same refunds as the written rule, so the hidden test's two orders couldn't tell them apart. The hidden test also played out a third order that it reported but didn't mark: three items at $10.00 with a $10.00 coupon, so the customer paid $20.00. There the written rule refunds `666`, `666`, and `668`, whatever order the items come back in. All ten sessions in the first copy differed from it, nine of them with `666`, `667`, and `667`. All twenty sessions in the other two copies matched it.
 
 So the written rule was followed every time a session could read it. In this repository every session read every file, so the comment reached as many sessions as the rules file did. Telling the two places apart needs a repository large enough that a session doesn't read everything, and E2's copies aren't that large. Without the rule, each session wrote a reasonable rule of its own, and nothing in the old test showed that it differed from yesterday's.
 
@@ -171,6 +175,4 @@ Unless someone retrains the model itself, a memory has to be text that the tool 
 
 You can open a rules file and correct it, and the rules file travels with the repository. Check whether you can do the same with your tool's memory. <!-- no source: memory features, written as a conditional -->
 
-Better models should shrink two of these problems: sessions that read only part of the repository, and searches that miss a file. If a context window can hold the whole repository, and the tool loads all of it, the session will have read `settlement.py`.
-
-Two problems remain. Every new session has to read the whole repository again, and each reading costs time and money. And however large the context window gets, a session can't read a rule that nobody wrote down.
+A context window large enough to hold the whole repository would shrink two of these problems: a session that reads only part of the repository, and a search that misses a file. Every new session would still read the whole repository again, at a cost in time and money, and it still couldn't read a rule that nobody wrote down.

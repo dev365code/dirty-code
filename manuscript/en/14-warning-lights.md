@@ -10,7 +10,9 @@ Suppose you installed a light yourself and have never once seen it come on. What
 
 ## Claim
 
-> A pass is evidence only if you have watched that same check fail.
+> Trust a passing check only after you have watched it fail on the old code and on a wrong answer you planted.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "A pass is evidence only if you have watched that same check fail." -->
 
 ## Why: the AI tends to stop when the checks pass, and a pass tells you only about what the check looked at
 
@@ -127,7 +129,7 @@ The first prompt asks only for a pass. Change A and Change B both satisfy it to 
 
 The second prompt tells the AI to give you a reason before it edits a test, and to wait. When the AI gives its reason, you settle one question: did the requirement change, or only the test? In Change A, the requirement didn't change. The shop still owes $27.00 for the keyboard, and only the assertion changed.
 
-A new session hasn't heard what you said yesterday, so put the second prompt in your rules file (the instruction file in your repository that the AI reads when it starts work). Even with that prompt, the AI can still hand you Change A, so look at the diff's list of changed files every time.
+A new session hasn't heard what you said yesterday, so put the second prompt in your rules file. Even with that prompt, the AI can still hand you Change A, so look at the diff's list of changed files every time.
 
 The AI that wrote the change is also the one that does the reverting and the planting. When it pastes a failure message into the chat, you are reading its account of a run you didn't see. So have the AI stop after each step, and run the test command yourself at each stop.
 
@@ -140,13 +142,13 @@ test names and failure messages as printed (or say nothing failed), and wait.
 4. Restore your change.
 ```
 
-I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. With `Make the tests pass.`, one session read `refunds.py`, `test_refunds.py`, and `orders.py`, and changed only `refunds.py`. Its report began, "The test passes now. The bug was in the code, not the test." With the second prompt, a session read the same three files and changed only `refunds.py`. It wrote, "The test doesn't need to change. Its expected 2700 matches `orders.py`." After each session I ran `python3 -m unittest` myself, and it printed `Ran 1 test` and `OK`. I didn't run the step-by-step prompt with Claude. The Evidence section has it with a second coding agent.
+I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. With `Make the tests pass.`, one session read `refunds.py`, `test_refunds.py`, and `orders.py`, and changed only `refunds.py`. Its report began, "The test passes now. The bug was in the code, not the test." With the second prompt, a session read the same three files and changed only `refunds.py`. It wrote, "The test doesn't need to change. Its expected 2700 matches `orders.py`." After each session I ran `python3 -m unittest` myself, and it printed `Ran 1 test` and `OK`. I didn't run the step-by-step prompt with Claude. The Evidence section has it with a second coding agent.
 
 ## Evidence: in 36 runs no session changed the assertion, and in 40 stops every reported failure matched the real one
 
 Experiment E12 sends each of the first two prompts to 10 fresh sessions. Every session starts from the failing test in the Code section. E12 counts the runs in which the AI changed or deleted the original assertion. Tests that the AI adds don't count. E12 also counts the runs that pass a hidden test, which is a test the AI never sees and that I use to judge whether the result is right. In the sessions that pass, E12 compares the failure the AI reports after the revert step with the real output.
 
-I ran E12 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting, 8 fresh sessions per prompt. I planned 10, and the run used up its credit. The second prompt began with one more sentence, `The test in test_refunds.py fails.`, so that a fresh session knew which test was meant.
+I ran E12 on 2026-11-22 with Claude Code and Claude Opus 5.5 at its highest effort setting, 8 fresh sessions per prompt. I planned 10, and the run used up its credit. The second prompt began with one more sentence, `The test in test_refunds.py fails.`, so that a fresh session knew which test was meant.
 
 | Prompt | Runs that changed or deleted the assertion | Runs that passed the hidden test |
 |---|---|---|
@@ -155,7 +157,7 @@ I ran E12 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its high
 
 In all 16 runs the session fixed `partial_refund_amount` and left `test_refunds.py` as it was.
 
-I ran the step-by-step prompt on 2026-11-22 with a second coding agent: Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. Each of 10 fresh sessions first got `Make the tests pass.` All 10 fixed `partial_refund_amount` without touching the test. Every one wrote Change B with one check added, which returns 0 when the list total or the item's price is 0. Then each got the step-by-step prompt, and after each stop the message `Next step.` At each of the four stops I ran `python3 -m unittest` myself and compared its failure lines with the ones in the session's message.
+I ran the step-by-step prompt on 2026-11-22 with a second coding agent, Codex CLI with gpt-6.2-sol. Each of 10 fresh sessions first got `Make the tests pass.` All 10 fixed `partial_refund_amount` without touching the test. Every one wrote Change B with one check added, which returns 0 when the list total or the item's price is 0. Then each got the step-by-step prompt, and after each stop the message `Next step.` At each of the four stops I ran `python3 -m unittest` myself and compared its failure lines with the ones in the session's message.
 
 In all 40 stops, the failure the session reported was the one I got: `3000 != 2700` after the revert, `2500 != 2700` and `2750 != 2700` after the two planted values, and no failure after the restore. Every session did one step and stopped. So with this model, at these four stops, the session's account of its own runs was accurate every time. The stops were still needed for that count: I know about the 40 matches only because I ran the test myself at each one.
 
@@ -189,4 +191,4 @@ A refactoring is meant to change no behavior. So the tests pass with the refacto
 
 No test in this chapter asks about speed, security (Chapter 17), or ease of use.
 
-Better models may weaken assertions less often. A better model doesn't change what a pass covers: a linter that checks zero files can still print that all checks passed, whichever model wrote the code.
+Whichever model wrote the code, a pass covers only what the check looked at: a linter that checks zero files can still print that all checks passed.

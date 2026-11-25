@@ -10,7 +10,9 @@ An AI that comes to fix your program works the same way: from what the program r
 
 ## Claim
 
-> An error message should carry the values and the next step, because for a one-time failure it may be all the AI gets.
+> Put the values and the next step in the error line, so that the AI's report names what to check, such as the order whose charge may have gone through.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "An error message should carry the values and the next step, because for a one-time failure it may be all the AI gets." -->
 
 ## Why: a person got the rest of the story from screens and memory, and a new AI session may have neither
 
@@ -145,7 +147,7 @@ A good outcome has two parts. First, you or the AI look up order 1042 before any
 
 A pasted log line becomes part of the prompt. The error message you write today is the prompt you'll send on the day of the incident. A procedure in a separate document has to be found before it can be read, while one in the error line arrives with the failure.
 
-On 2026-11-22 I sent both prompts to fresh sessions of Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting. The repository is a small order server whose provider client, `provider_client.py`, has `lookup`. With the short line, a session searched for `PaymentError`, printed `payments.py`, `provider_client.py`, `checkout.py`, `refunds.py`, and the tests, and changed `charge`: after a timeout it now calls `provider.lookup(order_id)`, returns the approval if the lookup finds one, and raises `PaymentError` if it doesn't. It added a test and made five tool calls. With the long line, a session searched for `PAY-0303`, read the same files except `refunds.py`, and made the same change and a test in four tool calls. Neither session asked the provider for approval a second time.
+On 2026-11-22 I sent both prompts to fresh sessions of Codex CLI, OpenAI's coding agent, with gpt-6.2-sol. The repository is a small order server whose provider client, `provider_client.py`, has `lookup`. With the short line, a session searched for `PaymentError`, printed `payments.py`, `provider_client.py`, `checkout.py`, `refunds.py`, and the tests, and changed `charge`: after a timeout it now calls `provider.lookup(order_id)`, returns the approval if the lookup finds one, and raises `PaymentError` if it doesn't. It added a test and made five tool calls. With the long line, a session searched for `PAY-0303`, read the same files except `refunds.py`, and made the same change and a test in four tool calls. Neither session asked the provider for approval a second time.
 
 ## Evidence: with either line every session fixed its failure, and only the long line let the report say which order to check
 
@@ -153,7 +155,7 @@ Experiment E8 tests whether what the error line says changes what the AI does ne
 
 Each failure goes to 10 fresh sessions per copy, 100 sessions in all. E8 counts the sessions that name the true cause, the sessions that write code that asks for approval again without looking the charge up first, and the tool calls.
 
-I ran E8 on 2026-11-22 with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting. Besides the approval timeout, the planted failures were a coupon turned away at exactly its minimum, a country code that arrives in lower case, a refund counted twice before its check, and safety stock subtracted twice.
+I ran E8 on 2026-11-22 with Codex (gpt-6.2-sol). Besides the approval timeout, the planted failures were a coupon turned away at exactly its minimum, a country code that arrives in lower case, a refund counted twice before its check, and safety stock subtracted twice.
 
 All 100 sessions passed the hidden test for their failure, with either line. For the timeout, passing means only that no second charge happens. In the other four, every session named the line of code at fault and fixed it. No session asked for approval again without a lookup: all 20 sessions given the timeout read `provider_client.py`, found `lookup`, and called it after the timeout. The median session made between 4.5 and 6 tool calls per failure, and on each failure the two copies were no more than half a call apart.
 
@@ -167,14 +169,14 @@ So with this model and this repository, the values and `next=` didn't change whe
 
 - [ ] In one module that moves money, run `grep -n "raise" payments.py` with your own file's name. Paste the list to the AI with this prompt: "For each raise statement, add what the program saw, where, and the values it had. Don't add a next step unless I give you one." Dictate `next=` yourself, only where your team has a procedure the code doesn't show.
 - [ ] Give each of those errors a fixed-width error code, as a literal in its `raise` statement. Then search the repository for the code and open each hit. Exactly one `raise` statement should contain it. The other hits should be tests and docs that quote it.
-- [ ] Paste this into your rules file (the instruction file in your repository that the AI reads when it starts work) so new error lines follow the format:
+- [ ] Paste this into your rules file so new error lines follow the format:
 
   ```text
   Error format: CODE what the program saw | where=module.function | key=value ... | next=what to check first
   CODE is a literal in the raise statement. next= appears only when a person dictates it.
   Values are numbers and IDs the program made itself. No names, card numbers, or tokens.
   ```
-- [ ] Make one script fail on purpose. Pick a script your CI (the service that runs your checks on every push) runs, and give a bad argument to a command that is not the last one in the script. Run the script in bash or zsh, type `echo $?`, and check that the script exits nonzero and that the log records that same number. This check tells you only about the command you broke.
+- [ ] Make one script fail on purpose. Pick a script your CI runs, and give a bad argument to a command that is not the last one in the script. Run the script in bash or zsh, type `echo $?`, and check that the script exits nonzero and that the log records that same number. This check tells you only about the command you broke.
 - [ ] Take a result you read on your last CI run's page and search the raw job log for it. If the log doesn't have it, print the same line to the log.
 
 ## Where it breaks
@@ -185,4 +187,4 @@ This chapter asks for more in the error line, not for more logging. Everything t
 
 What you write in the line can drift from the code. If the lookup procedure changes and `next=` still describes the old one, the AI is likely to follow the old one. `where=` is typed by hand and goes stale the day someone renames the function. So when you change the lookup procedure or rename the function, edit the error line in the same commit.
 
-Better models and wider tool access make the values in the line matter less. A model that reproduces more failures can print what it needs. A session whose tools reach the order database or the admin site can look up the amount as a person did. The line still has to carry the key that ties it to one order, and the procedure that lives only in your team's memory.
+A session that can reproduce more failures can print what it needs, and a session whose tools reach the order database or the admin site can look up the amount as a person did. The line still has to carry the key that ties it to one order, and the procedure that lives only in your team's memory.

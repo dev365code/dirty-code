@@ -10,7 +10,9 @@ Your server handles two requests at the same moment, and three AI sessions are w
 
 ## Claim
 
-> When things run at once, a person decides what must never happen between them and writes it down as a check, because each request and each AI session sees only itself.
+> Write down in one sentence what must never happen when two requests arrive at once, and put it in the prompt, so that the AI leaves a test that keeps checking it.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "When things run at once, a person decides what must never happen between them and writes it down as a check, because each request and each AI session sees only itself." -->
 
 ## Why: each request and each AI session is right when you look at it alone, and the failure happens between them
 
@@ -171,7 +173,7 @@ The guarantee is one sentence in the words of the shop. The finish line turns it
 
 The prompt doesn't say how to keep the guarantee. One statement, a lock, or a version number on the row would all pass the test. The session can choose. You decide what must hold and how you'll check it.
 
-Several sessions in one repository need the same kind of sentence. These lines go in the rules file, the instruction file in your repository that the AI reads when it starts work.
+Several sessions in one repository need the same kind of sentence. These lines go in the rules file.
 
 ```text
 - Other AI sessions are working in this repository at the same time.
@@ -182,27 +184,15 @@ Several sessions in one repository need the same kind of sentence. These lines g
 
 Three decisions stay with you. Simple, separate tasks can run in parallel. Work on money, refunds, and stored data goes to one session at a time. And one person merges, one branch at a time, and runs the tests after every merge.
 
-I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. With the first prompt, one session didn't write the version for people. It wrote the check and the subtraction as one statement, `UPDATE gift_cards SET balance = balance - ? WHERE id = ? AND balance >= ?`, and refused when no row changed. Its report explained why: "The obvious version reads the balance, checks it, then writes, which lets two redemptions at the same moment both pass the check." It tried two requests at once in a scratch script and then deleted the script. None of the five tests it added to `test_giftcards.py` sends two requests.
+I ran the first two prompts on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. With the first prompt, one session didn't write the version for people. It wrote the check and the subtraction as one statement, `UPDATE gift_cards SET balance = balance - ? WHERE id = ? AND balance >= ?`, and refused when no row changed. Its report explained why: "The obvious version reads the balance, checks it, then writes, which lets two redemptions at the same moment both pass the check." It tried two requests at once in a scratch script and then deleted the script. None of the five tests it added to `test_giftcards.py` sends two requests.
 
 With the second prompt, a session wrote the same statement and a test named `test_second_request_between_check_and_write_pays_at_most_once`. Its report began, "The test failed against a read-check-write version and passed after the fix, and the test file was unchanged between the two runs."
 
-## Evidence: the two-request test fails on the version for people, and Git merges two passing branches into code that doesn't import
+## Evidence: every session wrote the safe version, and with the guarantee sentence every session left a two-request test behind
 
-The runs with fresh sessions come at the end of this section: every session wrote the safe version, and the guarantee sentence changed whether it left a two-request test behind. First, two checks I made by hand.
+Experiment E14 counts how often a session writes the version for people when the prompt is silent. It gives the gift card task to fresh sessions in three forms: the first prompt above, the first prompt plus the guarantee sentence, and the full second prompt. Each form goes to 10 fresh sessions. A hidden test runs a second request between every pair of database statements the first request makes, and checks that the card never pays out more than `5000`. E14 counts the sessions whose function lets both requests through, and the sessions that wrote a two-request test of their own.
 
-I ran the listing with each version of `redeem`. With the version for people, the run prints `Ran 3 tests` and `FAILED (failures=1)`. Both requests are paid, and the balance ends at `2000`. With the version for AI, the run prints `Ran 3 tests` and `OK`. One request is paid and the other is refused.
-
-I also ran three small tests of sessions sharing a repository, using plain Git commands in place of sessions. <!-- run 2026-11-13, Git 2.50.1, Python 3.9.6 -->
-
-In the first, two sessions share one folder. Session A is halfway through a function in `refunds.py`. Session B finishes a change to `shipping.py` and runs `git add -A` and `git commit`. B's commit lists two files, `refunds.py` and `shipping.py`. A's half-written function is now in the history under B's message, and `git status` shows A nothing to commit.
-
-In the second, each session has its own worktree. B's commit lists one file, `shipping.py`, and A still sees its own unfinished change.
-
-In the third, each session works on its own branch. Session A renames `shipping_fee` to `shipping_cost` and updates the test. Session B adds `checkout.py`, which calls `shipping_fee`. Each branch passes its own tests. Git merges both without reporting a conflict, because the two branches touched different files. The merged code fails on import: `ImportError: cannot import name 'shipping_fee' from 'shipping'`. The tests caught it only because they were run after the second merge.
-
-These runs show that the failures exist and what each check catches. They don't show how often a session writes the version for people when the prompt is silent. Experiment E14 counts that. It gives the gift card task to fresh sessions in three forms: the first prompt above, the first prompt plus the guarantee sentence, and the full second prompt. Each form goes to 10 fresh sessions. A hidden test, which the sessions never see, runs a second request between every pair of database statements the first request makes, and checks that the card never pays out more than `5000`. E14 counts the sessions whose function lets both requests through, and the sessions that wrote a two-request test of their own.
-
-I ran E14 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 8, 6, and 8 before the run used up its credit. My hidden test was simpler than the one described: it ran the second request once, just before the first request's first write.
+I ran E14 on 2026-11-22 with Claude Code and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 8, 6, and 8 before the run used up its credit. My hidden test was simpler than the one described: it ran the second request once, just before the first request's first write.
 
 | Form | Functions that paid both requests | Sessions that wrote a two-request test |
 |---|---|---|
@@ -213,6 +203,16 @@ I ran E14 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its high
 No function paid both requests. Every session wrote the check and the subtraction as one statement, even with the first prompt, and all eight reports from the first prompt explained why a read followed by a write would fail. So this model didn't need the guarantee to write safe code here. What the guarantee changed was the test. With the first prompt, 1 session in 8 left a test that sends two requests in `test_giftcards.py`. With the guarantee sentence, every session did. A test in the file keeps checking the guarantee after the session ends, and a sentence in a report doesn't.
 
 The guarantee also made the sessions slower. The median session took 7 minutes with the first prompt, 14 with the guarantee sentence, and 12 with the full prompt. A model at a lower setting, or a race less familiar than a gift card balance, may give different counts. I haven't measured either.
+
+I also checked by hand that the failure exists and what each check catches. I ran the listing with each version of `redeem`. With the version for people, the run prints `Ran 3 tests` and `FAILED (failures=1)`. Both requests are paid, and the balance ends at `2000`. With the version for AI, the run prints `Ran 3 tests` and `OK`. One request is paid and the other is refused.
+
+Then I ran three small tests of sessions sharing a repository, using plain Git commands in place of sessions. <!-- run 2026-11-13, Git 2.50.1, Python 3.9.6 -->
+
+In the first, two sessions share one folder. Session A is halfway through a function in `refunds.py`. Session B finishes a change to `shipping.py` and runs `git add -A` and `git commit`. B's commit lists two files, `refunds.py` and `shipping.py`. A's half-written function is now in the history under B's message, and `git status` shows A nothing to commit.
+
+In the second, each session has its own worktree. B's commit lists one file, `shipping.py`, and A still sees its own unfinished change.
+
+In the third, each session works on its own branch. Session A renames `shipping_fee` to `shipping_cost` and updates the test. Session B adds `checkout.py`, which calls `shipping_fee`. Each branch passes its own tests. Git merges both without reporting a conflict, because the two branches touched different files. The merged code fails on import: `ImportError: cannot import name 'shipping_fee' from 'shipping'`. The tests caught it only because they were run after the second merge.
 
 <!-- [Author case slot] A real case from running several AI sessions in one repository: the rule the author added, and the incident that led to it. -->
 
@@ -232,4 +232,4 @@ The test covers the gap you thought of. It places one second request just before
 
 Separate worktrees separate the files and nothing else. Two sessions on one machine can still share a test database, a port number, or a cache folder. Each shared thing needs the same question: what must never happen here at the same time?
 
-Better models may notice a gap like this one more often, and some will ask about it. Noticing it doesn't settle what the shop wants. A second request can be refused, or it can wait, or the card can be allowed to go below zero and be settled later. A person at the shop decides which.
+The sessions in E14 noticed this gap without being told. Noticing it doesn't settle what the shop wants: a second request can be refused, or it can wait, or the card can be allowed to go below zero and be settled later. A person at the shop decides which.
