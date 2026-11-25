@@ -92,7 +92,7 @@ refund_share must refuse a list total of 0 and tell the caller.
 
 With the Rust source, the session searches for `refund_share` and finds it. It changes the result type so that the function can return either an amount or a refusal. Then it builds. I made that change and built it. A caller that still treats the result as a plain number stops the build: ``expected `u64`, found `Option<u64>` ``. The compiler lists the callers the session forgot, every time, and it isn't an AI.
 
-With only the machine code, the session starts by working out which register holds the list total. Nothing says. It adds a check for zero and has to invent a way to tell the caller, because there is no type to carry a refusal. Then it has to find every caller, and those are bytes as well. If it misses one, nothing fails.
+With only the assembly, the session starts by working out which register holds the list total. Nothing says. It adds a check for zero and has to invent a way to tell the caller, because there is no type to carry a refusal. Then it has to find every caller itself, because no compiler checks the callers' types. If it misses one, nothing fails.
 
 On 2026-11-23 I gave this task and nine others like it to fresh sessions of Codex CLI, OpenAI's coding agent, with gpt-6.2-sol. The prompts named the file to write and gave the function's C signature, so that the hidden test could call any of the three versions the same way, and they said that `list_total` is never 0.
 
@@ -124,7 +124,7 @@ What stays after that result is the other half of my first answer, the place whe
 
 One study measured the narrow question about speed. In 2025, Wei and others built a benchmark of 8,072 assembly programs, 130 lines long on average, and asked whether language models can produce assembly that runs faster than what an optimizing compiler produces. The task was to take a program and return a faster one that behaves the same. Of the 23 models they tested, the strongest general-purpose one passed the tests on 51.5% of the programs, and its programs ran 1.43 times as fast on average as the output of `gcc -O3`. A model they trained for this one task passed on 95.0%, with an average speedup of 1.46 times. <!-- source: notes/sources.md, SuperCoder, arXiv:2505.11480, abstract of version 4, checked 2026-11-13 -->
 
-Three things about that result matter here. The speed is real: on small programs, an AI found machine code that a compiler didn't. The correctness is judged by tests, and even the trained model failed them on one program in twenty. And the yardstick was a compiler's output, which exists only because there was source code to compile. The study shows an AI improving on compiled code. It doesn't show an AI doing without the code.
+Three things about that result matter here. The speed is real: on small programs, an AI found assembly that ran faster than the compiler's. The correctness is judged by tests, and even the trained model failed them on one program in twenty. And the yardstick was a compiler's output, which exists only because there was source code to compile. The study shows an AI improving on compiled code. It doesn't show an AI doing without the code.
 
 ## What people do
 
@@ -138,6 +138,8 @@ Three things about that result matter here. The speed is real: on small programs
 The layer can disappear when the machine under it changes, as it did in the electric car. Suppose an AI could write machine code together with a proof that the code does what a short statement says, and a small, trusted program could check the proof. Then the guarantee would have somewhere else to attach, and the reason this chapter gives for keeping the source would weaken. The statement and the proof would be what the next session reads, and they would then be the code.
 
 The part of my first answer about the next reader may still hold for larger programs, and it depends on sessions having no memory. If a system comes to remember reliably everything it has built, it will need less from the repository.
+
+The sessions in E11 worked on assembly, not on the bytes themselves. Assembly keeps each function's name as a label and puts one instruction on each line. Whether a session can change a program given only its bytes, with the names stripped out, I haven't measured.
 
 A compiler checks only what it is set to check. Built in release mode, the Rust version above doesn't check the multiplication for overflow. `refund_share(2^63, 4, 2)` returns `0`, the same wrong answer the assembly gives, and a debug build stops instead with `attempt to multiply with overflow`. A guarantee is only there if someone turned it on.
 
