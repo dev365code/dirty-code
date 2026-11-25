@@ -54,13 +54,13 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 **Part II. Code for the scan tool**
 
-4. [AI guesses what a function does from its name](manuscript/en/04-names.md) · draft
+4. [A function that writes says so in its name](manuscript/en/04-names.md) · draft
 5. [Keep what changes together on one screen](manuscript/en/05-locality.md) · draft
 6. [When a copy is safer than a shared function](manuscript/en/06-duplication.md) · draft
 7. [Comments say why: AI tidies up numbers it can't explain](manuscript/en/07-comments-why.md) · draft
-8. [Every hop through a function is a chance for AI to get lost](manuscript/en/08-indirection.md) · draft
+8. [A layer that does no job today: three payment classes become one table](manuscript/en/08-indirection.md) · draft
 9. [Install a diagnostic port: errors and logs for AI to read](manuscript/en/09-diagnostic-port.md) · draft
-10. [The map AI navigates by: folder names and an index file](manuscript/en/10-map.md) · draft
+10. [AI finds code by the words in your files, and an index saves it a step](manuscript/en/10-map.md) · draft
 11. [Prompts are code that AI reads](manuscript/en/11-prompts-are-code.md) · draft
 
 **Part III. People install the warning lights**
@@ -78,25 +78,28 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 **Closing.** [AI writes the code. People write the guarantees.](manuscript/en/99-closing.md) · draft
 
-## Every chapter follows the same order
+## How a chapter is laid out
 
-1. **Scene**: a situation everyone has been in
+1. **Scene**: a situation everyone has been in (Chapters 8 and 10 start at the claim)
 2. **Claim**: one sentence
 3. **Why**: derived from "AI has no memory, so it reads your code for the first time, every time"
 4. **Code**: a concrete example, usually the version for people next to the version for AI
 5. **Prompt**: what AI opened and changed when given the same task
-6. **Evidence**: an experiment or a case from real work
-7. **What people do**: something you can do tomorrow
-8. **Where it breaks**: the cases where the claim does not hold
+6. **Evidence**: what the sessions did in the experiment, then anything I ran by hand
+7. **Where this chapter's opinion differs from *Clean Code***: only in Chapters 5 to 8, where the advice goes another way
+8. **What people do**: something you can do tomorrow
+9. **Where it breaks**: the cases where the claim does not hold
+
+A page of terms follows the preface. After the closing come a list of the book's patterns, with what each one costs and how far it was tested, and Appendix A, which says how the experiments were run.
 
 ## Every claim comes with an experiment
 
 - We build the same feature in two shapes. The behavior and the tests are identical. Only the shape of the code differs.
-- We send the same request to a fresh session at least ten times.
+- We send the same request to ten fresh sessions for each shape. Where fewer ran, the chapter says so.
 - Success is judged by tests the AI never sees.
 - Every result is recorded with its date and model name, because the numbers change when the model changes.
 
-The experiment plan is in [experiments/](experiments/README.md) (in Korean for now).
+The experiment plan is in [experiments/](experiments/README.md) (in Korean for now), and the full results are in [experiments/RESULTS.md](experiments/RESULTS.md).
 
 ## On *Clean Code*
 

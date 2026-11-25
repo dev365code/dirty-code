@@ -12,7 +12,9 @@ You write sentences to an AI every day. Are they the instructor's kind, or your 
 
 ## Claim
 
-> Write a prompt the way you write code: state the rule, name what may change and what may not, say how to tell the work is done, and then run it to see what it does.
+> Put the owner's rule and a finish line with examples into the prompt, then send it to fresh sessions and look at what comes back.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "Write a prompt the way you write code: state the rule, name what may change and what may not, say how to tell the work is done, and then run it to see what it does." -->
 
 ## Why: an AI does what the words of a prompt say, and where the words are silent it decides for itself
 
@@ -157,7 +159,7 @@ Here is one made of lines that Chapters 2, 4, 6, 7, 10, and 14 ask you to add.
 
 The one-line file is "drive carefully." A session was already trying to write good code, and the line doesn't say what good means in this repository. Each line of the second file names something a session does or doesn't do, and each leaves something you can check afterward: a command in the session's record, the name of a new function, the list of changed files in the diff.
 
-I ran both prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. With the one-line prompt, one session read the four files and wrote `if order.paid > FREE_SHIPPING_THRESHOLD: return 0`, with the threshold at `5000`. That is Reading 3. It changed `shipping.py` and `test_shipping.py`, and it asked no question. Its report listed what it had chosen: "Two choices you should check, since 'orders over $50' could be read more than one way." The first choice was that coupons count against the $50, because the check uses `order.paid`.
+I ran both prompts on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. With the one-line prompt, one session read the four files and wrote `if order.paid > FREE_SHIPPING_THRESHOLD: return 0`, with the threshold at `5000`. That is Reading 3. It changed `shipping.py` and `test_shipping.py`, and it asked no question. Its report listed what it had chosen: "Two choices you should check, since 'orders over $50' could be read more than one way." The first choice was that coupons count against the $50, because the check uses `order.paid`.
 
 With the full prompt, a session changed the same two files and wrote `order.paid >= 5000`, which is Reading 4. It wrote one test for each example in the finish line, then ran its tests against wrong versions of the function to see them fail. Its report began, "Free shipping now works, and `python3 -m unittest` prints OK," and said that no other file needed changing.
 
@@ -169,7 +171,7 @@ For every session, E10 runs the function that came back on the two customers fro
 
 The one-line form has no right answer to score, because the prompt doesn't state the rule. For that form the result is a tally: how many sessions wrote each reading, and how many asked first. For the other two forms the rule is in the prompt, so E10 counts the sessions that wrote Reading 4.
 
-I ran E10 on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 9, 8, and 8 before the run used up its credit.
+I ran E10 on 2026-11-22 with Claude Code and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 9, 8, and 8 before the run used up its credit.
 
 | Form | Reading 1 | Reading 2 | Reading 3 | Reading 4 | Asked before changing code | Changed another file |
 |---|---|---|---|---|---|---|
@@ -203,4 +205,4 @@ Sometimes you can't write the rule, because nobody has decided it. Say so in the
 
 A prompt goes stale the way a comment does (Chapter 7), and a stale line in a rules file can fail without a sound. Suppose the team moves the tests into a folder named `tests/`, as the layout in Chapter 10 does, and the first line of the rules file still says `python3 -m unittest`. On Python 3.9.6, which is the `python3` on my Mac, that command no longer finds the tests. It prints `Ran 0 tests` and `OK`, and it exits with status 0. Every session runs the command it was told to run and truthfully reports a pass. From Python 3.12 on, the same run prints `NO TESTS RAN` and exits with status 5. <!-- source: notes/sources.md, tool behavior, unittest with no tests, run 2026-11-13 --> Change the rules file in the same commit that changes what it describes, and compare the number of tests in the output with the number you expect (Chapter 14).
 
-Better models will need fewer instructions about how to do the work. A model that always asks before it changes a test doesn't need the line that tells it to. No model can do without the rule itself. Whether free shipping starts at the list total or at the amount paid is something a person at the shop decides, and the prompt is where a session finds out.
+A session that always asks before it changes a test doesn't need the line that tells it to. No session can do without the rule itself. Whether free shipping starts at the list total or at the amount paid is something a person at the shop decides, and the prompt is where a session finds out.

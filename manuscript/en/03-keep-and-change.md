@@ -12,7 +12,9 @@ Your team has coding habits too, and many of them came from *Clean Code*. Now an
 
 ## Claim
 
-> Keep the habits that tell any reader what the code does, and weigh again the habits that only saved a human reader's memory or a human writer's typing.
+> Today's AI reads clean code well, so keep *Clean Code*'s habits, and depart from them only in the four places of Chapters 5 to 8, where a new session can't remember the team's reasons or ask a colleague.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "Keep the habits that tell any reader what the code does, and weigh again the habits that only saved a human reader's memory or a human writer's typing." -->
 
 ## Why: some habits help every reader, and some were a bargain with a human reader
 
@@ -28,29 +30,25 @@ The first group is habits that put information into the code. A name that says w
 
 The second group is habits that were a bargain with a human reader. A team accepted a cost because a person could cover it. Take a rule that every function must be short. A team accepts that the steps of one task end up in five small functions across three files, because a person who knows the code remembers where the five are. Or take the rule against duplicated code. A team accepts that seven callers share one function, because someone on the team remembers who the seven are. An AI session has no such memory. For this second group, the bargain has to be weighed again.
 
-Weighing again does not mean doing the opposite every time. Today's AI learned to code from code that people wrote, so code written the *Clean Code* way is easy for it to read, and most of the time the old answer still wins. Chapters 4 to 11 go through the cases one at a time, and each chapter names the conditions under which the answer changes.
+Weighing again does not mean doing the opposite every time. Today's AI learned to code from code that people wrote, so code written the *Clean Code* way is easy for it to read, and in this book's experiments the old answer usually still won. Chapters 4 to 11 go through the cases one at a time, and each chapter names the conditions under which the answer changes.
 
-## Code: seven habits from *Clean Code*, and what each one means for an AI reader
+## Code: nine habits, what *Clean Code* advises, and what this book does with each
 
-The table lists seven habits. The second column is my one-line summary of what *Clean Code* advises. <!-- check against original: all seven rows --> The third column says what this book does with the habit.
+The table lists nine habits. The second column is my one-line summary of what *Clean Code* advises. <!-- check against original: all nine rows --> The last two columns say how far this book's experiments back the change, in a few words, and which chapter has the details.
 
-| Habit | What *Clean Code* advises | For an AI reader | Chapter |
-|---|---|---|---|
-| Names | A name should tell you why the thing exists and what it does. | Keep, and it matters more. A session often goes by the name without opening the function. | 4 |
-| Small functions | A function should be small and do one thing. | Keep "one thing." Weigh again how far apart the pieces of one change end up. | 5, 8 |
-| Duplication | Don't repeat yourself. | Keep where the copies must stay equal. Weigh again where the callers change for different reasons. | 6 |
-| Comments | Explain yourself in code. Comments that explain intent or warn of consequences are the good kind. | Keep. Write down the reasons that used to live in people's heads. | 7 |
-| Errors | Give an exception enough context to find the cause. | Keep, and add the values and the next step. | 9 |
-| Closeness | Put things that belong together near each other in the file. | Keep. "Near" now also means "found by one search" and "read in one file." | 5, 10 |
-| Tests | Write the failing test first, and keep the tests as clean as the code. | Keep, and it matters more. For a person who doesn't read the code, the tests are the specification. | 14 |
+| Habit | What *Clean Code* advises | What this book does, and why | How far the experiments back it | Chapter |
+|---|---|---|---|---|
+| A rule settled in a chat | Doesn't take this up: its reader remembers yesterday and can ask a colleague | Write the rule in a comment or the rules file, because a new session reads only the files | Pays off | 2 |
+| Names | A name says what the thing does, side effects included | The same, and a function that changes stored data says so, because the name is what shows at every call | No difference when the prompt named the write. When it didn't, one model filled a cache less often under the longer name | 4 |
+| Small functions | A function is small and does one thing | Keep the lines that one change touches in one function, because a session edits the files its search finds | Pays off in one case: a rule in five files of a large repository, with one model | 5 |
+| Duplication | Don't repeat yourself | A caller whose output someone else decides gets its own copy, because a session knows only the callers it searched for | Mixed: no caller broke either way, and sharing grew a switch that one caller uses | 6 |
+| Comments | Explain yourself in code. Comments that explain intent or warn of consequences are the good kind | A reason above every value that looks wrong on purpose, repeating the value, because the reason lives outside the code | Pays off when a cleanup asks for round values | 7 |
+| Layers | Prefer polymorphism to code that switches on a type | A layer only when it does a job today, because a session can stop early at any hop | No difference yet | 8 |
+| Errors | Give an exception enough context to find where and why it failed | The same, and the line adds the values and the next step, because a session may have only the line | Changed what the reports said, not whether the fix was right | 9 |
+| Names of files and folders | Choose names that reveal intent | The same inside files. Folder names and a one-page index save a step, because a session searches the words inside files first | A small difference: about one tool call per question | 10 |
+| Tests | Write the failing test first, and keep the tests as clean as the code | The same, and watch every check fail, on the old code and on a wrong answer you planted, because a pass shows only what the check looked at | The method is the point. No session weakened an assertion | 14 |
 
-Five of the seven rows say "keep" with nothing to weigh. In those rows the AI needs the same thing a person needs, and it needs it more. The other two rows, small functions and duplication, keep the habit and add a condition.
-
-Here is one example from each kind of row. Both come from later chapters.
-
-A row that carries over is names. In Chapter 4, a lookup function also stores what it finds in a cache. Under the name `get_user`, a session that reuses the call has no way to see the cache from the line it copies. Under the name `get_user_and_fill_cache`, the call site says it. *Clean Code* would ask for the second name too. <!-- check against original -->
-
-A row that gets weighed again is duplication. In Chapter 6, seven callers share one function that formats an amount of money. The shop's accountant asks for commas in one report. A session that edits the shared function gives commas to all seven callers, and one of the seven is a file that the payment provider splits on commas. If the report has its own copy of the function, the same edit can't reach the other six. Chapter 6 also shows the case where a copy is the wrong choice.
+Four rows, Chapters 5 to 8, go another way from *Clean Code*. Each of them moves something a teammate used to carry in memory into the code: which files a rule touches, which callers share a function, why a value is odd, and where the route through the classes ends. Two rows, errors and tests, add to *Clean Code*'s advice, and two, names and the names of files, keep it as it is. The first row is a question *Clean Code* had no reason to ask.
 
 ## Prompt: a style rule in your rules file is a prompt, and the AI follows it to the letter
 
@@ -72,20 +70,11 @@ An AI tends to follow an instruction to the letter. Given the first rule, a sess
 
 The second rule is longer, and it gives the session the reason along with the limit. A session can apply a reason to a case the rule's author didn't foresee. I haven't measured the difference between these two rules. Chapter 11 looks at how to write instructions like these.
 
-## Evidence: each row of the table is tested by the experiment in its own chapter
+## Evidence: the last column of the table, and the experiment that puts all the rows in one repository
 
-This chapter runs no experiment of its own. Each row in the table is a claim that a later chapter tests. The table below says which experiment tests which row. I ran all of them on 2026-11-22 and 23, some only in part, with two coding agents: Claude Code with Claude models, and Codex CLI, OpenAI's coding agent, with gpt-6.2-sol. The last column gives each result in one line, and the chapter gives the details.
+This chapter runs no experiment of its own. The last column of the table gives each row's result in a few words, the chapter named in that row gives the experiment, and the list of patterns at the end of the book gives the deciding number for each.
 
-| Habit | Experiment | What it counts | Result |
-|---|---|---|---|
-| Names | E3 (Chapter 4) | How often a session calls a function that writes when the prompt said not to write | All five functions: 0 of 140 sessions (one function in 60 sessions with Claude models, the other four in 80 with Codex) |
-| Small functions, closeness | E4 (Chapter 5), E7 (Chapter 8), E9 (Chapter 10) | How often a session finishes a change when the code for it is in 1, 3, or 5 files, or behind 0, 1, or 3 hops, and how often it names the right file and function when the folders have feature names or generic names | Rule spread over five files: Sonnet left out the message in 4 of 10 runs, and every other model and layout got 10 of 10. Up to three hops: all 120 runs right. Generic file names: Haiku 38 and Sonnet 39 of 40 answers right, against 40 of 40 in feature folders, with about one more tool call per question |
-| Duplication | E5 (Chapter 6) | How many other callers change when a session is asked to change one | 0 in 80 runs. In the version for people, 22 of 40 sessions gave the shared function a switch. With a restocking fee to charge (Codex), the refund and the payout deduction came apart in 10 of 10 runs with the shared rule and 0 of 10 with the copy |
-| Comments | E6 (Chapter 7) | How often a number survives a cleanup when a comment gives its reason | Two values: changed in 2 of 9 cleanups without the reasons, 0 of 9 with them |
-| Errors | E8 (Chapter 9) | What a session does next when the error line carries the values and the next step | Codex: all 100 sessions fixed their failure with either line. With the short line, 39 of 50 reports said the line couldn't show what had failed in production |
-| Tests | E12 (Chapter 14) | How often a session changes the assertion when asked to make a test pass | 0 of 16 runs with Claude, 0 of 20 with Codex |
-
-If an experiment shows no difference, I will say so in that chapter and change the row here.
+Chapter 16 tests the rows together. It builds one shop twice, once with *Clean Code*'s habits and once with this book's, and sends both the same twenty requests. With three models, the two versions passed about equally often: 190 and 190 of 200 runs with Codex, 177 and 178 with Claude Sonnet 5.5, and 173 and 171 with Claude Haiku 5.5. That is the result this chapter's claim rests on: today's AI reads clean code well. The one request that every model lost in the version for people was the cleanup that needed a fact no code in that version showed, the reason for a 37-second timeout.
 
 ## What people do
 
@@ -100,8 +89,8 @@ People still read some of your code. Someone gets paged when the payment code fa
 
 Some rules exist for tools, not for readers. A formatter's line length and an import order are examples. No reader's memory is involved, so nothing in this chapter applies to them. Keep them.
 
-The table can be read as a list of things to stop doing. That reading is wrong. Five rows carry over, and the other two keep the habit and add a condition. A team that drops small functions, shared code, and self-explaining code because "the reader is an AI now" will have code that neither reader can follow.
+The table can be read as a list of things to stop doing. Most of its rows keep *Clean Code*'s advice, and the four that go another way each name the case where they do. A team that drops small functions, shared code, and self-explaining code because "the reader is an AI now" will have code that neither reader can follow.
 
-Better models will move some of these lines. A model with a larger context window can read more files before it writes, so code spread across files will cost it less. A model that checks every caller before it edits a shared function will make the duplication row matter less. The rows about names, errors, and tests don't depend on those limits. They are about information that isn't anywhere unless someone writes it down.
+A session that can read more files before it writes would pay less for code spread across files, and a session that checks every caller before it edits a shared function would make the duplication row matter less. The rows about names, errors, and tests don't depend on those limits. They are about information that isn't anywhere unless someone writes it down.
 
-I expect the table to change in the other direction as well. *Clean Code*'s advice was shaped by what a human reader can hold in mind and what a human writer is willing to type. An AI reader has different limits, and code arranged for those limits already differs from clean code in two rows of the table. As more code is written by AI and read by AI, I expect more rows to change. Code arranged that way is what this book's title calls dirty code. The seven rows show where it stands today, and the experiment in each chapter is how a row gets corrected.
+The rows that go another way today are those of Chapters 5 to 8. Chapter 18 says where I expect the table to go from here.

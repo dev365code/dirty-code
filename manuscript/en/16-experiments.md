@@ -12,7 +12,9 @@ This book has made eight claims about code, one in each chapter of Part II. What
 
 ## Claim
 
-> To find out whether code arranged for an AI reader works better, build the same program twice, send both the same change requests in fresh sessions, and let tests the AI never sees decide.
+> Built twice and sent the same twenty requests, the version arranged for an AI reader passed about as often as the clean one, and the two lost different requests: one changed a value whose reason was written nowhere, and one stopped to ask because of a line in its rules file.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "To find out whether code arranged for an AI reader works better, build the same program twice, send both the same change requests in fresh sessions, and let tests the AI never sees decide." -->
 
 ## Why: a fresh session has never seen the task, so the same task can be given to the same reader ten times
 
@@ -59,17 +61,17 @@ Four requests are chosen to favor Repository A. One asks to fix how negative amo
 
 With 20 requests, 2 repositories, and 10 fresh sessions each, one model takes 400 sessions.
 
-On 2026-11-23 I ran all 400 with Codex CLI 0.171.0, OpenAI's coding agent, and the model gpt-6.2-sol at its default setting. Here is one session per repository on two of the requests.
+On 2026-11-23 I ran all 400 with Codex CLI, OpenAI's coding agent, with gpt-6.2-sol, and on 2026-11-25 I ran them again with Claude Code and two Claude models. Here is one Codex session per repository on two of the requests.
 
 The first is Chapter 7's cleanup of the payment code. In Repository A, the session listed the files, printed the rules file, the payment modules in `services/`, the money helpers, and two test files, and searched for `37`, `48`, and the names of the constants. Then it edited five files. It renamed the constants, deleted the unused provider URL and retry delay, changed `APPROVE_TIMEOUT_SEC = 37` to `APPROVAL_TIMEOUT_SECONDS = 40`, changed the settlement batch size from 48 to 50, and edited two tests to expect 40 and 50. Its report said that it had "rounded the approval timeout from 37 to 40 seconds and the settlement batch size from 48 to 50 orders." All 259 visible tests passed. In Repository B, the session printed `INDEX.md` first, as B's rules file says to, then everything in the `payments` folder, renamed the constants and two functions, and deleted the same leftovers. It kept 37. Its report said it had kept "the documented 37-second timeout, which leaves three seconds to record the timeout before the provider closes the connection." In B the batch size sits in the `settlement` folder, and the session didn't open it.
 
 The second is an ordinary bug: a customer who bought on November 30 was refused a return on December 1. In both repositories the session searched for the return check, printed it with its tests, changed the date comparison to count calendar days, checked the reported dates, and ran the tests. It took 7 tool calls in A and 8 in B, one of them to read `INDEX.md`. Both reports said that a purchase on November 30 can now be returned through December 7.
 
-## Evidence: on the first model both repositories passed 190 of 200 runs, and each lost a different request
+## Evidence: with three models both repositories passed about equally often, and each lost a different request
 
 For every session the experiment records the date, the tool and the model, the prompt, whether both hidden checks passed, the files the session opened, its tool calls, the tokens it used, and the time it took.
 
-The results go in one table with a row for each request: passes out of 10 in A, and passes out of 10 in B. I will report them request by request for a reason. Ten runs can't separate two versions on a single request. If both versions pass a task 8 times in 10 over the long run, their counts in 10 runs each will still differ by 2 or more 39% of the time. A result of 9 passes against 7 is well within what chance alone produces. <!-- computed 2026-11-13: P(|X-Y|>=2) = 0.394 for two binomials n=10 p=0.8; Fisher exact two-sided p = 0.58 for 9/10 vs 7/10 -->
+I report the results request by request for a reason. Ten runs can't separate two versions on a single request. If both versions pass a task 8 times in 10 over the long run, their counts in 10 runs each will still differ by 2 or more 39% of the time. A result of 9 passes against 7 is well within what chance alone produces. <!-- computed 2026-11-13: P(|X-Y|>=2) = 0.394 for two binomials n=10 p=0.8; Fisher exact two-sided p = 0.58 for 9/10 vs 7/10 -->
 
 The totals can show more. If B passes 180 of its 200 runs and A passes 160 of 200, a gap that size would be unlikely with no real difference behind it. <!-- Fisher exact two-sided p = 0.007 --> That calculation treats the 200 runs as 200 separate trials, and they are 20 requests run 10 times each. So a difference in the totals counts only if it also shows up across the requests and doesn't come from two or three of them.
 
@@ -81,47 +83,48 @@ The two repositories may pass about equally often. That would fit what Chapter 3
 
 Repository A may pass more often. Then some habit in B costs more than it gives, and the chapters' own experiments have to show which one.
 
-I ran the 400 sessions on one model first, on 2026-11-23, with Codex CLI 0.171.0 and gpt-6.2-sol at its default setting. The same 400 on a second model, with Claude Code, come next, to see whether the result belongs to one model's habits. In the table, files opened are the repository's files that a session printed with a command such as `cat` or `sed -n`, and a tool call is one shell command or one file edit. Both are medians over the 10 runs.
+Two rules decided how a run counts, and both were set before the runs they apply to. A hidden check may ask only for what the request says, or for what the shop's own code already does in the same kind of case. Three things in my checks broke that rule, and Appendix A says what they were and how I corrected them: the corrections turned 40 failed runs into passes with Codex, 40 with Sonnet, and 38 with Haiku. And every run falls into one of five outcomes: it passed, the requested behavior failed, behavior the request didn't ask for changed, an output gained a key and nothing else changed, or the session changed no file and asked before going on. A run whose output gained a key counts as failed.
 
-| Request | Group | A passes | B passes | A: files opened, tool calls | B: files opened, tool calls |
+I ran the 400 sessions three times: on 2026-11-23 with Codex CLI and gpt-6.2-sol, and on 2026-11-25 with Claude Code and two Claude models at their default settings, Claude Sonnet 5.5 and Claude Haiku 5.5. The full table for each model, request by request, with the files opened and the tool calls, is in the repository at `experiments/RESULTS.md`.
+
+| Group | Codex, A | Codex, B | Sonnet, A | Sonnet, B | Haiku, A | Haiku, B |
+|---|---|---|---|---|---|---|
+| 1. Part II's prompts (80 runs) | 70 | 80 | 70 | 67 | 70 | 65 |
+| 2. Ordinary work (80 runs) | 80 | 80 | 67 | 72 | 63 | 67 |
+| 3. Chosen to favor A (40 runs) | 40 | 30 | 40 | 39 | 40 | 39 |
+| All (200 runs) | 190 | 190 | 177 | 178 | 173 | 171 |
+
+| Model, repository | Passed | Requested behavior failed | Other behavior changed | Gained a key | Asked and stopped |
 |---|---|---|---|---|---|
-| R01 Export emails without touching the cache (Ch. 4) | 1 | 10 | 10 | 5.5, 5 | 6, 6 |
-| R02 Reject a throwaway email domain (Ch. 5) | 1 | 10 | 10 | 5, 5 | 2.5, 7 |
-| R03 Thousands separators in the settlement report (Ch. 6) | 1 | 10 | 10 | 3.5, 6 | 3, 6.5 |
-| R04 Clean up the payment constants (Ch. 7) | 1 | 0 | 10 | 10.5, 6 | 9, 7 |
-| R05 A 3% fee on card payments (Ch. 8) | 1 | 10 | 10 | 4, 7 | 7, 7 |
-| R06 Find the cause from the error line (Ch. 9) | 1 | 10 | 10 | 2, 6 | 3.5, 7 |
-| R07 Say where a refund's amount is decided (Ch. 10) | 1 | 10 | 10 | 0, 2 | 1.5, 2 |
-| R08 Free shipping, with a finish line (Ch. 11) | 1 | 10 | 10 | 7, 5 | 8, 7.5 |
-| R09 An optional gift message on an order | 2 | 10 | 10 | 6, 6.5 | 5.5, 8.5 |
-| R10 Percentage coupons | 2 | 10 | 10 | 6, 5.5 | 6, 6 |
-| R11 Returns across a month boundary | 2 | 10 | 10 | 3.5, 5.5 | 4, 7 |
-| R12 A daily sales summary | 2 | 10 | 10 | 9.5, 7.5 | 6.5, 7 |
-| R13 A low-stock watch list | 2 | 10 | 10 | 5.5, 5 | 6, 7 |
-| R14 Deactivate a customer | 2 | 10 | 10 | 5.5, 6.5 | 10.5, 7 |
-| R15 An expiry date on coupons | 2 | 10 | 10 | 3, 6 | 5.5, 7 |
-| R16 Let a customer turn off notifications | 2 | 10 | 10 | 5, 5 | 7, 8 |
-| R17 A negative amount shown as `--2.77` | 3 | 10 | 10 | 3, 4.5 | 5, 6.5 |
-| R18 A payment method with a confirmation step | 3 | 10 | 10 | 4, 6 | 9.5, 7 |
-| R19 Change the sign-up messages while the server runs | 3 | 10 | 10 | 5.5, 6 | 3, 7 |
-| R20 Settlement batches of 100 | 3 | 10 | 0 | 2, 5 | 4, 4 |
-| **Group 1** (Part II's prompts) | | **70 of 80** | **80 of 80** | 4.5, 6 | 5, 7 |
-| **Group 2** (ordinary work) | | **80 of 80** | **80 of 80** | 5, 6 | 6, 7 |
-| **Group 3** (chosen to favor A) | | **40 of 40** | **30 of 40** | 3, 5 | 4, 6 |
-| **All** | | **190 of 200** | **190 of 200** | 5, 6 | 6, 7 |
+| Codex, A | 190 | 0 | 10 | 0 | 0 |
+| Codex, B | 190 | 0 | 0 | 0 | 10 |
+| Sonnet, A | 177 | 0 | 10 | 13 | 0 |
+| Sonnet, B | 178 | 3 | 0 | 8 | 11 |
+| Haiku, A | 173 | 0 | 10 | 17 | 0 |
+| Haiku, B | 171 | 5 | 0 | 13 | 11 |
 
-A search doesn't count as opening a file, so on R07 the sessions in A, which read the function in the output of a search, opened none. Ten runs broke behavior the request didn't ask for, all of them in A on R04. No run in B broke anything it wasn't asked to change.
+Thirteen of the twenty requests passed 10 times in 10 in both repositories with all three models. Here are the other seven, with passes out of 10.
 
-Two of the hidden checks first asked for something their request didn't say. The check for the throwaway domain (R02) wanted the error code `email_blocked`, and every session in both repositories named its code `email_domain_blocked`. The check for the watch list (R13) wanted `ValueError` for a threshold like `-1` or `1.5`, and every session raised the shop's own `StockError`. Neither request names an error. I took those two demands out, left the rest of both checks as they were, confirmed that the corrected checks still fail on the unchanged repositories and pass on the reference solutions, and judged those 40 runs again. All 40 passed, and the table shows the corrected counts.
+| Request | Codex, A and B | Sonnet, A and B | Haiku, A and B | What the runs that failed did |
+|---|---|---|---|---|
+| R01 Export emails without touching the cache (Ch. 4) | 10, 10 | 10, 7 | 10, 5 | Raised another error than the shop's `KeyError` for an unknown customer, such as `LookupError` |
+| R03 Thousands separators in the settlement report (Ch. 6) | 10, 10 | 10, 0 | 10, 0 | Stopped and asked |
+| R04 Clean up the payment constants (Ch. 7) | 0, 10 | 0, 10 | 0, 10 | Changed the 37-second approval timeout |
+| R10 Percentage coupons | 10, 10 | 10, 10 | 4, 10 | Added a key to an output |
+| R12 A daily sales summary | 10, 10 | 7, 9 | 9, 7 | Added a key to each line of the summary |
+| R15 An expiry date on coupons | 10, 10 | 0, 3 | 0, 0 | Added `expires_on: null` to coupons that have no expiry date |
+| R20 Settlement batches of 100 | 10, 0 | 10, 9 | 10, 9 | Stopped and asked |
 
-That is the second of the three outcomes. The two repositories passed equally often, 190 times in 200 each, and 18 of the 20 requests passed 10 times in 10 in both. Each repository lost one request, all ten times.
+That is the second of the three outcomes, with all three models. The totals of A and B differ by at most two runs in 200, and each repository's main loss came from one habit.
 
-- In Repository A, the cleanup of the payment constants (R04). Every session rounded the approval timeout from 37 to 40 seconds, and nine also rounded the batch size from 48 to 50. Nothing in A says why either value was chosen. This is the failure Chapter 7 predicts.
-- In Repository B, the batches of 100 (R20). Every session stopped before changing the batch size and asked first, because of a line in B's rules file: "Don't change a value whose comment gives a reason. If you think the reason is out of date, tell me and wait." The request had said that the provider now accepts 100 and asked for exactly that change. In a real session you would answer, and the change would likely follow. The hidden check counts what the session did, and it changed nothing.
+- Repository A lost the cleanup of the payment constants (R04) with every model, all ten times. Every session changed the 37-second approval timeout: Codex to 40, Sonnet to 30, and Haiku to 30 or 40. Nothing in A says why 37 was chosen. This is the failure Chapter 7 predicts.
+- Repository B lost to a line in its own rules file, the line Chapter 7 had recommended: "Don't change a value whose comment gives a reason. If you think the reason is out of date, tell me and wait." With Codex, all ten sessions stopped on the batches of 100 (R20), although the request gave the new limit and its reason. With Sonnet and Haiku, all ten sessions stopped on the thousands separators (R03), because the settlement report's copy of the formatter says that the accountant sets its format. One Sonnet session asked, "Please confirm the accountant has signed off on the new format." In a real session you would answer, and the change would likely follow. The hidden check counts what the session did, and it changed nothing. Chapter 7 tells this story and tests two rewritten lines.
 
-B also cost a little more work. The median session in B made 7 tool calls against 6 in A, and every session in B printed `INDEX.md`, as B's rules file tells it to. The median session in B also used about a fifth more tokens: 101,000 against 83,000, counting the ones the model read from its cache. The median session took 30 seconds in B and 26 in A.
+The Claude models also failed in a way Codex didn't. Some sessions added a key to an output, such as `expires_on: null` on a coupon with no expiry date, and left every value that was there before unchanged. These runs count as failures, by the rule set before the runs. Counted as passes, they would make the totals 190 and 186 for Sonnet, and 190 and 184 for Haiku. And in Repository B, 3 Sonnet and 5 Haiku sessions raised another error than `KeyError` for an unknown customer, where the shop's existing lookups raise `KeyError`. No session in A did that, and I can't tell from the runs what in B led them there.
 
-So with this model, the eight habits together didn't make Repository B pass more often. They decided which request failed. A lost the request that touched a value with no reason written next to it, and B lost the request that changed a value with a reason, because B's rules file told the session to wait. By what I wrote above, this outcome limits each chapter's claim to the cases its own experiment isolates. I'll make that change in each chapter after the second model has run.
+The work went different ways with different models. With Codex, the median session in B used about a fifth more tokens than in A, 101,000 against 83,000, counting the ones the model read from its cache, and made 7 tool calls against 6. Every Codex session in B printed `INDEX.md`, as B's rules file tells it to. With Sonnet, the median session in B used fewer tokens, 119,000 against 131,000. With Haiku the two were about the same, 232,000 in B and 228,000 in A.
+
+So with three models, the eight habits together didn't make Repository B pass more often. They decided which requests failed. A lost the request that touched a value with no reason written next to it. B lost requests that its own rules file told the session to stop on. By what I wrote above, this outcome limits each chapter's claim to the cases its own experiment isolates, and each chapter now says so.
 
 ## What people do
 
@@ -144,7 +147,7 @@ I ran the commands in the second and third steps on the repository from Chapter 
 
 ## Where it breaks
 
-The numbers in this chapter will be a photograph with a date on it. A new model changes them. What stays is the method. I'll publish the two repositories and the twenty requests with the results, so that anyone can run the experiment again on the next model.
+The numbers in this chapter belong to the three models and the dates named with them, and a new model will change them. The method can be run again on the next model: I'll publish the two repositories and the twenty requests with the results.
 
 The shop is small. It has a few dozen files, and a session can read most of them before it writes. In a repository of 2,000 files, finding the code is a larger part of the work, and the differences in the table may matter more or less than they do here. That is why your own replay counts for more than my numbers.
 

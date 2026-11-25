@@ -8,29 +8,25 @@ The next reader of your code has changed. *Clean Code* taught us to write for a 
 
 ## What "dirty code" means
 
-Start with what hasn't changed. Today's AI learned to code from code that people wrote. So code written the way *Clean Code* teaches is easy for it to read as well.
+Start with what the experiments found. Today's AI learned to code from code that people wrote, and it reads clean code well. When the facts a change needed were already in the code, the version for people and the version for AI passed about equally often. In the combined experiment of Chapter 16, the two repositories passed 190 and 190 of 200 runs with Codex, 177 and 178 with Claude Sonnet 5.5, and 173 and 171 with Claude Haiku 5.5.
 
-But the advice in *Clean Code* was fitted to a human reader. It was fitted to how much a person can hold in mind, to a person's patience for typing, and to the fact that a person remembers last month and can ask a colleague. An AI reader differs in each of these. It has no memory, so it reads your code for the first time, every time. It finds code by searching, and it reads only part of the repository. It follows your words to the letter. And typing costs it almost nothing.
+The two versions came apart where a session had to guess a fact that no code shows. In the version for people, nothing said why the approval timeout was 37 seconds, and every session asked to clean up the payment code and round its constants changed it, with all three models. In a copy where nobody had written down where a partial refund's leftover cents go, all ten Codex sessions wrote a rule of their own.
 
-Fit the code to that reader, and in some places you get code that *Clean Code* would not call clean. A function is copied on purpose. A function is left long so that one change stays in one place. A number carries a comment that says why it isn't the round number next to it. A prompt is checked into the repository and tested like code.
+In this book, dirty code is code that puts what a teammate used to remember, or used to answer when asked, into the files a session reads, and that reports its own state in a form a machine can check. Most of it is advice *Clean Code* would accept. In four places my advice differs from *Clean Code*'s. Chapter 5 keeps the lines that one change touches in one function, even when the function runs long. Chapter 6 gives a caller its own copy when someone else decides what it outputs. Chapter 7 writes a reason above every value that looks wrong on purpose. Chapter 8 removes a layer that does no job today. <!-- check against original --> Each of those chapters gives its reason and says how far its experiment backs it. So far the experiments back Chapter 7, back Chapter 5 in one case, are mixed for Chapter 6, and show no difference yet for Chapter 8.
 
-I expect that list to grow. As more code is written by AI and read by AI, people will arrange more of it for that reader, and it will look less and less like clean code. That code is what this book calls dirty code. The name is deliberate. By the old standard, some of it looks messy.
-
-Where this book's advice differs from *Clean Code*'s, it says so plainly. Chapter 5 lets a function run long. Chapter 6 copies a function that *Clean Code* would have you share. <!-- check against original --> Chapter 8 takes out a layer of classes. Where the old advice matters even more for the new reader, as with names and tests, the book says that too.
+I also expect something the experiments don't show yet. As more code is written by AI and read by AI, I expect people to arrange more of it for that reader, even where a person finds the result harder to follow. A modern engine bay already works that way: a person who opens the hood sees a plastic cover, and the scan tool plugged in under the dashboard reads the fault. The furthest my experiments reached in that direction is Chapter 18: in ten small programs, a session given only the machine code changed it as reliably as a session given the source. By the old standard some of this code looks messy, and the name dirty code is meant to say so.
 
 ## Where I am writing from
 
 For more than five years my job was to catch fraud and money laundering at crypto exchanges. No one can read every transaction an exchange handles in a day, so I wrote rules that read them and flagged what looked wrong. Today I build AI agents, and AI writes much of the code I work with. This book takes the same approach to code that I took to transactions: when you can't read everything, you decide what must never get through, and you build the check that catches it. <!-- author check: the same facts as the author note in the README -->
 
-<!-- [Author case slot] How the author works with AI on real projects: who writes, who inspects, and what has to pass before anything is released. -->
-
 ## What is proven and what isn't
 
-Every claim in this book comes with an experiment. The same feature is built in two shapes. The same request is sent to fresh sessions at least ten times. Tests that the AI never sees decide which runs succeeded.
+Every claim in this book comes with an experiment. The same feature is built in two shapes, the same request goes to ten fresh sessions for each, and tests that the AI never sees decide which runs succeeded.
 
-In this draft, most experiments have been run, some only in part, and a few haven't. I ran them on 2026-11-22 and 23 with two coding agents: Claude Code with Claude models, and Codex CLI, OpenAI's coding agent, with the model gpt-6.2-sol. Where an experiment has run, the chapter's Evidence section gives the date, the tool, the models, the number of runs, and the counts, and says where the run differed from the design. Where one hasn't, the section says what it will measure. Nothing in the text is a made-up result. Where I ran something myself while writing, such as a listing or a command, the text says "I ran" and reports what happened.
+I expected the version for AI to win. In the combined experiment it didn't. The two repositories passed about equally often with all three models, and each lost on different requests. The version for people lost the cleanup that changed a value whose reason was written nowhere. The version for AI lost requests on which a line in its rules file, a line that Chapter 7 had recommended, made the session stop and ask. Chapter 7 tells that story and tests two rewritten lines.
 
-If a result goes against a claim, I will change the claim and say so in that chapter.
+Where an experiment went against a claim, I narrowed the claim and said so in the chapter: Chapters 4, 5, 6, 8, 10, 12, 17, and 18. Every chapter's Evidence section gives the date, the tool, the models, and the counts. Appendix A says how the sessions were run and judged, including the three places where my hidden tests asked for more than a request said and how I corrected them. The full tables are in the repository at `experiments/RESULTS.md`. Nothing in the text is a made-up result. Where I ran something myself while writing, such as a listing or a command, the text says "I ran" and reports what happened.
 
 ## How to read this book
 
@@ -42,4 +38,4 @@ Part III is about what people do when they no longer read every line. They cut t
 
 Part IV asks whether any of this is true and how far it goes. It describes the experiment that puts the whole book in one repository, the moments when a person still has to read code, and the question of whether code itself is on its way out.
 
-Every chapter has the same eight sections, and the seventh is always a checklist called "What people do." If you read nothing else in a chapter, read that.
+Most chapters have the same eight sections in the same order, and each has a checklist called "What people do." If you read nothing else in a chapter, read that. Chapters 5 to 8 add a section on where their opinion differs from *Clean Code*. A page of terms follows this preface. After the closing come a list of the book's patterns, with what each one costs and how far it was tested, and Appendix A, on how the experiments were run.

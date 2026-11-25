@@ -12,7 +12,9 @@ An AI wrote your code. Who is the second garage, and what do you ask it to show 
 
 ## Claim
 
-> Have a fresh session inspect what another session wrote, give each inspector a different question, and act on a finding only after you have run it yourself.
+> Ask a fresh session for an input that breaks the rule, written as a failing test, and run every finding yourself before you act on it.
+
+<!-- Claim draft for the owner, 2026-11-25. Before: "Have a fresh session inspect what another session wrote, give each inspector a different question, and act on a finding only after you have run it yourself." -->
 
 ## Why: the session that wrote the code knows what it meant, and a fresh session reads only what is there
 
@@ -177,25 +179,17 @@ The two reviewers have different targets. Reviewer A goes after the code and use
 
 When a finding is real, its failing test becomes the finish line for the fix (Chapter 11). You hand the test to a session. When that test passes and the old tests still pass, check one more order the test doesn't use, worked out by the rule, because a test checks only the orders it names.
 
-I ran two of these prompts on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. The repository's last commit was Change B. A fresh session has no change in front of it, so the first prompt said `Review the last commit and find bugs.` One review with that prompt began, "That fixes the old over-refund on coupon orders but adds two new bugs." Its first finding was the leftover cents, shown with three orders. In one of them, three items at $10.00 with a $10.00 coupon, the customer paid $20.00 and the refunds added up to $19.98. That review took 21 minutes.
+I ran two of these prompts on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. The repository's last commit was Change B. A fresh session has no change in front of it, so the first prompt said `Review the last commit and find bugs.` One review with that prompt began, "That fixes the old over-refund on coupon orders but adds two new bugs." Its first finding was the leftover cents, shown with three orders. In one of them, three items at $10.00 with a $10.00 coupon, the customer paid $20.00 and the refunds added up to $19.98. That review took 21 minutes.
 
 With Reviewer A's prompt, a review began, "I found one: `partial_refund_amount` never adds the leftover cents to the last refund." It gave the same kind of order, a table of the three returns with `666`, `666`, and `666` against the rule's `666`, `666`, and `668`, and a failing test. It took 3 minutes. I ran that order against Change B, and the refunds came to `666`, `666`, and `666`, which is 1998 cents of the 2000 paid. I didn't run Reviewer B's prompt.
 
-## Evidence: I checked the five findings, and one proposed fix made the shop pay back $29.01 on a $29.00 order
-
-The reviews by fresh sessions come later in this section: both prompts found the leftover cents, and Reviewer A's prompt returned a failing test every time. First, the five findings from the example reports.
-
-Four rows of the table are runs on the listing above. The second finding gave no input, so its row is my reading of the code. <!-- run 2026-11-13, Python 3.9.6 --> Three of the five findings were real: the leftover cents, the constant function that the tests accept, and the division by zero. One finding proposed a fix that pays back $29.01 on a $29.00 order. One finding pointed at a real symptom and asked for the wrong change.
-
-After `partial_refund_amount` is changed to add the leftover cents to the last item, Reviewer A's test passes and the refunds are `966`, `966`, and `968`. The keyboard test from Chapter 14 still passes.
-
-The runs are mine, and the reports are examples I wrote. They show why a finding has to be run. They don't show how often a reviewing session produces a finding like the first one.
+## Evidence: the sessions that wrote the change all answered yes, and every fresh review with Reviewer A's prompt returned a failing test
 
 Experiment E15 collects real reports. It asks for a review of Change B in three ways. In the first, the session that wrote the change is asked, "Is this right?" To get such sessions, each one is first given the task from Chapter 14, and I keep the runs in which the session wrote Change B. In the second way, a fresh session gets "Review this change and find bugs." In the third, a fresh session gets Reviewer A's prompt. Each way runs 10 times.
 
 E15 counts the reviews that report the leftover-cent defect with an order that reproduces it. For every review it also counts the findings I could reproduce and the findings I couldn't.
 
-I ran two of the three ways on 2026-11-22 with Claude Code 2.1.330 and Claude Opus 5.5 at its highest effort setting: a fresh session with the prompt to find bugs, and a fresh session with Reviewer A's prompt. With Claude I didn't run the way that asks the session that wrote the change. The prompt to find bugs said `Review the last commit and find bugs.`, as in the run above. I planned 10 reviews per way and got 9 and 10.
+I ran two of the three ways on 2026-11-22 with Claude Code and Claude Opus 5.5 at its highest effort setting: a fresh session with the prompt to find bugs, and a fresh session with Reviewer A's prompt. With Claude I didn't run the way that asks the session that wrote the change. The prompt to find bugs said `Review the last commit and find bugs.`, as in the run above. I planned 10 reviews per way and got 9 and 10.
 
 | Way | Reviews that reported the leftover cents | Reviews that also gave an order with its amounts |
 |---|---|---|
@@ -206,7 +200,7 @@ For these reviews I didn't run every finding, so I can't give their counts of fi
 
 Both ways found the defect this time. The difference was in what came back. Reviewer A's prompt returned a failing test every time, which you can check with one command. The prompt to find bugs returned a written finding, usually with an order in it. It also cost more: an average of $3.63 per review, against $0.64 for Reviewer A's prompt.
 
-On 2026-11-22 I ran all three ways with a second coding agent, Codex CLI 0.171.0, OpenAI's coding agent, with the model gpt-6.2-sol at its default setting, 10 times each, so that the three could be compared on one model. To get sessions that had written Change B, I gave fresh sessions the task from Chapter 14 with `Make the tests pass.` The first 10 all wrote Change B, each with one check added that returns 0 when the list total or the item's price is 0. Then each was asked `Is this right?`
+On 2026-11-22 I ran all three ways with a second coding agent, Codex CLI with gpt-6.2-sol, 10 times each, so that the three could be compared on one model. To get sessions that had written Change B, I gave fresh sessions the task from Chapter 14 with `Make the tests pass.` The first 10 all wrote Change B, each with one check added that returns 0 when the list total or the item's price is 0. Then each was asked `Is this right?`
 
 | Way, with Codex | Reviews that reported the leftover cents | Reviews that also gave an order with its amounts |
 |---|---|---|
@@ -217,6 +211,14 @@ On 2026-11-22 I ran all three ways with a second coding agent, Codex CLI 0.171.0
 Every answer from a session that wrote the change began with yes: "Yes for the tested case," or "Yes for the behavior the test specifies." Each then said that rounding each item down can leave cents unrefunded when every item comes back, and that `already_refunded` is still unused. None gave an order, and none said plainly that the change was wrong. A typical closing sentence: "Whether those belong in this function depends on the refund policy and what the caller already handles." A person who reads only the first word of each answer hears yes ten times.
 
 Each fresh session with the prompt to find bugs that reported the leftover cents gave an order with it, such as two 100-cent items with a 1-cent coupon: the customer pays 199 cents, and the two refunds are 99 cents each. The two that missed it reported other things, a division by zero on an order whose prices are all 0 and a negative refund when the coupon is larger than the order. With Reviewer A's prompt, all 10 used the same order, a $30.00 keyboard and a $20.00 mouse with a $5.01 coupon. I ran all 10 of their tests against Change B, and every one failed, for example with `AssertionError: 1799 != 1800`. I also ran each kind of finding from the reviews with the prompt to find bugs on Change B: the leftover cent, the division by zero, the negative refund, and, from one review, a second $27.00 refund when the keyboard comes back twice. All four happened as reported. So with Codex I can give the count that E15 asks for: every finding in the 20 fresh reviews reproduced, and none failed to.
+
+<!-- [E15X: the two empty cells of the 2x2, Codex, 2026-11-25] -->
+
+I also checked the five findings of the example reports from the Code section. Four rows of that section's table are runs on the listing. The second finding gave no input, so its row is my reading of the code. <!-- run 2026-11-13, Python 3.9.6 --> Three of the five findings were real: the leftover cents, the constant function that the tests accept, and the division by zero. One finding proposed a fix that pays back $29.01 on a $29.00 order. One finding pointed at a real symptom and asked for the wrong change.
+
+After `partial_refund_amount` is changed to add the leftover cents to the last item, Reviewer A's test passes and the refunds are `966`, `966`, and `968`. The keyboard test from Chapter 14 still passes.
+
+The runs are mine, and the reports are examples I wrote. They show why a finding has to be run, and E15 above counts how often reviewing sessions produced findings of each kind.
 
 <!-- [Author case slot] A real case in which a second AI reader found a defect that the writing session had missed, and one in which a reviewer's finding turned out to be wrong. -->
 
@@ -238,4 +240,4 @@ Two reviewers that run on the same model can share a blind spot. I expect a diff
 
 Reviews cost a session each, and reading their findings costs your time. A typo fix doesn't need two reviewers. A change to money, to stored data, or to anything on your list of guarantees (Chapter 13) does.
 
-Better models will write fewer defects and find more of them. A finding will still be a claim about code, and a claim that arrives as a failing test still takes one command to check.
+However few defects the next model writes, a finding is a claim about code, and a claim that arrives as a failing test takes one command to check.

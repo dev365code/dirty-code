@@ -26,7 +26,7 @@ I ran the experiments in three batches.
 ## What was counted
 
 - **Tool calls.** For Claude Code, each use of a tool: a file read, an edit, a search, or a shell command. For Codex, each shell command and each file edit. Codex 0.171.0 can run several commands inside one tool call, and each of those commands counts.
-- **Files opened.** The files of the starting repository that a session read, with a read tool or with a shell command that prints a file (`cat`, `head`, `tail`, `nl`, `sed -n`). A wildcard such as `payments/*.py` counts every file it matches. A search with `grep`, `rg`, or a search tool doesn't count as opening a file.
+- **Files opened.** The files of the starting repository that a session read, with a read tool or with a shell command that prints a file (`cat`, `head`, `tail`, `nl`, `sed -n`). A wildcard such as `payments/*.py` counts every file it matches in that folder, and a `cd` inside the command is followed. A search with `grep`, `rg`, or a search tool doesn't count as opening a file. For the Claude Code runs of November 22, the count took only `cat`, `head`, and `sed -n`, and counted the `.py` files a command named, without expanding wildcards.
 - **Turns.** Claude Code's count of the model's replies in a session.
 - **Tokens.** Everything the model read and wrote in a session, including the tokens it read from its cache.
 - **Cost.** Claude Code's own estimate for each session. For November 22, the bill in Anthropic's console came to about 4% more than the sum of those estimates.
@@ -35,11 +35,12 @@ I ran the experiments in three batches.
 
 - A hidden test runs outside the session, on the repository the session left behind.
 - In Chapter 16, each request has two hidden tests. The first checks the new behavior the request asks for: it fails before the change and has to pass after it. The second runs 926 calls to the shop's outer functions and compares the answers with those of the unchanged repository. The calls that a request may change are listed for each request before any run.
-- **A hidden test may ask only for what the request says, or for what the repository's own code already does in the same kind of case.** I checked all twenty requests of Chapter 16 against that rule. Two tests broke it, and I corrected them before counting.
-  - R02's tests wanted the error code `email_blocked` and wanted an address at a subdomain accepted. The request names no error code and doesn't settle subdomains.
+- **A hidden test may ask only for what the request says, or for what the repository's own code already does in the same kind of case.** I checked all twenty requests of Chapter 16 against that rule on 2026-11-23, and again on 2026-11-25, when the Claude runs showed two cases I had missed. Three things broke the rule, and I corrected them before counting.
+  - R02's tests wanted the error code `email_blocked`, and wanted an address at a subdomain accepted, in the new-behavior test and in the rest test. The request names no error code and doesn't settle subdomains.
   - R13's test wanted `ValueError` for a threshold of `-1`. The shop's own code raises `StockError` for bad stock input.
+  - Nine new-behavior tests compared the name of the exception's class with a name, such as `ValueError` in R14, whose request says "must raise ValueError." A class that inherits from `ValueError` is a `ValueError`, so those tests now accept it. The rest test still compares exactly.
   - Three demands passed the rule because the shop's code already settles them: `KeyError` for an unknown customer (R01), a card fee rounded down (R05), and `CouponError` for a bad coupon percentage (R10).
-  - I ran each corrected test on both unchanged repositories, where the new-behavior test has to fail, and on the reference solutions, where it has to pass, before I judged any session with it. The verdicts of the original tests are kept.
+  - Before I judged any session with a corrected test, I ran it on both unchanged repositories and on the reference solutions. The corrected comparison of exception names gave the same verdict as the old one on every unchanged repository, every reference solution, and every planted wrong solution. The verdicts of the original tests are kept.
 - **Five outcomes.** I sort every run of Chapter 16 into one of five outcomes, decided before the runs of November 25: passed; the requested behavior failed; behavior the request didn't ask for changed; an output gained a key and nothing else changed; the session changed no file and asked before going on. A run whose output gained a key counts as failed, and the chapter also gives the count without those runs.
 - Tests that a session ran could leave a `.pytest_cache` folder in the repository. I removed it before judging, as the hidden tests already ignore `__pycache__`.
 

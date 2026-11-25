@@ -106,7 +106,7 @@ In the version for people, the session has the prompt and three constants. An AI
 
 In the version for AI, the same session reads two comments that say "not 30 or 40" and "not 50" and give a reason. Now the prompt and the file disagree, and the session has to choose. It is likely to keep the values, and a careful session will say in its report that it left them alone and why. It may still change them. A comment is something the session reads. It isn't something the session is forced to obey.
 
-I ran this prompt on 2026-11-22 in fresh sessions of Claude Code 2.1.330, with Claude Opus 5.5 at its highest effort setting. The file was the listing above with two additions: one constant marked `# unused since the v2 migration`, so that the prompt's request to remove leftovers had something to remove, and a function `approve_request` that puts the timeout into the body of an approval call. The tests were in a separate file.
+I ran this prompt on 2026-11-22 in fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. The file was the listing above with two additions: one constant marked `# unused since the v2 migration`, so that the prompt's request to remove leftovers had something to remove, and a function `approve_request` that puts the timeout into the body of an approval call. The tests were in a separate file.
 
 In the version for people, one session renamed the two constants, deleted the unused one and `RETRY_WAIT_SEC`, and changed 37 to 40 and 48 to 50. Its report then warned about the change it had just made: "Both old values were just under a round number. That often means someone set them below a provider limit on purpose. Nothing in the repo says why they were chosen (there's one commit and no comments)." It left that check to the reader.
 
@@ -116,7 +116,7 @@ In the version for AI, a session deleted only the unused constant and wrote: "I 
 
 Experiment E6, as designed, builds the order server with 10 values that look wrong on purpose: timeouts, batch sizes, retry counts, and rounding rules. One copy has a reason comment above each of the 10, and the other has the same values with no comments. Each copy gets the cleanup prompt in 10 fresh sessions, and E6 counts the values left unchanged and the reports that mention them.
 
-On 2026-11-22 I ran a smaller version: the file from the Prompt section, with its two odd values. Each version went to fresh sessions of Claude Code 2.1.330 with Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per version and got 9, because the run used up its credit. A hidden test, which the sessions never saw, read the timeout in the approval request and split 100 orders into batches.
+On 2026-11-22 I ran a smaller version: the file from the Prompt section, with its two odd values. Each version went to fresh sessions of Claude Code with Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per version and got 9, because the run used up its credit. A hidden test read the timeout in the approval request and split 100 orders into batches.
 
 | Version | Kept 37 and 48 | Changed them | Report mentioned the values |
 |---|---|---|---|

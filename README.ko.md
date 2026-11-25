@@ -54,13 +54,13 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 
 **2부. 진단기가 읽는 코드**
 
-4. [AI는 함수 이름을 보고 동작을 짐작한다](manuscript/ko/04-names.md) · 초고 ([영어](manuscript/en/04-names.md))
+4. [데이터를 바꾸는 함수는 이름에서 그렇다고 말한다](manuscript/ko/04-names.md) · 초고 ([영어](manuscript/en/04-names.md))
 5. [고칠 것은 한 화면에 모아라](manuscript/ko/05-locality.md) · 초고 ([영어](manuscript/en/05-locality.md))
 6. [복사해 둔 코드가 더 안전할 때](manuscript/ko/06-duplication.md) · 초고 ([영어](manuscript/en/06-duplication.md))
 7. [주석에는 "왜"를 적는다: AI는 이유 모를 숫자를 정리해 버린다](manuscript/ko/07-comments-why.md) · 초고 ([영어](manuscript/en/07-comments-why.md))
-8. [함수를 하나 건너갈 때마다 AI가 길을 잃을 기회가 생긴다](manuscript/ko/08-indirection.md) · 초고 ([영어](manuscript/en/08-indirection.md))
+8. [오늘 하는 일이 없는 층: 결제 클래스 셋이 표 하나가 된다](manuscript/ko/08-indirection.md) · 초고 ([영어](manuscript/en/08-indirection.md))
 9. [진단 단자를 달아라: AI가 읽는 오류와 로그](manuscript/ko/09-diagnostic-port.md) · 초고 ([영어](manuscript/en/09-diagnostic-port.md))
-10. [AI가 길을 찾는 지도: 폴더 이름과 색인 파일](manuscript/ko/10-map.md) · 초고 ([영어](manuscript/en/10-map.md))
+10. [AI는 파일 안의 낱말로 코드를 찾고, 색인 파일은 한 걸음을 아껴 준다](manuscript/ko/10-map.md) · 초고 ([영어](manuscript/en/10-map.md))
 11. [프롬프트도 AI가 읽는 코드다](manuscript/ko/11-prompts-are-code.md) · 초고 ([영어](manuscript/en/11-prompts-are-code.md))
 
 **3부. 경고등은 사람이 단다**
@@ -78,25 +78,28 @@ AI 도구 사용법, 모델 순위, 일자리 전망은 다루지 않는다.
 
 **닫는 글.** [AI가 코드를 쓰고, 사람은 보장을 쓴다](manuscript/ko/99-closing.md) · 초고 ([영어](manuscript/en/99-closing.md))
 
-## 모든 장은 같은 순서로 쓴다
+## 장은 이렇게 짜여 있다
 
-1. **장면**: 누구나 겪어 본 상황 하나
+1. **장면**: 누구나 겪어 본 상황 하나(8장과 10장은 주장에서 시작한다)
 2. **주장**: 한 문장
 3. **왜 그런가**: "AI는 기억 없이 매번 처음 읽는다"에서 끌어낸다
 4. **코드**: 사람을 위한 버전과 AI를 위한 버전을 나란히 놓는다
 5. **프롬프트**: 같은 일을 시켰을 때 AI가 무엇을 열고 무엇을 고쳤는지 보여 준다
-6. **근거**: 실험 결과 또는 현장 사례
-7. **사람이 할 일**: 내일 바로 할 수 있는 것
-8. **이 원칙이 깨지는 곳**: 주장이 맞지 않는 경우
+6. **근거**: 실험에서 세션들이 한 일을 먼저 적고, 내가 손으로 돌려 본 것을 뒤에 적는다
+7. **『클린 코드』와 의견이 갈리는 곳**: 조언이 다른 쪽으로 가는 5~8장에만 있다
+8. **사람이 할 일**: 내일 바로 할 수 있는 것
+9. **이 원칙이 깨지는 곳**: 주장이 맞지 않는 경우
+
+여는 글 뒤에 용어 쪽이 있다. 닫는 글 뒤에는 이 책의 패턴 목록(패턴마다 치르는 값과 어디까지 시험했는지)과, 실험을 어떻게 돌렸는지 적은 부록 A가 있다.
 
 ## 주장에는 실험을 붙인다
 
 - 같은 기능을 두 가지 모양으로 만든다. 기능과 테스트는 같고 코드 모양만 다르다.
-- 같은 요청을 새 세션에서 열 번 이상 반복한다.
+- 같은 요청을 모양마다 새 세션 열 개에 보낸다. 그보다 적게 돌린 곳은 그 장에 적었다.
 - AI에게 보여 주지 않은 판정 테스트로 성공 여부를 가린다.
 - 결과에는 날짜와 모델 이름을 함께 적는다. 모델이 바뀌면 숫자도 바뀌기 때문이다.
 
-실험 계획은 [experiments/](experiments/README.md)에 있다.
+실험 계획은 [experiments/](experiments/README.md)에, 전체 결과는 [experiments/RESULTS.md](experiments/RESULTS.md)에 있다.
 
 ## 『클린 코드』에 대하여
 
