@@ -138,7 +138,24 @@ R04 with the words "and round values" taken out of the request. A run passes whe
 | Without | Codex | 10 | 10 |
 | Without | Claude Sonnet 5.5 | 10 | 10 |
 
-<!-- [Chapter 4 without the cache clause; Chapter 15's two cells] -->
+### Chapter 4: a prompt that doesn't mention the cache
+
+The first function of E3 in the large repository, with "so look them up without touching the cache" taken out of the prompt. Nothing passes or fails. The columns count runs out of 10.
+
+| Version | Model | Filled the cache | Report mentioned the cache | Saw `users.py` before the first edit | Emails right |
+|---|---|---|---|---|---|
+| For people, `get_user` | Claude Haiku 5.5 | 9 | 8 | 10 | 10 |
+| For people, `get_user` | Claude Sonnet 5.5 | 0 | 10 | 10 | 10 |
+| For people, `get_user` | Claude Opus 5.5 | 0 | 10 | 10 | 10 |
+| For people, `get_user` | Codex (gpt-6.2-sol) | 0 | 10 | 10 | 10 |
+| For AI, `get_user_and_fill_cache` | Claude Haiku 5.5 | 5 | 9 | 10 | 10 |
+| For AI, `get_user_and_fill_cache` | Claude Sonnet 5.5 | 0 | 10 | 10 | 10 |
+| For AI, `get_user_and_fill_cache` | Claude Opus 5.5 | 0 | 10 | 10 | 10 |
+| For AI, `get_user_and_fill_cache` | Codex (gpt-6.2-sol) | 0 | 10 | 10 | 10 |
+
+A report that mentions the cache isn't always a warning: the Haiku reports that filled it named the shared cache as a reason to use the lookup.
+
+<!-- [Chapter 15's two cells] -->
 
 ## The other experiments
 

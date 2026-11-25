@@ -29,7 +29,7 @@ def get_user_and_fill_cache(user_id):
 - Every line that calls the function shows the write.
 - A person pays for a longer name, and for a rename across the repository.
 - *Clean Code*: same. A name that hides a side effect misleads.
-- Evidence: no difference yet when the prompt named the write to avoid: 0 of 140 sessions called the writing function under either name (E3). When the prompt didn't mention the cache, Claude Haiku 5.5 filled it in 9 of 10 sessions under the short name and 5 of 10 under the long one, and Sonnet and Opus filled it in none. <!-- [Codex E3F result to add] -->
+- Evidence: no difference yet when the prompt named the write to avoid: 0 of 140 sessions called the writing function under either name (E3). When the prompt didn't mention the cache, Claude Haiku 5.5 filled it in 9 of 10 sessions under the short name and 5 of 10 under the long one, and Sonnet, Opus, and Codex filled it in none.
 - Not for a write nobody else reads, such as logging.
 
 ## 3. The lines one change touches, kept in one function (Chapter 5)

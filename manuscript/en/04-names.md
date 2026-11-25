@@ -127,7 +127,7 @@ In the version for people, a session on Claude Sonnet 5.5 listed the files, then
 
 In the version for AI, a session on Claude Opus 5.5 read `users.py` and the newsletter export, wrote the same line, and added a test. Its report named the other function: "It doesn't use `get_user_and_fill_cache`, which saves every user it loads into the shared cache; that's what the newsletter export uses."
 
-## Evidence: 140 sessions were told which write to avoid, and none called the function that does it
+## Evidence: told which write to avoid, no session called the function that does it, and without that clause one model of four filled the cache less often under the longer name
 
 Experiment E3 builds the order server in both versions, with five functions like `get_user`. Each does one write, a change to stored data, that its short name doesn't mention: a lookup that fills a cache, a lookup that creates a missing row, a coupon validation that marks the coupon used, a payment verification that marks the order paid, and a settlement total that saves the figure it computes. The version for AI puts the write in each name. Bodies and docstrings are the same, tests differ only in the names they call, and both versions have a second function that does the lookup without the write.
 
@@ -153,20 +153,22 @@ list with the email address for each ID. A nightly job will run it
 over every customer.
 ```
 
-Nothing passes or fails here, because the prompt no longer asks for anything about the cache. I counted three things instead: the sessions whose export left customers in the cache, the reports that mentioned the cache, and the sessions that saw `users.py` before their first edit. Each version went to 10 fresh sessions of each Claude model at its default setting. <!-- [Codex E3F rows to add] -->
+Nothing passes or fails here, because the prompt no longer asks for anything about the cache. I counted three things instead: the sessions whose export left customers in the cache, the reports that mentioned the cache, and the sessions that saw `users.py` before their first edit. Each version went to 10 fresh sessions of each Claude model at its default setting, and to 10 Codex sessions with gpt-6.2-sol.
 
 | Version | Model | Filled the cache | Report mentioned the cache | Saw `users.py` before the first edit |
 |---|---|---|---|---|
 | For people, `get_user` | Claude Haiku 5.5 | 9 of 10 | 8 of 10 | 10 of 10 |
 | For people, `get_user` | Claude Sonnet 5.5 | 0 of 10 | 10 of 10 | 10 of 10 |
 | For people, `get_user` | Claude Opus 5.5 | 0 of 10 | 10 of 10 | 10 of 10 |
+| For people, `get_user` | Codex | 0 of 10 | 10 of 10 | 10 of 10 |
 | For AI, `get_user_and_fill_cache` | Claude Haiku 5.5 | 5 of 10 | 9 of 10 | 10 of 10 |
 | For AI, `get_user_and_fill_cache` | Claude Sonnet 5.5 | 0 of 10 | 10 of 10 | 10 of 10 |
 | For AI, `get_user_and_fill_cache` | Claude Opus 5.5 | 0 of 10 | 10 of 10 | 10 of 10 |
+| For AI, `get_user_and_fill_cache` | Codex | 0 of 10 | 10 of 10 | 10 of 10 |
 
-Every session saw `users.py` before it wrote anything. Sonnet and Opus never filled the cache. They called `load_user` and said why, for example: "a nightly run over every customer would copy the whole users table into the cache." Haiku followed the other export modules, which call the lookup that fills the cache, and its reports that filled the cache named that as a reason to do it: "It reuses `get_user_and_fill_cache`, the same lookup the other exports use." So a mention of the cache in a report isn't always a warning.
+Every session saw `users.py` before it wrote anything. Sonnet, Opus, and Codex never filled the cache. They called `load_user` and said why, for example: "a nightly run over every customer would copy the whole users table into the cache." Haiku followed the other export modules, which call the lookup that fills the cache, and its reports that filled the cache named that as a reason to do it: "It reuses `get_user_and_fill_cache`, the same lookup the other exports use." So a mention of the cache in a report isn't always a warning.
 
-With the short name, 9 of the 10 Haiku sessions filled the cache, and with the long name, 5 did. With ten runs per version, chance alone gives a gap that size about one time in seven. So in these runs the name changed what one of the three models did, in about half of that model's runs, and only when the prompt said nothing about the cache.
+With the short name, 9 of the 10 Haiku sessions filled the cache, and with the long name, 5 did. With ten runs per version, chance alone gives a gap that size about one time in seven. So in these runs the name changed what one of the four models did, in about half of that model's runs, and only when the prompt said nothing about the cache.
 
 <!-- [Author case slot] A real case in which an AI went by a description of the code, such as a name or a comment, and reported or changed the wrong thing. -->
 
