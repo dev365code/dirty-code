@@ -227,7 +227,7 @@ After `partial_refund_amount` is changed to add the leftover cents to the last i
 
 The runs are mine, and the reports are examples I wrote. They show why a finding has to be run, and E15 above counts how often reviewing sessions produced findings of each kind.
 
-<!-- [Author case slot] A real case in which a second AI reader found a defect that the writing session had missed, and one in which a reviewer's finding turned out to be wrong. -->
+In my own work, the two tests from Chapter 14's case that passed wrong answers were found by a second session. The session that wrote them hadn't found them. <!-- author check: case C5 -->
 
 ## What people do
 

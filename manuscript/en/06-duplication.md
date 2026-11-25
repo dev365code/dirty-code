@@ -210,8 +210,6 @@ The copy of the refund rule in that version had no comment saying it was kept on
 
 How far the experiments back this opinion: it is mixed. The failure the copies guard against, a shared function changed for one caller and broken for the others, didn't happen in any run. What the copies changed was the shape of the code that came back, with no switch left in a shared function, and how much the sessions had to read. On the other side of the line, a rule that two places must agree on, the restocking fee went against my prediction: in the version for people every session split the shared rule to keep a visible test passing, and in the version with the copy every session merged the copy back into the shared rule.
 
-<!-- [Author case slot] A real change where an AI's edit to a shared function changed another caller's output. -->
-
 ## What people do
 
 - [ ] Pick three functions from wherever your shared helpers live (`utils.py`, `helpers.py`, `common/`). For each, run `grep -rn --include="*.py" "format_amount" .` with its name in place of `format_amount`, and beside each caller write who decides that caller's output. The search misses a call made through an import alias and a template that uses the function as a filter.

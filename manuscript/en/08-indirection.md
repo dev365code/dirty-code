@@ -152,8 +152,6 @@ Before the runs, the experiment plan said that if the three versions scored the 
 
 How far the experiment backs this opinion: not yet. No run failed at any number of hops, and the conditions under which the hops might matter, a longer chain or classes whose names say less, haven't been tested.
 
-<!-- [Author case slot] A real change in which an AI edited a parent class or a shared layer and changed behavior the prompt didn't mention. -->
-
 ## What people do
 
 - [ ] Pick one value your business cares about, such as a fee or a limit. Ask the AI: "Start from the function that handles checkout. List every function, dictionary, and class you pass through to reach the line that sets the card fee. Quote the file and line for each." Count the items in its answer. Then open each quoted line yourself, because the list is the AI's report and not the code.

@@ -131,8 +131,6 @@ Every Sonnet session started with a search of the files' contents for words from
 
 Before the runs, the experiment plan said that if the three layouts scored about the same, I would limit the claim to larger repositories. This repository was large, and the layouts still scored about the same, so the claim is narrower than that. Folder names and an index saved these sessions a step. The words inside the files, the function names and the description at the top of each module, decided whether a session found the code at all. *Clean Code*'s advice to choose names that reveal intent covers the first of those. <!-- checked 2026-11-25 against Clean Code (2008): ch. 2 "Use Intention-Revealing Names" p. 18 (notes/sources.md) -->
 
-<!-- [Author case slot] A real case in which an AI looked for something in a repository and the folder names or an index file sent it to the right place, or the wrong one. -->
-
 ## What people do
 
 - [ ] List the files whose names say nothing: `git ls-files | grep -iE "(utils|helpers|common|misc)"`. For each one, write down in a few words what's actually inside. Those words are the names the files should have.

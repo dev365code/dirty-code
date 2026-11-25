@@ -185,7 +185,7 @@ With the rule in the prompt, every session wrote Reading 4 and passed the three 
 
 The maker of one coding agent gives similar advice about its rules file. The documentation for Claude Code says the tool treats that file "as context, not enforced configuration," and it asks for instructions that are "concrete enough to verify." One of its examples is "Use 2-space indentation" instead of "Format code properly." <!-- source: notes/sources.md, rules files and sessions, checked 2026-11-13 --> That is advice from the maker of one tool. It is not a measurement of mine.
 
-<!-- [Author case slot] The parts the author puts in a task prompt for an AI that writes code, and a case in which a line missing from a prompt led to rework. -->
+My own briefs to an AI that writes code have gone wrong in both ways. In October 2026 one brief said that the wording going into a public file was "waiting for approval." I meant that the AI should make the change and show me the wording. The AI read it as "don't make the change yet" and stopped. The line I use now says to make the change as proposed and to put the wording before and after in the report. Another brief gave the expected result of a check command as 1, a number I hadn't measured, and the command printed 4. Now I run every expected value in a brief once before I send it. What I took from these is that the quality of the brief is the lever that saves tokens. <!-- author check: case C11 -->
 
 ## What people do
 

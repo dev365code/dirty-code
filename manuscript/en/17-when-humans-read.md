@@ -194,8 +194,6 @@ So the wrong answer that this chapter's scene imagines didn't come up in 76 sess
 
 What the hidden retry does, I checked by running both versions with a provider whose first reply is late. <!-- run 2026-11-13, Python 3.9.6 --> In the first version the provider received 2 requests, and `charge` returned `approval-2`. No exception was raised, so nothing was logged. With three late replies the provider received 3 requests, and only then did `charge` raise `PAY-0303`. Its message told the reader not to retry after the code had already retried twice. In the second version the provider received 1 request in both cases, and `charge` raised `PAY-0303` the first time.
 
-<!-- [Author case slot] A real case in which an AI's account of what the code does was wrong, and a person found the fact by reading the code. -->
-
 ## What people do
 
 - [ ] Write the list of code that a person must be able to read: code that moves money, sign-in and permissions, personal data, and anything that can't be undone, such as deleting records or emailing customers. Keep the list in the repository. Keep it short enough that a person can read every change to those files, about a dozen files. If it keeps growing, keep the paths where a person would have to make a decision that can't be undone.

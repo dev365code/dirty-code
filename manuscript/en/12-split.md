@@ -237,7 +237,7 @@ No session could commit, so I tested the checks and the commit per piece by hand
 
 Then I committed after each piece and planted a slip in piece 2: the change that added the shipping test also turned `>=` into `>` in `shipping_fee`. All eight tests still passed after piece 4. Then I ran a check that the tests don't contain: a customer who paid exactly $50.00 ships free. It failed. `git bisect run` with that check tried two commits and named the commit of piece 2. <!-- run 2026-11-13, Git 2.50.1 --> Had the whole change been one commit, the same failure would have pointed at the whole change.
 
-<!-- [Author case slot] A real case in which a large task handed over in one piece stopped partway: what could be recovered from the files, and what was lost. -->
+This book has its own case. In November 2026 AI agents were rewriting, reviewing, and drafting several chapters of this book at the same time, and a usage limit stopped all of them at once. None had handed back its result, so none of that work survived. The seven chapters already saved as files were all still there. Since then, one session writes the chapters one at a time, and each draft goes into a file as soon as it exists. <!-- author check: case B1 -->
 
 ## What people do
 

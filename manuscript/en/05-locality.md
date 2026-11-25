@@ -208,7 +208,7 @@ The layout also carries a convention that no file states: in the version for peo
 
 How far the experiment backs this opinion: it changed whether a change passed in one case only, the rule spread over five files of the large repository, read by one of the three models. The misplaced value and the extra work showed up with every model.
 
-<!-- [Author case slot] A change in which an AI edited one of several places that had to change together: the date, the places, the one it missed, and what caught it. -->
+Two places that had to change together, and only one that did, have come up in my own work. In September 2026 a new check in one of my verification tools used an outside module that reads YAML, and the module didn't make it into the project's list of dependencies. At the time, AI sessions were writing the code. The module happened to be installed on the development machine, so every local check passed. The automated checks that run on every push failed, the main branch stayed red, and the badge on the repository's front page said "failing." The code and the dependency list had to change together, and only the code changed. A second module was in the same state: it was used without being declared, and it passed only because the check machine happened to have it installed. <!-- author check: case C2 -->
 
 ## What people do
 
