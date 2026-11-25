@@ -8,13 +8,13 @@ The next reader of your code has changed. *Clean Code* taught us to write for a 
 
 ## What "dirty code" means
 
-Start with what the experiments found. Today's AI learned to code from code that people wrote, and it reads clean code well. When the facts a change needed were already in the code, the version for people and the version for AI passed about equally often. In the combined experiment of Chapter 16, the two repositories passed 190 and 190 of 200 runs with Codex, 177 and 178 with Claude Sonnet 5.5, and 173 and 171 with Claude Haiku 5.5.
+Start with what the experiments found. Today's AI learned to code from code that people wrote, and it reads clean code well. Built both ways and given the same twenty requests in the combined experiment of Chapter 16, the version for people and the version for AI passed about equally often: 190 and 190 of 200 runs with Codex, 177 and 178 with Claude Sonnet 5.5, and 173 and 171 with Claude Haiku 5.5.
 
 The two versions came apart where a session had to guess a fact that no code shows. In the version for people, nothing said why the approval timeout was 37 seconds, and every session asked to clean up the payment code and round its constants changed it, with all three models. In a copy where nobody had written down where a partial refund's leftover cents go, all ten Codex sessions wrote a rule of their own.
 
 In this book, dirty code is code that puts what a teammate used to remember, or used to answer when asked, into the files a session reads, and that reports its own state in a form a machine can check. Most of it is advice *Clean Code* would accept. In four places my advice differs from *Clean Code*'s. Chapter 5 keeps the lines that one change touches in one function, even when the function runs long. Chapter 6 gives a caller its own copy when someone else decides what it outputs. Chapter 7 writes a reason above every value that looks wrong on purpose. Chapter 8 removes a layer that does no job today. <!-- check against original --> Each of those chapters gives its reason and says how far its experiment backs it. So far the experiments back Chapter 7, back Chapter 5 in one case, are mixed for Chapter 6, and show no difference yet for Chapter 8.
 
-I also expect something the experiments don't show yet. As more code is written by AI and read by AI, I expect people to arrange more of it for that reader, even where a person finds the result harder to follow. A modern engine bay already works that way: a person who opens the hood sees a plastic cover, and the scan tool plugged in under the dashboard reads the fault. The furthest my experiments reached in that direction is Chapter 18: in ten small programs, a session given only the machine code changed it as reliably as a session given the source. By the old standard some of this code looks messy, and the name dirty code is meant to say so.
+I also expect something the experiments don't show yet. As more code is written by AI and read by AI, I expect people to arrange more of it for that reader, even where a person finds the result harder to follow. A modern engine bay already works that way: a person who opens the hood sees a plastic cover, and the scan tool plugged in under the dashboard reads the fault. The furthest my experiments reached in that direction is Chapter 18: in ten small programs, a session given only the assembly changed it as reliably as a session given the Rust source. By the old standard some of this code looks messy, and the name dirty code is meant to say so.
 
 ## Where I am writing from
 
@@ -22,7 +22,7 @@ For more than five years my job was to catch fraud and money laundering at crypt
 
 ## What is proven and what isn't
 
-Every claim in this book comes with an experiment. The same feature is built in two shapes, the same request goes to ten fresh sessions for each, and tests that the AI never sees decide which runs succeeded.
+Most claims in this book come with an experiment, and most experiments have one shape: the same feature built in two shapes, the same request sent to ten fresh sessions for each, and tests that the AI never sees deciding which runs succeeded. Where an experiment is shaped differently, such as three forms of a prompt in Chapters 12 and 13, answers read by hand in Chapters 15 and 17, or counts with no pass or fail in Chapter 4, the chapter says so. Chapter 3 runs no experiment of its own.
 
 I expected the version for AI to win. In the combined experiment it didn't. The two repositories passed about equally often with all three models, and each lost on different requests. The version for people lost the cleanup that changed a value whose reason was written nowhere. The version for AI lost requests on which a line in its rules file, a line that Chapter 7 had recommended, made the session stop and ask. Chapter 7 tells that story and tests two rewritten lines.
 

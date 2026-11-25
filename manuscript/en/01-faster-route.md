@@ -121,4 +121,4 @@ If you track down a bug yourself and only then hand over the fix, you read the c
 
 A person has to read some code no matter who read it first: code behind an outage, security code, regulated code. For that code, what matters is that a person can still follow it on the day they have to. Chapter 17 takes that up.
 
-A tool may one day carry memory from one session to the next, and then the AI will reread less. On a task you hand over, it will still open the code before you do.
+A tool may one day carry memory from one session to the next, and then the AI would reread less. On a task you hand over without opening the code yourself, it would still open the code before you do.

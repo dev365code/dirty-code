@@ -14,13 +14,13 @@ An AI wrote your code. Who is the second garage, and what do you ask it to show 
 
 > Give the reviewer the rule and ask for an input that breaks it, written as a failing test, and run every finding yourself before you act on it.
 
-## Why: the session that wrote the code knows what it meant, and a fresh session reads only what is there
+## Why: the writer holds the code against its own plan, and any reviewer holds it against what its prompt gives it
 
 A session that has just written a function still has everything in front of it: the prompt, the files it read, and its own plan. Ask that session whether the function is right, and it reads its code next to its plan. The two agree, because one came from the other. A mistake in the plan is in both.
 
 A fresh session has none of that. It doesn't know what the writer meant. It reads the code the way the next session will read it, with only what is in the files. Chapter 2 counted the AI's lack of memory as a cost. For inspection it is what you want.
 
-What you ask the fresh session matters as much. "Find bugs" has no finish line (Chapter 11). A reviewer that gets that prompt reports what it noticed: a real defect, a guess, and a matter of taste, in sentences that sound equally sure. You are left to sort them.
+What you ask matters at least as much as who answers. "Find bugs" has no finish line (Chapter 11). A reviewer that gets that prompt reports what it noticed: a real defect, a guess, and a matter of taste, in sentences that sound equally sure. You are left to sort them.
 
 A finding is one session's claim about code that another session wrote. The claim can be wrong, the same way the code can be. Chapter 14 said that when an AI tells you a test failed, you are reading its account of a run you didn't see. A review is the same kind of account. So ask for each finding in a form you can run: an input, what the code returns for it, and what the rule says it should return.
 
@@ -217,9 +217,9 @@ On 2026-11-25 I filled the two cells that those three ways leave empty, with Cod
 | The session that wrote the change | Mentioned the leftover cents in 10 of 10, as something the test leaves open, and gave no order | Gave an order and a failing test in 10 of 10 |
 | A fresh session | Mentioned the leftover cents in 9 of 10, each with an order, as a question for the refund policy | Gave an order and a failing test in 10 of 10 |
 
-The question decided what came back. Asked for an input that breaks the rule, the session that wrote the change did as well as a fresh one. All ten opened with an order. One was a $1.00 keyboard and a $1.00 mouse with a 1-cent coupon, where the last refund is 99 cents and the rule says 100, and every answer came with a test that fails on such a difference.
+The prompt decided what came back. Reviewer A's prompt gives the rule and asks for a failing test, and with it the session that wrote the change did as well as a fresh one. All ten opened with an order. One was a $1.00 keyboard and a $1.00 mouse with a 1-cent coupon, where the last refund is 99 cents and the rule says 100, and every answer came with a test that fails on such a difference.
 
-Asked whether the change was right, neither kind of session said that it was wrong about the leftover cents. A fresh session described the leftover with an order in 9 of 10 answers, and each of those left the verdict to the refund policy, as in "it's only a bug if returning every item should refund the full payment." The rule was in Reviewer A's prompt and nowhere in the repository, so a session asked only whether the change was right had no rule to hold it against. The broad question found something else instead: all ten fresh sessions reported that the change makes a refund on an order whose prices are all 0 raise `ZeroDivisionError`, which Reviewer A's prompt didn't ask about.
+Asked whether the change was right, neither kind of session said that it was wrong about the leftover cents. A fresh session described the leftover with an order in 9 of 10 answers, and each of those left the verdict to the refund policy, as in "it's only a bug if returning every item should refund the full payment." The rule was in Reviewer A's prompt and nowhere in the repository, so a session asked only whether the change was right had no rule to hold it against. The broad question found something else instead: all ten fresh sessions reported that the change makes a refund on an order whose prices are all 0 raise `ZeroDivisionError`, which Reviewer A's prompt didn't ask about. The sessions that wrote their own Change B had added a check for that case, so the two rows reviewed slightly different code there.
 
 I also checked the five findings of the example reports from the Code section. Four rows of that section's table are runs on the listing. The second finding gave no input, so its row is my reading of the code. <!-- run 2026-11-13, Python 3.9.6 --> Three of the five findings were real: the leftover cents, the constant function that the tests accept, and the division by zero. One finding proposed a fix that pays back $29.01 on a $29.00 order. One finding pointed at a real symptom and asked for the wrong change.
 
@@ -231,8 +231,8 @@ The runs are mine, and the reports are examples I wrote. They show why a finding
 
 ## What people do
 
-- [ ] Don't ask the session that wrote a change whether the change is right: all ten such sessions in E15 began their answer with yes. Ask it, or a fresh session, for an input that breaks the rule, and tell the reviewer not to change any file.
-- [ ] Give the reviewer the rule, and ask for an input that breaks it, written as a failing test.
+- [ ] Don't ask the session that wrote a change whether the change is right: all ten such sessions in E15 began their answer with yes. Tell every reviewer not to change any file.
+- [ ] Give the reviewer the rule, and ask for an input that breaks it, written as a failing test. The session that wrote the change can do this as well as a fresh one.
 - [ ] Give a second reviewer a different question: "Write a wrong version that these tests would still pass, and show the test run."
 - [ ] Run every finding yourself before anything is changed. A finding that arrives as a failing test takes one command. Send back a finding that arrives without one: "Show me the input."
 - [ ] When a finding is real, add its failing test to the repository first. The fix is done when that test passes and the old tests still pass.
@@ -243,7 +243,7 @@ A reviewer is an AI, and it can be wrong in both directions. It reports problems
 
 A pointed prompt needs a rule to point at. Reviewer A could break the rule because someone had written the rule down. Where nobody has, the first job is to decide the rule, and no reviewer can do that for you.
 
-Two reviewers that run on the same model can share a blind spot. In E15 a different question found a different problem: the broad question found the division by zero, and the pointed one returned the rule's failing test. I haven't measured two copies of the same question. For the code that matters most, a person still reads it (Chapter 17).
+Two reviewers that run on the same model can share a blind spot. In E15 a different question found a different problem: the broad question found the division by zero in the listing's Change B, and the pointed one returned the rule's failing test. I haven't measured two copies of the same question. For the code that matters most, a person still reads it (Chapter 17).
 
 Reviews cost a session each, and reading their findings costs your time. A typo fix doesn't need two reviewers. A change to money, to stored data, or to anything on your list of guarantees (Chapter 13) does.
 

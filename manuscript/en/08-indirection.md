@@ -4,8 +4,6 @@
 
 > Add a layer between a call and the code that runs only when the layer does a job today.
 
-In this chapter's experiment, the number of hops made no difference yet: at 0, 1, and 3 hops, all 120 sessions put the fee on the card and nowhere else.
-
 ## Why: a session has to follow each hop by reading, and it can take a wrong turn at any of them
 
 To change what a program does, a session first has to find the line that decides it. Sometimes that line is right where the call is. Often it isn't. The call goes to a function, the function looks something up in a dictionary, the dictionary returns a class, and the class inherits the method from its parent. I'll call each of those steps a hop: a place where the reader has to go and read another definition to learn what happens next.
@@ -146,15 +144,13 @@ All 120 sessions passed the hidden test, and none changed the total for a bank t
 
 Something did go wrong, though not where I was looking. The old test said that a card payment of `10000` totals `10000`. Sonnet often added the fee and left that test failing: when the session ended, the full test suite failed in 5, 6, and 8 of its 10 runs at 0, 1, and 3 hops. Haiku and Opus updated the test in every run.
 
-I said that if the three versions scored the same, the claim would need a condition about how much code surrounds the hops. They scored the same in a repository of 518 files as well, so the condition is narrower than size. In this example the hops are short, and each class says what it holds, so a session that follows them lands on the right line. I haven't measured longer chains, or classes whose names say less.
+Before the runs, the experiment plan said that if the three versions scored the same, the claim would need a condition about how much code surrounds the hops. They scored the same in a repository of 518 files as well, so size isn't the condition. In this example the hops are short, and each class says what it holds, so a session that follows them lands on the right line. I haven't measured longer chains, or classes whose names say less.
 
 ## Where this chapter's opinion differs from *Clean Code*: a layer has to do a job today
 
-*Clean Code* prefers polymorphism to code that switches on a type: hide the choice behind a factory, and let each type's class hold its own behavior. <!-- check against original --> This chapter replaces the three payment classes with a table, because today the classes differ in one number and hold no behavior of their own. It keeps a layer that does a job today: classes whose code really differs, or an argument through which a test passes in a fake.
+*Clean Code* prefers polymorphism to code that switches on a type: hide the choice behind a factory, and let each type's class hold its own behavior. <!-- check against original --> This chapter replaces the three payment classes with a table, because today the classes differ in one number and hold no behavior of their own. It keeps a layer that does a job today: classes whose code really differs, or an argument through which a test passes in a fake. Each hop is a place where a session can stop early or turn the wrong way, as the Why section says, so a layer has to be worth that.
 
-A new session reads its way along each hop, and at each one it can stop early or pick the wrong class, so this chapter keeps a layer only when the job it does today is worth that risk.
-
-How far the experiment backs this opinion: not yet. All 120 sessions put the fee on the card and nowhere else, at every number of hops and in both repositories. The opinion would change a result only under the conditions the evidence names, a longer chain or classes whose names say less, and I haven't measured those.
+How far the experiment backs this opinion: not yet. No run failed at any number of hops, and the conditions under which the hops might matter, a longer chain or classes whose names say less, haven't been tested.
 
 <!-- [Author case slot] A real change in which an AI edited a parent class or a shared layer and changed behavior the prompt didn't mention. -->
 

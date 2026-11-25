@@ -24,7 +24,7 @@ A new session sees `37` next to a row of round numbers. The name of the constant
 
 A person who tidies code has the same instinct. The difference is what happens next. A person who is about to change a strange number usually hesitates and asks someone. A session tends to finish the task it was given, and a cleanup that leaves the odd value alone looks unfinished.
 
-*Clean Code* asks you to explain yourself in code before you reach for a comment, and it counts comments that explain intent or warn of consequences among the good ones. <!-- check against original --> This chapter stays inside that advice. The name of a constant says what its value is for. The reason for an odd value, such as a provider's limit, has to be written where a session will read it, and the closest place is a comment right above the constant.
+*Clean Code* asks you to explain yourself in code before you reach for a comment, and it counts comments that explain intent or warn of consequences among the good ones. <!-- check against original --> This chapter keeps the good kind and asks for one above every value that looks wrong on purpose. The name of a constant says what its value is for. The reason for an odd value, such as a provider's limit, has to be written where a session will read it, and the closest place is a comment right above the constant.
 
 ## Code: two odd values get one comment each, and nothing else changes
 
@@ -127,7 +127,7 @@ Most sessions kept the values even with no reason in the file. One of them wrote
 
 On the same day I gave the version for people to one session each of two other models, at their default settings. Claude Sonnet 5.5 changed the values to 30 and 50, and Claude Haiku 5.5 changed them to 40 and 50. In the version for AI, both kept them.
 
-The combined experiment of Chapter 16 ran the same kind of cleanup in a larger repository of 47 files, with three models: Codex with gpt-6.2-sol on 2026-11-23, and Claude Sonnet 5.5 and Claude Haiku 5.5 on 2026-11-25. In Repository A, which has no reasons, all 30 cleanups changed the 37-second approval timeout: Codex to 40, Sonnet to 30, and Haiku to 30 or 40. In Repository B, which has the reason comments and this chapter's rules-file line, none of the 30 did.
+The combined experiment of Chapter 16 ran the same kind of cleanup in a larger repository of 47 Python files, with three models: Codex with gpt-6.2-sol on 2026-11-23, and Claude Sonnet 5.5 and Claude Haiku 5.5 on 2026-11-25. In Repository A, which has no reasons, all 30 cleanups changed the 37-second approval timeout: Codex to 40, Sonnet to 30, and Haiku to 30 or 40. In Repository B, which has the reason comments and this chapter's rules-file line, none of the 30 did.
 
 That request asked for round values too. So on 2026-11-25, as I had registered before the runs, I took those words out and sent the request again, 10 times to each repository with Codex and with Sonnet.
 
@@ -136,17 +136,15 @@ Clean up the payment code. Use consistent names for the constants,
 and remove anything that looks like a leftover.
 ```
 
-No session changed 37 or 48, in either repository, with either model. The sessions still cleaned up. They deleted the unused provider URL and the retry delay, and renamed the constants, such as `APPROVE_TIMEOUT_SEC` to `PAYMENT_APPROVAL_TIMEOUT_SECONDS`, with the 37 kept. One Codex report ended, "The approval timeout remains 37 seconds, and settlement batches still contain up to 48 orders."
+No session changed 37 or 48, in either repository, with either model. The sessions still cleaned up. They deleted the unused provider URL and the retry delay, and renamed the constants, such as `APPROVE_TIMEOUT_SEC` to `PAYMENT_APPROVAL_TIMEOUT_SECONDS`, with the 37 kept. One Codex report said, "The approval timeout remains 37 seconds, and settlement batches still contain up to 48 orders."
 
 So the claim holds with a condition. When a cleanup asked for round values, a value with no reason next to it was rounded by every session in the combined experiment and by 2 of 9 Opus sessions at the highest setting, and a value with its reason was rounded by none. When the cleanup didn't ask for round values, no session rounded either value. The words of the request pushed the sessions toward round numbers, and the written reason kept the value in place against that push. In E6 the reason comments did it alone. In Repository B they came with this chapter's rules-file line. I didn't build the server with 10 odd values that E6 was designed with. The runs above stand in for it.
 
 ## Where this chapter's opinion differs from *Clean Code*: a reason above every value that looks wrong on purpose, repeating the value
 
-*Clean Code* asks you to explain yourself in code before you write a comment. It counts a comment that explains intent or warns of consequences among the good ones, and it calls a comment that only repeats what the code says redundant. <!-- check against original --> This chapter asks for a comment above every value that looks wrong on purpose, and that comment repeats the value and names the round value a reader would want instead, as in `# 37, not 30 or 40:`.
+*Clean Code* calls a comment that only repeats what the code says redundant. <!-- check against original --> This chapter asks for a comment above every value that looks wrong on purpose, and that comment repeats the value and names the round value a reader would want instead, as in `# 37, not 30 or 40:`. The repeated value lets a reader see when the comment and the code have drifted apart.
 
-The reason for an odd value usually sits outside the code, at a provider or in an old incident, so no name can carry it. The comment repeats the value so that a reader can see when the comment and the code have drifted apart.
-
-How far the experiments back this opinion: it paid off whenever a request pushed toward round numbers. All 30 cleanups of Repository A changed 37 in the combined experiment, and none of the 30 in Repository B, with the reasons and the rules-file line, did. In E6 the reasons alone kept the values in all 9 runs. Without that push, the comment made no difference, because no session changed the value either way. Its cost showed up in the rules file, as Where it breaks tells.
+How far the experiments back this opinion: it paid off whenever a request pushed toward round numbers, and without that push no session changed the value either way, as the evidence above shows. Its cost showed up in the rules file, as Where it breaks tells.
 
 <!-- [Author case slot] A real case in which an AI changed, or reported on, a value or a rule whose reason was written nowhere in the files. -->
 
@@ -180,7 +178,7 @@ The second keeps the line and adds two sentences:
   in the same edit. A general request, such as a cleanup, doesn't count.
 ```
 
-Each went to 10 fresh sessions of Codex and of Claude Sonnet 5.5, on the two requests that had stopped and on two controls: the cleanup of the payment constants, where 37 and 48 have to stay, and the negative amounts, where all three copies of the formatter have to change. Before the runs I wrote down what a working line has to do: both stopped requests pass, the cleanup keeps 37 and 48, and the negative amounts pass.
+Each went to 10 fresh sessions of Codex and of Claude Sonnet 5.5, on the two requests that had stopped and on two controls: the cleanup of the payment constants, where 37 and 48 have to stay, and Chapter 16's request to fix how negative amounts are shown, a mistake that all three copies of the formatter share, so all three have to change. Before the runs I wrote down what a working line has to do: both stopped requests pass, the cleanup keeps 37 and 48, and the negative amounts pass.
 
 | Rules-file line | Model | Batches of 100 | Thousands separators | Cleanup keeps 37 and 48 | Negative amounts |
 |---|---|---|---|---|---|

@@ -48,7 +48,7 @@ Here the tests run and pass, because no test says how a single item's refund is 
 
 Dana isn't a better reader than the AI. People forget, and they misremember: Dana may recall that ticket and get the amount wrong. But she can ask you about the rule this morning, and she's likely to still know it next week. The session can ask you questions too. But it asks only about a gap it notices, and no file tells it that yesterday's chat settled a rule, so it doesn't know there is something to ask. Dana knows the rule exists, so she knows to ask.
 
-*Clean Code* writes for a reader like Dana: a developer on the team who remembers yesterday and can ask a colleague. A new session does neither. So this chapter asks for something that *Clean Code*'s reader didn't need: the rule written in a file that the session will read.
+As I read it, *Clean Code* writes for a reader like Dana: a developer on the team who remembers yesterday and can ask a colleague. A new session does neither. So this chapter asks for something that *Clean Code*'s reader didn't need: the rule written in a file that the session will read.
 
 ## Code: yesterday's rule reaches a new session only if a file states it
 
@@ -173,4 +173,4 @@ Unless someone retrains the model itself, a memory has to be text that the tool 
 
 You can open a rules file and correct it, and the rules file travels with the repository. Check whether you can do the same with your tool's memory. <!-- no source: memory features, written as a conditional -->
 
-A context window large enough to hold the whole repository would shrink two of these problems: a session that reads only part of the repository, and a search that misses a file. Every new session would still read the whole repository again, at a cost in time and money, and it still couldn't read a rule that nobody wrote down.
+A context window large enough to hold the whole repository would shrink two of these problems: a session that reads only part of the repository, and a search that misses a file. Every new session would still have to read again whatever part of the repository it needs, at a cost in time and money, and it still couldn't read a rule that nobody wrote down.

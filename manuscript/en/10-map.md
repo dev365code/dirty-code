@@ -4,11 +4,11 @@
 
 > An AI finds code by searching the words inside your files, so the names and descriptions in the files matter most, and folder names and an index save it about one step.
 
-## Why: a session's first look at your repository is a list of names
+## Why: a session finds code by the words inside your files, and names tell it where to look first
 
 A developer who has worked in a repository for a year knows where things are. Ask where the refund math lives, and the developer says "`utils/helpers.py`, near the bottom" without looking. The name of that file never had to mean anything, because nobody found the code by its name.
 
-A new session finds everything by looking, and it can look in two ways. It can list the folders and files, which costs one command and a few lines of text, or it can search inside the files for a word from your question. In this chapter's runs the sessions searched first. A search hits the words inside the files: function names, docstrings, and comments. So those words decide whether a session finds the code, and folder and file names help it decide which hit to open first.
+A new session finds everything by looking, and it can look in two ways. It can list the folders and files, which costs one command and a few lines of text, or it can search inside the files for a word from your question. In this chapter's runs, every Claude Sonnet 5.5 session searched first, and most Claude Haiku 5.5 sessions listed the files first. A search hits the words inside the files: function names, docstrings, and comments. So those words decide whether a session finds the code, and folder and file names help it decide which hit to open first.
 
 If the code uses the word `refund`, a search for `refund` finds it. But the search returns every line with that word: the function, its callers, its tests, and an old comment. The session then has to choose which of those hits to open first. A file named `refunds/refund_amount.py` tells the session where to start. A file named `utils/helpers.py` tells it nothing.
 
@@ -66,7 +66,7 @@ shop/
     └── test_users.py
 ```
 
-Look for `refund` again. This time the listing itself has four matches: the folder `refunds/`, the two files inside it, and `tests/test_refunds.py`. A session knows where to go before it opens anything.
+Look for `refund` again. This time the listing itself has four matches: the folder `refunds/`, the two files inside it, and `tests/test_refunds.py`. A session that starts from the file list knows where to go before it opens anything.
 
 The index file, `INDEX.md`, says what the names can't.
 
@@ -97,7 +97,7 @@ Where is the code that decides how much to refund when an item comes back?
 Name the file and the function. Don't change anything.
 ```
 
-In the version for people, a session is likely to list the files, see nothing about refunds, and search inside them. It gets hits in several files and has to open them to tell the function that decides the amount from the code that only calls it. Each file it opens is another tool call, and it takes up more of the session's context window.
+In the version for people, a session that lists the files sees nothing about refunds and has to search inside them. It gets hits in several files and has to open them to tell the function that decides the amount from the code that only calls it. Each file it opens is another tool call, and it takes up more of the session's context window.
 
 In the version for AI, the listing points at `refunds/refund_amount.py`. If the session reads `INDEX.md` first, the line for `refunds/` says the same thing in a sentence. The session opens one file to find the function name.
 
@@ -127,9 +127,9 @@ The tool calls are averages over all ten questions.
 
 Two of the three wrong answers said the session couldn't find the code that makes a wishlist's share link. When I merged the modules into generic files, the description at the top of each module was lost, so nothing in the file names or the code said that those functions belonged to the wishlist. The third wrong answer named a customer-segment function in place of the loyalty tier function. No answer named a caller in place of the code that decides.
 
-The sessions found code by searching file contents for words from the question, as in the run above, and what they hit were names and docstrings inside the files. Folder names saved a little under one tool call per question, and the index saved a little more.
+Every Sonnet session started with a search of the files' contents for words from the question, as in the run above. Most Haiku sessions started with a list of the files: 111 of 150 ran `git ls-files` first and 36 ran `git status`. Either way, the names and docstrings inside the files decided the answer. Going from the generic layout to feature folders, a change that also restored each module's description, saved a little under one tool call per question, and adding the index saved another 0.1 to 0.4.
 
-I said that if the three layouts scored about the same, I would limit the claim to larger repositories. This repository was large, and the layouts still scored about the same, so the claim is narrower than that. Folder names and an index saved these sessions a step. The words inside the files, the function names and the description at the top of each module, decided whether a session found the code at all. *Clean Code*'s advice to choose names that reveal intent covers the first of those. <!-- check against original -->
+Before the runs, the experiment plan said that if the three layouts scored about the same, I would limit the claim to larger repositories. This repository was large, and the layouts still scored about the same, so the claim is narrower than that. Folder names and an index saved these sessions a step. The words inside the files, the function names and the description at the top of each module, decided whether a session found the code at all. *Clean Code*'s advice to choose names that reveal intent covers the first of those. <!-- check against original -->
 
 <!-- [Author case slot] A real case in which an AI looked for something in a repository and the folder names or an index file sent it to the right place, or the wrong one. -->
 

@@ -42,7 +42,7 @@ This book does not cover how to use AI tools, model rankings, or the future of j
 
 ## Contents
 
-Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. Most experiments were run on 2026-11-22 and 23, with Claude Code and with Codex CLI, OpenAI's coding agent, and each of Chapters 1 to 18 gives its counts in its Evidence section. Where part of an experiment hasn't been run, such as Chapter 1's count of a person's reads, the chapter says so.
+Chapters are posted here as drafts while the book is being written. A linked title is a draft you can read now. The experiments were run from 2026-11-22 to 25, with Claude Code and with Codex CLI, OpenAI's coding agent, and each of Chapters 1 to 18 gives its counts in its Evidence section. Where part of an experiment wasn't run, the chapter says so.
 
 **Preface.** [To *Clean Code*: we learned to write code for people](manuscript/en/00-preface.md) · draft
 
@@ -101,7 +101,7 @@ A page of terms follows the preface. After the closing come a list of the book's
 ## Every claim comes with an experiment
 
 - We build the same feature in two shapes. The behavior and the tests are identical. Only the shape of the code differs.
-- We send the same request to ten fresh sessions for each shape. Where fewer ran, the chapter says so.
+- Most experiments send the same request to ten fresh sessions for each shape. Where an experiment is shaped differently, or fewer sessions ran, the chapter says so.
 - Success is judged by tests the AI never sees.
 - Every result is recorded with its date and model name, because the numbers change when the model changes.
 

@@ -190,17 +190,17 @@ With the second prompt, a session wrote the same statement and a test named `tes
 
 Experiment E14 counts how often a session writes the version for people when the prompt is silent. It gives the gift card task to fresh sessions in three forms: the first prompt above, the first prompt plus the guarantee sentence, and the full second prompt. Each form goes to 10 fresh sessions. A hidden test runs a second request between every pair of database statements the first request makes, and checks that the card never pays out more than `5000`. E14 counts the sessions whose function lets both requests through, and the sessions that wrote a two-request test of their own.
 
-I ran E14 on 2026-11-22 with Claude Code and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 8, 6, and 8 before the run used up its credit. My hidden test was simpler than the one described: it ran the second request once, just before the first request's first write.
+I ran E14 on 2026-11-22 with Claude Code and Claude Opus 5.5 at its highest effort setting. I planned 10 sessions per form and got 8, 6, and 8 before the run used up its credit. Three of those runs, one in each form, were spoiled by my own script. When I restarted the batch, it started each of the three a second time while the first attempt was still working, and replaced the run's folder. I left those three out, so the counts below come from 7, 5, and 7 sessions. My hidden test was simpler than the one described: it ran the second request once, just before the first request's first write.
 
 | Form | Functions that paid both requests | Sessions that wrote a two-request test |
 |---|---|---|
-| The first prompt | 0 of 8 | 1 of 8 |
-| The first prompt and the guarantee sentence | 0 of 6 | 6 of 6 |
-| The full second prompt | 0 of 8 | 8 of 8 |
+| The first prompt | 0 of 7 | 1 of 7 |
+| The first prompt and the guarantee sentence | 0 of 5 | 5 of 5 |
+| The full second prompt | 0 of 7 | 7 of 7 |
 
-No function paid both requests. Every session wrote the check and the subtraction as one statement, even with the first prompt, and all eight reports from the first prompt explained why a read followed by a write would fail. So this model didn't need the guarantee to write safe code here. What the guarantee changed was the test. With the first prompt, 1 session in 8 left a test that sends two requests in `test_giftcards.py`. With the guarantee sentence, every session did. A test in the file keeps checking the guarantee after the session ends, and a sentence in a report doesn't.
+No function paid both requests. Every session wrote the check and the subtraction as one statement, even with the first prompt, and all seven reports from the first prompt explained why a read followed by a write would fail. So this model didn't need the guarantee to write safe code here. What the guarantee changed was the test. With the first prompt, 1 session in 7 left a test that sends two requests in `test_giftcards.py`. With the guarantee sentence, every session did. A test in the file keeps checking the guarantee after the session ends, and a sentence in a report doesn't.
 
-The guarantee also made the sessions slower. The median session took 7 minutes with the first prompt, 14 with the guarantee sentence, and 12 with the full prompt. A model at a lower setting, or a race less familiar than a gift card balance, may give different counts. I haven't measured either.
+The guarantee also made the sessions slower. The median session took 7 minutes with the first prompt, 14 with the guarantee sentence, and 11 with the full prompt. A model at a lower setting, or a race less familiar than a gift card balance, may give different counts. I haven't measured either.
 
 I also checked by hand that the failure exists and what each check catches. I ran the listing with each version of `redeem`. With the version for people, the run prints `Ran 3 tests` and `FAILED (failures=1)`. Both requests are paid, and the balance ends at `2000`. With the version for AI, the run prints `Ran 3 tests` and `OK`. One request is paid and the other is refused.
 

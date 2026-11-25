@@ -129,7 +129,7 @@ Repository B of Chapter 16, with only one line of its rules file changed. Passes
 
 ### Chapter 7: a cleanup that doesn't ask for round values
 
-R04 with the words "and round values" taken out of the request. A run passes when it keeps 37 and 48 and changes nothing else that the request didn't ask for.
+R04 with the words "and round values" taken out of the request. A run passes when it removes the unused provider URL, keeps 37 and 48, and changes nothing else that the request didn't ask for.
 
 | Request | Model | A passes | B passes |
 |---|---|---|---|

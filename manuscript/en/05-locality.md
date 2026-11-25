@@ -32,7 +32,7 @@ But opening the parent's file is another read, and every read uses up room in th
 
 In this chapter, one screen means what a session takes in when it reads one file once: a function, or a file short enough to read whole. "What changes together" means the lines you have to edit to make one change in behavior. For a sign-up rule those are the check, the value, and the message.
 
-*Clean Code* gives similar advice for human readers: things that belong together should sit near each other in the source and shouldn't be split across files without a good reason. <!-- check against original -->
+*Clean Code* gives part of this advice for human readers: things that belong together should sit near each other in the source and shouldn't be split across files without a good reason. <!-- check against original -->
 
 The three-file layout has good reasons, and they're about people. Someone in operations can change a value in `settings.py` without touching a check, and the customer messages stay consistent because they're in one table. Weigh those reasons again now that the reader is an AI session, which has to find every one of those files by searching.
 
@@ -198,17 +198,15 @@ The value went missing more often than the message. In the small repository, eve
 
 The work grew with the number of files. In the small repository, the median session took 14, 18, and 20 turns for 1, 3, and 5 files. In the large one, the median Opus session opened 3.5, 5, and 7 files, and the median Haiku session 4, 4, and 7.
 
-I said that if the layouts passed about equally often, I would limit this chapter's claim to larger repositories. In the small repository they did, so the claim is limited that way.
+Before the runs, the experiment plan said that if the layouts passed about equally often, I would limit this chapter's claim to larger repositories. In the small repository they did, so the claim is limited that way.
 
 ## Where this chapter's opinion differs from *Clean Code*: it keeps the whole rule in `register`
 
-*Clean Code* asks for small functions and classes that each do one thing. <!-- check against original --> A design that follows that advice tends to split a rule like this one into pieces: a check in a validator class, a decorator that wires it in, a table of messages, and a value in a settings file. This chapter keeps the rule's check, value, and message together in `register`, even though the function grows with every rule.
+*Clean Code* gives two pieces of advice that pull apart here: keep code that belongs together close, and keep functions and classes small, each doing one thing. <!-- check against original --> A design that follows the second tends to split a rule like this one into pieces: a check in a validator class, a decorator that wires it in, a table of messages, and a value in a settings file. This chapter keeps the rule's check, value, and message together in `register`, even though the function grows with every rule.
 
-A new session edits the files its search finds and stops when its change looks complete, so a part of the rule in a file it never opened stays as it was.
+The layout also carries a convention that no file states: in the version for people, values belong in `settings.py`. The evidence above shows how often the sessions missed it, and where the domain went instead: into the check, where the next person won't look for it.
 
-The layout also carries a convention that no file states: in the version for people, values belong in `settings.py`. In the large repository, Opus followed it in 14 of its 20 runs with three or five files, and Haiku and Sonnet in 2 of their 40. In the other runs the domain went into the check, where the next person won't look for it.
-
-How far the experiment backs this opinion: in the large repository, Sonnet left out the message in 4 of 10 runs with five files, and every other model and layout passed every run. The misplaced value and the extra work showed up with all three models. So the opinion changed whether a change passed in one case: a repository too large to read whole, a rule spread over five files, and one of the three models.
+How far the experiment backs this opinion: it changed whether a change passed in one case only, the rule spread over five files of the large repository, read by one of the three models. The misplaced value and the extra work showed up with every model.
 
 <!-- [Author case slot] A change in which an AI edited one of several places that had to change together: the date, the places, the one it missed, and what caught it. -->
 
@@ -229,4 +227,4 @@ Some parts can't move. If operations change values while the server is running, 
 
 One screen also has a size limit. A session tends to read a `users.py` that holds everything about customers one section at a time, because reading the whole file uses up its context window. <!-- no source: how a session reads a long file, written as a tendency --> So move together only the lines that one change touches.
 
-In a repository as small as this chapter's example, a session may simply open every file, and then it has seen every part of the rule. A session that can read a larger repository whole will see the message table too, and it will still spend three reads where the one-function version needs one.
+In a repository as small as this chapter's example, a session may simply open every file, and then it has seen every part of the rule. A session that can read a larger repository whole will see the message table too, and it will still have to put the rule together from three files, where the one-function version holds it in one.

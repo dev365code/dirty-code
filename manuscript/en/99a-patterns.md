@@ -2,7 +2,7 @@
 
 This list gathers the patterns of Chapters 2 to 18 in one place. Each entry shows what the pattern looks like, what a new session gets from it, and what a person pays for it. Then it says how the pattern relates to *Clean Code*, how far this book's experiments back it, and where not to use it.
 
-For the relation to *Clean Code*, "same" means *Clean Code* gives the same advice, and "extends" means this book adds to that advice. "Differs" means this book's advice goes another way. "New" means *Clean Code* doesn't take up the question, usually because its reader remembered yesterday and could ask a colleague.
+For the relation to *Clean Code*, "same" means *Clean Code* gives the same advice, and "extends" means this book adds to that advice. "Differs" means this book's advice goes another way. "New" means *Clean Code* doesn't take up the question. As I read it, that is usually because its reader remembered yesterday and could ask a colleague.
 
 The evidence line gives one deciding number, with its experiment. "Pays off" means the version with the pattern did better in that experiment. "No difference yet" means both versions did equally well, so the pattern may still pay off under conditions the chapter names. Each chapter gives the date, the tool, and the model, and Appendix A gives how the sessions were run.
 
@@ -132,7 +132,7 @@ cmd; rc=$?; echo "name $(basename "$f") rc=$rc"
 - A search for the words of a question hits the right function, and the index says which folders have to agree.
 - A person pays for updating the index in the same commit that moves a folder.
 - *Clean Code*: same for names inside files, which should reveal intent. The index is new.
-- Evidence: a small difference. With generic file names and no module descriptions, Claude Haiku 5.5 found the code in 38 of 40 answers and Claude Sonnet 5.5 in 39, against 40 of 40 with feature folders. Folder names and the index saved a little under one tool call per question (E9).
+- Evidence: a small difference. With generic file names and no module descriptions, Claude Haiku 5.5 found the code in 38 of 40 answers and Claude Sonnet 5.5 in 39, against 40 of 40 with feature folders. Feature folders with module descriptions saved a little under one tool call per question, and the index alone another 0.1 to 0.4 (E9).
 - Not for framework folders you can't rename. Describe them in the index.
 
 ## 11. A prompt with the owner's rule and a finish line with examples (Chapter 11)
@@ -172,7 +172,7 @@ even when two requests for the same card arrive at the same moment.
 - The session gets what must never happen, in the shop's words, and a test that keeps checking it after the session ends.
 - A person pays for slower sessions, a median of 14 minutes with the sentence against 7 without it, and for deciding what not to guarantee.
 - *Clean Code*: new.
-- Evidence: pays off in what stays behind. Every Claude Opus 5.5 session wrote safe code with or without the sentence. With the sentence, all 14 sessions left a two-request test in the repository, against 1 of 8 without it (E14).
+- Evidence: pays off in what stays behind. Every Claude Opus 5.5 session wrote safe code with or without the sentence. With the sentence, all 12 sessions left a two-request test in the repository, against 1 of 7 without it (E14).
 - Not for data that may be a minute old, such as a "customers also bought" list.
 
 ## 14. A worktree for each session, and files staged by name (Chapter 13)

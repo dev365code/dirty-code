@@ -37,7 +37,7 @@ The "code" in this chapter is two repositories. Both hold the shop's order serve
 | 8 | Payment fees sit behind `strategy_for` and three classes | A fee table sits next to `checkout_total` |
 | 9 | Errors say what failed | Errors carry a code, the values, `where=`, and `next=` |
 | 10 | `services/`, `utils/`, and `models.py` | A folder for each thing the shop does, and `INDEX.md` |
-| 11 | A rules file with one line about clean code | The rules file from Chapter 11 |
+| 11 | A rules file with one line about clean code | The rules file from Chapter 11, with its line about reason comments as it stood before Chapter 7's rewrite |
 
 Everything else is the same, and the experiment checks that it is. Function names differ between the two repositories, so the tests can't call the inner functions. They go through the shop's outer functions, the ones that place an order, cancel it, refund it, sign up a user, and build the payout report. Those have the same names in both. Before any request is sent, both repositories must return the same answers to the same calls and pass the same visible tests.
 
@@ -81,7 +81,7 @@ The two repositories may pass about equally often. That would fit what Chapter 3
 
 Repository A may pass more often. Then some habit in B costs more than it gives, and the chapters' own experiments have to show which one.
 
-Two rules decided how a run counts. The first is that a hidden check may ask only for what the request says, or for what the shop's own code already does in the same kind of case. I wrote that rule down after the Codex runs, when two of my checks turned out to ask for more, and I applied it to every model's runs. Appendix A lists the three things it corrected and how I checked each correction. The corrections turned 40 failed runs into passes with Codex, 40 with Sonnet, and 38 with Haiku. The second rule, set before the Claude runs, is that every run falls into one of five outcomes: it passed, the requested behavior failed, behavior the request didn't ask for changed, an output gained a key and nothing else changed, or the session changed no file and asked before going on. A run whose output gained a key counts as failed.
+Two rules decided how a run counts. The first is that a hidden check may ask only for what the request says, or for what the shop's own code already does in the same kind of case. I wrote that rule down after the Codex runs, when two of my checks turned out to ask for more, and the Claude runs showed one more. I applied it to every model's runs, and Appendix A lists the three corrections and how I checked each one. They turned 40 failed runs into passes with Codex, 40 with Sonnet, and 38 with Haiku. The rule leaves the rest check of R04 as it is: R04 asks for round values on purpose, and its rest check fails a change to 37 or 48, because the provider's limits need them and only Repository B says so. The second rule, which I wrote down after the first 312 Sonnet runs and before all the others, and applied to every run, is that every run falls into one of five outcomes: it passed, the requested behavior failed, behavior the request didn't ask for changed, an output gained a key and nothing else changed, or the session changed no file and asked before going on. A run whose output gained a key counts as failed.
 
 I ran the 400 sessions three times: on 2026-11-23 with Codex CLI and gpt-6.2-sol, and on 2026-11-25 with Claude Code and two Claude models at their default settings, Claude Sonnet 5.5 and Claude Haiku 5.5. The full table for each model, request by request, with the files opened and the tool calls, is in the repository at `experiments/RESULTS.md`.
 
@@ -113,20 +113,20 @@ Thirteen of the twenty requests passed 10 times in 10 in both repositories with 
 | R15 An expiry date on coupons | 10, 10 | 0, 3 | 0, 0 | Added `expires_on: null` to coupons that have no expiry date |
 | R20 Settlement batches of 100 | 10, 0 | 10, 9 | 10, 9 | Stopped and asked |
 
-That is the second of the three outcomes, with all three models. The totals of A and B differ by at most two runs in 200, and each repository's main loss came from one place: in A, a value with no reason written next to it, and in B, one line of its rules file.
+That is the second of the three outcomes, with all three models. The totals of A and B differ by at most two runs in 200. The one request that every model lost in Repository A was the cleanup that needed a reason written nowhere in A. In Repository B, every model lost runs to one line of its rules file. The Claude models also lost runs in both repositories by adding keys.
 
 - Repository A lost the cleanup of the payment constants (R04) with every model, all ten times. Every session changed the 37-second approval timeout: Codex to 40, Sonnet to 30, and Haiku to 30 or 40. Nothing in A says why 37 was chosen. This is the failure Chapter 7 predicts.
 - Repository B lost to a line in its own rules file, the line Chapter 7 had recommended: "Don't change a value whose comment gives a reason. If you think the reason is out of date, tell me and wait." With Codex, all ten sessions stopped on the batches of 100 (R20), although the request gave the new limit and its reason. With Sonnet and Haiku, all ten sessions stopped on the thousands separators (R03), because the settlement report's copy of the formatter says that the accountant sets its format. One Sonnet session asked, "Please confirm the accountant has signed off on the new format." In a real session you would answer, and the change would likely follow. The hidden check counts what the session did, and it changed nothing. Chapter 7 tells this story and tests two rewritten lines.
 
-The Claude models also failed in a way Codex didn't. Some sessions added a key to an output, such as `expires_on: null` on a coupon with no expiry date, and left every value that was there before unchanged. These runs count as failures, by the rule set before the runs. Counted as passes, they would make the totals 190 and 186 for Sonnet, and 190 and 184 for Haiku. And in Repository B, 3 Sonnet and 5 Haiku sessions raised another error than `KeyError` for an unknown customer, where the shop's existing lookups raise `KeyError`. No session in A did that, and I can't tell from the runs what in B led them there.
+The Claude models also failed in a way Codex didn't. Some sessions added a key to an output, such as `expires_on: null` on a coupon with no expiry date, and left every value that was there before unchanged. These runs count as failures, by the second rule above. Counted as passes, they would make the totals 190 and 186 for Sonnet, and 190 and 184 for Haiku. And in Repository B, 3 Sonnet and 5 Haiku sessions raised another error than `KeyError` for an unknown customer, where the shop's existing lookups raise `KeyError`. No session in A did that, and I can't tell from the runs what in B led them there.
 
 The work went different ways with different models. With Codex, the median session in B used about a fifth more tokens than in A, 101,000 against 83,000, counting the ones the model read from its cache, and made 7 tool calls against 6. Every Codex session in B printed `INDEX.md`, as B's rules file tells it to. With Sonnet, the median session in B used fewer tokens, 119,000 against 131,000. With Haiku the two were about the same, 232,000 in B and 228,000 in A.
 
-So with three models, the eight habits together didn't make Repository B pass more often. They decided which requests failed. A lost the request that touched a value with no reason written next to it. B lost requests that its own rules file told the session to stop on. By what I wrote above, this outcome limits each chapter's claim to the cases its own experiment isolates, and each chapter now says so.
+So with three models, the eight habits together didn't make Repository B pass more often. The requests that every model lost trace to single habits: in A, the missing reason next to 37, and in B, one line of its rules file. Chapter 7's reruns took each apart. Without the words "round values", no session changed 37, and with the line rewritten, no session stopped. By what I wrote above, this outcome limits each chapter's claim to the cases its own experiment isolates, and each chapter now says so.
 
 ## What people do
 
-My two repositories are a small shop that I built. Yours is the repository that matters to you, and your Git history already holds the material for the same experiment. The steps below replay a change your team has already made.
+My two repositories are a small shop that I designed. Yours is the repository that matters to you, and your Git history already holds the material for the same experiment. The steps below replay a change your team has already made.
 
 - [ ] Pick a merged change that added tests along with its fix. Write down the request that led to it in a sentence or two, the way you would have typed it to an AI. Don't use the commit message if it describes the solution.
 - [ ] Make a copy of the repository as it was just before that change, without its Git history, and save the tests the change added outside the copy. Those are your hidden tests. A worktree or a clone would bring the history along, and a session could read the change and its tests there.
@@ -149,7 +149,7 @@ The numbers in this chapter belong to the three models and the dates named with 
 
 The shop is small. It has a few dozen files, and a session can read most of them before it writes. In a repository of 2,000 files, finding the code is a larger part of the work, and the differences in the table may matter more or less than they do here. That is why your own replay counts for more than my numbers.
 
-I built both repositories and chose the requests, and I know which result I expect. The four requests that favor Repository A are there to push against that. They don't remove it.
+I designed both repositories and chose the requests, and I know which result I expect. The four requests that favor Repository A are there to push against that. They don't remove it.
 
 Hidden tests judge what the code does. They don't judge whether the person who is woken at 3 a.m. can follow Repository B. Chapter 17 is about that person.
 

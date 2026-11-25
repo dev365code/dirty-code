@@ -14,7 +14,7 @@ Your code has names like that gauge: functions that do a little more than they s
 
 > When a function changes stored data, say so in its name, so that every line that calls it carries the warning, even when the prompt doesn't.
 
-## Why: your team knows what `get_user` really does, and a new session sees only its name
+## Why: your team knows what `get_user` really does, and at the call site a new session sees only its name
 
 A new session has never seen any of the functions it is about to call. Say a session needs a customer's email address. The session searches the repository, and one of the lines it finds is this one from `orders.py`.
 
@@ -22,7 +22,7 @@ A new session has never seen any of the functions it is about to call. Say a ses
 user = get_user(order.user_id)
 ```
 
-A call site shows this much of a function: its name and its arguments. The body and the docstring are in another file. In this chapter's runs, every session opened that file before its first edit, so no session had to go by the name alone. The name is still what a session reads first, at every line that calls the function, and what you read in a diff. By the ordinary meaning of the words, `get_user` looks a customer up and changes nothing.
+A call site shows this much of a function: its name and its arguments. The body and the docstring are in another file. In this chapter's runs, every session looked at the defining file, or at least the line that defines the function, before its first edit, so no session had to go by the name alone. The name is still what a session reads first, at every line that calls the function, and what you read in a diff. By the ordinary meaning of the words, `get_user` looks a customer up and changes nothing.
 
 You'd read the name the same way. Now suppose `get_user` also stores each customer it looks up in a cache. One day a script that loops over every customer fills that cache, the site slows down, and someone on your team spends an afternoon tracing the slowdown back to `get_user`. They tell the others. A new hire may still get caught once, and then someone tells them too. Nobody puts the warning in a file, because it travels well enough by word of mouth.
 
@@ -139,7 +139,7 @@ The reason is in the prompt. It says not to touch the cache. 52 of the 60 sessio
 
 On 2026-11-22 and 23 I ran the other four functions in the same large repository, with one more coding agent, Codex CLI with gpt-6.2-sol. I added the four to the shop in both versions: a cart lookup that creates a missing cart, a coupon check that marks the coupon used, a payment check that marks the order paid, and a settlement total that saves the figure it computes. Each sits in the normal flow with a few callers, next to its twin that only reads. Each prompt asked for a new function in a new file and said which write must not happen, such as "it must not create a cart for anyone." Each function went to 10 fresh sessions per version, 80 sessions in all.
 
-All 80 passed the hidden test. None called the function that writes, under either name. In all 80, the line that defines that function appeared in the output of a command the session ran before its first edit, so every session could see what the function does without going by its name. The median session made 5 or 6 tool calls in both versions.
+All 80 passed the hidden test. None called the function that writes, under either name. In all 80, the line that defines that function appeared in the output of a command the session ran before its first edit, so no session met the function only at a call site. The median session made 5 or 6 tool calls in both versions.
 
 So all five functions came out the same way, the first with three Claude models and the other four with Codex: when the prompt names the write to avoid, sessions avoid it under either name. The prompt gives them a word to search for, and the definition they find says what the function writes.
 
@@ -166,7 +166,7 @@ Nothing passes or fails here, because the prompt no longer asks for anything abo
 
 Every session saw `users.py` before it wrote anything. Sonnet, Opus, and Codex never filled the cache. They called `load_user` and said why, for example: "a nightly run over every customer would copy the whole users table into the cache." Haiku followed the other export modules, which call the lookup that fills the cache, and its reports that filled the cache named that as a reason to do it: "It reuses `get_user_and_fill_cache`, the same lookup the other exports use." So a mention of the cache in a report isn't always a warning.
 
-With the short name, 9 of the 10 Haiku sessions filled the cache, and with the long name, 5 did. With ten runs per version, chance alone gives a gap that size about one time in seven. So in these runs the name changed what one of the four models did, in about half of that model's runs, and only when the prompt said nothing about the cache.
+With the short name, 9 of the 10 Haiku sessions filled the cache, and with the long name, 5 did. The other three models never filled it under either name. With ten runs per version, chance alone gives a gap as large as Haiku's about one time in seven. So in these runs the longer name went with fewer filled caches for one model of the four, and only when the prompt said nothing about the cache.
 
 <!-- [Author case slot] A real case in which an AI went by a description of the code, such as a name or a comment, and reported or changed the wrong thing. -->
 
@@ -179,7 +179,7 @@ With the short name, 9 of the 10 Haiku sessions filled the cache, and with the l
 
 ## Where it breaks
 
-A session that is editing `users.py` already has the docstring a few lines below the name, so the longer name tells it nothing new. In this chapter's runs every session read `users.py` before its first edit, even in a repository of 518 files. So the name made a difference only when the prompt didn't say what to avoid, and then only for one of the models.
+A session that is editing `users.py` already has the docstring a few lines below the name, so the longer name tells it nothing new. In this chapter's runs every session saw `users.py` before its first edit, even in a repository of 518 files. So the name made a difference only when the prompt didn't say what to avoid, and then only for one of the models.
 
 Suppose the prompt above also asked for a test that the cache holds the same entries before and after the export. A session that calls `get_user` then sees the test fail and can work its way to `load_user`, whatever the lookups are named. That test has to start from an empty cache: if the customers are already cached, `get_user` stores nothing new, and the test passes for both functions. A line in the rules file ("get_user fills the cache; nightly jobs call load_user") warns every session too, for the names you already know about. Type hints don't carry the warning: both lookups are `(user_id: int) -> User`.
 

@@ -36,14 +36,14 @@ The table lists nine habits. The second column is my one-line summary of what *C
 
 | Habit | What *Clean Code* advises | What this book does, and why | How far the experiments back it | Chapter |
 |---|---|---|---|---|
-| A rule settled in a chat | Doesn't take this up: its reader remembers yesterday and can ask a colleague | Write the rule in a comment or the rules file, because a new session reads only the files | Pays off | 2 |
+| A rule settled in a chat | Doesn't take this up. As I read it, its reader remembers yesterday and can ask a colleague | Write the rule in a comment or the rules file, because a new session reads only the files | Pays off | 2 |
 | Names | A name says what the thing does, side effects included | The same, and a function that changes stored data says so, because the name is what shows at every call | No difference when the prompt named the write. When it didn't, one model filled a cache less often under the longer name | 4 |
 | Small functions | A function is small and does one thing | Keep the lines that one change touches in one function, because a session edits the files its search finds | Pays off in one case: a rule in five files of a large repository, with one model | 5 |
 | Duplication | Don't repeat yourself | A caller whose output someone else decides gets its own copy, because a session knows only the callers it searched for | Mixed: no caller broke either way, and sharing grew a switch that one caller uses | 6 |
 | Comments | Explain yourself in code. Comments that explain intent or warn of consequences are the good kind | A reason above every value that looks wrong on purpose, repeating the value, because the reason lives outside the code | Pays off when a cleanup asks for round values | 7 |
 | Layers | Prefer polymorphism to code that switches on a type | A layer only when it does a job today, because a session can stop early at any hop | No difference yet | 8 |
 | Errors | Give an exception enough context to find where and why it failed | The same, and the line adds the values and the next step, because a session may have only the line | Changed what the reports said, not whether the fix was right | 9 |
-| Names of files and folders | Choose names that reveal intent | The same inside files. Folder names and a one-page index save a step, because a session searches the words inside files first | A small difference: about one tool call per question | 10 |
+| Names of files and folders | Choose names that reveal intent | The same inside files. Feature folders and a one-page index save a session a step, though the words inside the files decide whether it finds the code | A small difference: feature folders with module descriptions saved under one tool call per question, and the index alone 0.1 to 0.4 more | 10 |
 | Tests | Write the failing test first, and keep the tests as clean as the code | The same, and watch every check fail, on the old code and on a wrong answer you planted, because a pass shows only what the check looked at | The method is the point. No session weakened an assertion | 14 |
 
 Four rows, Chapters 5 to 8, go another way from *Clean Code*. Each of them moves something a teammate used to carry in memory into the code: which files a rule touches, which callers share a function, why a value is odd, and where the route through the classes ends. Two rows, errors and tests, add to *Clean Code*'s advice, and two, names and the names of files, keep it as it is. The first row is a question *Clean Code* had no reason to ask.
@@ -68,11 +68,11 @@ An AI tends to follow an instruction to the letter. Given the first rule, a sess
 
 The second rule is longer, and it gives the session the reason along with the limit. A session can apply a reason to a case the rule's author didn't foresee. I haven't measured the difference between these two rules. Chapter 11 looks at how to write instructions like these.
 
-## Evidence: the last column of the table, and the experiment that puts all the rows in one repository
+## Evidence: the last column of the table, and the experiment that puts the habits of Part II in one repository
 
 This chapter runs no experiment of its own. The last column of the table gives each row's result in a few words, the chapter named in that row gives the experiment, and the list of patterns at the end of the book gives the deciding number for each.
 
-Chapter 16 tests the rows together. It builds one shop twice, once with *Clean Code*'s habits and once with this book's, and sends both the same twenty requests. With three models, the two versions passed about equally often: 190 and 190 of 200 runs with Codex, 177 and 178 with Claude Sonnet 5.5, and 173 and 171 with Claude Haiku 5.5. That is the result this chapter's claim rests on: today's AI reads clean code well. The one request that every model lost in the version for people was the cleanup that needed a fact no code in that version showed, the reason for a 37-second timeout.
+Chapter 16 tests the habits of Part II together, the eight of Chapters 4 to 11. It builds one shop twice, once with *Clean Code*'s habits and once with this book's, and sends both the same twenty requests. With three models, the two versions passed about equally often: 190 and 190 of 200 runs with Codex, 177 and 178 with Claude Sonnet 5.5, and 173 and 171 with Claude Haiku 5.5. That is the result this chapter's claim rests on: today's AI reads clean code well. The one request that every model lost in the version for people was the cleanup that needed a fact no code in that version showed, the reason for a 37-second timeout.
 
 ## What people do
 
@@ -91,4 +91,4 @@ The table can be read as a list of things to stop doing. Most of its rows keep *
 
 A session that can read more files before it writes would pay less for code spread across files, and a session that checks every caller before it edits a shared function would make the duplication row matter less. The rows about names, errors, and tests are about information that is nowhere in the code until someone writes it down, so a larger context window or a better search leaves them as they are.
 
-The rows that go another way today are those of Chapters 5 to 8. Chapter 18 says where I expect the table to go from here.
+Chapter 18 says where I expect the table to go from here.

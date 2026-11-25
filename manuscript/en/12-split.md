@@ -219,7 +219,7 @@ On 2026-11-22 I gave this change to fresh sessions of Codex CLI, OpenAI's coding
 
 With the four prompts, each piece went to its own fresh session. Each session read `PLAN.md` and the files its piece names, changed only the files its prompt allowed, added the test its prompt asked for, ran the tests, and marked its piece done in `PLAN.md`. None of the four could commit. The sandbox I ran the sessions in doesn't let a session write to `.git`, and each session said so in its report: "The commit is blocked because the workspace denies writes to `.git/index.lock`."
 
-## Evidence: all 30 sessions passed in every form, and the sessions given the whole plan reported the case that waits for the owner
+## Evidence: all 30 runs passed in every form, and the sessions given the whole plan reported the case that waits for the owner
 
 Experiment E13 gives the quantity change to fresh sessions in three forms. The first form is the one-line prompt. The second is one prompt that contains the whole plan, with all four pieces and their examples. The third is four prompts, one per piece, each sent to a fresh session. Each form runs 10 times.
 

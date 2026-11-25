@@ -208,9 +208,7 @@ The copy of the refund rule in that version had no comment saying it was kept on
 
 *Clean Code* counts duplication among the main sources of bad code and asks for each piece of logic to live in one place. <!-- check against original --> This chapter gives a caller its own copy when a different person decides what it outputs. The settlement report gets a copy because the accountant decides its format, and the refund export gets one because the payment provider decides its format. A rule that two places must agree on, such as the refund rule, stays in one shared function.
 
-A session knows only the callers its searches returned, so with its own copy the settlement report can change while the other six callers keep their output, whether or not the session searched for them.
-
-How far the experiments back this opinion: the failure the copies guard against, a shared function changed for one caller and broken for the others, happened in none of the 80 runs. The cost of sharing did show up. In the version for people, 22 of 40 sessions left a switch in the shared function that only one caller uses, and in the large repository every model opened more files. So in these runs the copies changed the shape of the code that came back, and no run in either version broke another caller.
+How far the experiments back this opinion: it is mixed. The failure the copies guard against, a shared function changed for one caller and broken for the others, didn't happen in any run. What the copies changed was the shape of the code that came back, with no switch left in a shared function, and how much the sessions had to read. On the other side of the line, a rule that two places must agree on, the restocking fee went against my prediction: in the version for people every session split the shared rule to keep a visible test passing, and in the version with the copy every session merged the copy back into the shared rule.
 
 <!-- [Author case slot] A real change where an AI's edit to a shared function changed another caller's output. -->
 
