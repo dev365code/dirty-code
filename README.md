@@ -46,6 +46,8 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 **Preface.** [To *Clean Code*: we learned to write code for people](manuscript/en/00-preface.md) · draft
 
+**Terms.** [The words the chapters use](manuscript/en/00a-terms.md) · draft
+
 **Part I. The reader of your code has changed**
 
 1. ["My way used to be faster": the day developers stopped reading code](manuscript/en/01-faster-route.md) · draft
@@ -78,6 +80,10 @@ Chapters are posted here as drafts while the book is being written. A linked tit
 
 **Closing.** [AI writes the code. People write the guarantees.](manuscript/en/99-closing.md) · draft
 
+**Patterns.** [Dirty code patterns: what each one looks like, what it costs, and how far it was tested](manuscript/en/99a-patterns.md) · draft
+
+**Appendix A.** [How the experiments were run](manuscript/en/99b-how-the-experiments-ran.md) · draft
+
 ## How a chapter is laid out
 
 1. **Scene**: a situation everyone has been in (Chapters 8 and 10 start at the claim)
@@ -109,7 +115,8 @@ Robert C. Martin's *Clean Code* set the standard for code that people read. Toda
 
 - November 2026: the outline and experiment plan are set, and writing has begun. The English draft of the whole book is posted: the preface, 18 chapters, and the closing. A Korean draft of every chapter is posted too, linked from the [Korean front page](README.ko.md).
 - November 22, 2026: part of the experiments were run with Claude Code (E3 to E7, E9, E10, E12, and E14 to E16, some in a smaller form than designed). Each chapter says what was run, with which models, and how it differed from the design.
-- November 22 and 23, 2026: the rest were run with Codex CLI and the model gpt-6.2-sol: the ten sessions of E1, E2, E8, E11, E13, the parts of E3, E5, E12, and E15 that were left over, and the 400 sessions of the combined experiment in Chapter 16. Next is the combined experiment on a second model, with Claude Code.
+- November 22 and 23, 2026: the rest were run with Codex CLI and the model gpt-6.2-sol: the ten sessions of E1, E2, E8, E11, E13, the parts of E3, E5, E12, and E15 that were left over, and the 400 sessions of the combined experiment in Chapter 16.
+- November 25, 2026: the combined experiment was run again with Claude Code, with Claude Sonnet 5.5 and Claude Haiku 5.5, along with the runs registered for the renewal of the book. Every chapter was revised. Each claim now says what its experiment showed, Chapters 5 to 8 say where their opinion differs from *Clean Code*, and a page of terms, a list of patterns, an appendix on how the experiments were run, and a [results page](experiments/RESULTS.md) were added.
 - The manuscript was written in English first. The Korean draft is rewritten for Korean readers from the English one.
 
 New chapters will appear in this repository. Turn on **Watch** to hear about them. A **Star** tells the author how many readers are waiting.
