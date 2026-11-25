@@ -16,8 +16,6 @@ When an AI changes one rule in your code, what tells it how many places that rul
 
 > In a repository too large to read whole, an AI can miss the part of a rule that sits in another file, so keep the lines one change touches in one function where you can.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "An AI edits only the places it finds, so keep the code that one change touches in one place." -->
-
 ## Why: a new session edits the file its search finds, and that file doesn't mention the other two
 
 A developer who has spent a year on a small online shop's order server knows where its rules live. Ask her to add a rule for the email addresses customers sign up with, and she makes three edits from memory: the rule's value in `settings.py`, the message the customer sees in a table in `validation.py`, and the check in `users.py`.

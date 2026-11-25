@@ -12,8 +12,6 @@ Your server handles two requests at the same moment, and three AI sessions are w
 
 > Write down in one sentence what must never happen when two requests arrive at once, and put it in the prompt, so that the AI leaves a test that keeps checking it.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "When things run at once, a person decides what must never happen between them and writes it down as a check, because each request and each AI session sees only itself." -->
-
 ## Why: each request and each AI session is right when you look at it alone, and the failure happens between them
 
 The code for one request reads the same whether one request runs or a thousand run at once. Nothing in the text of a function says that a second request for the same gift card can arrive while the first is still working.

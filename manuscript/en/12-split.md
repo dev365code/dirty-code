@@ -14,8 +14,6 @@ When you hand an AI a week of work in one prompt, where are your rest stops?
 
 > Cut the work you hand to an AI at points where a command says pass or fail, so that a failure points at one piece and the plan keeps the questions only the owner can answer.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "Cut the work you hand to an AI into pieces you can check, and end each piece at a point where a command can say pass or fail." -->
-
 ## Why: an AI can change twenty files in one session, and a person can check only what a command can pass or fail
 
 An AI can change twenty files in one session, because typing costs it almost nothing (Chapter 1). So the size of a task is no longer limited by how much the writer can write. It is limited by how much you can check.

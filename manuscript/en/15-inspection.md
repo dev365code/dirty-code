@@ -14,8 +14,6 @@ An AI wrote your code. Who is the second garage, and what do you ask it to show 
 
 > Give the reviewer the rule and ask for an input that breaks it, written as a failing test, and run every finding yourself before you act on it.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "Have a fresh session inspect what another session wrote, give each inspector a different question, and act on a finding only after you have run it yourself." -->
-
 ## Why: the session that wrote the code knows what it meant, and a fresh session reads only what is there
 
 A session that has just written a function still has everything in front of it: the prompt, the files it read, and its own plan. Ask that session whether the function is right, and it reads its code next to its plan. The two agree, because one came from the other. A mistake in the plan is in both.

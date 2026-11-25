@@ -12,8 +12,6 @@ Suppose you installed a light yourself and have never once seen it come on. What
 
 > Trust a passing check only after you have watched it fail on the old code and on a wrong answer you planted.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "A pass is evidence only if you have watched that same check fail." -->
-
 ## Why: the AI tends to stop when the checks pass, and a pass tells you only about what the check looked at
 
 Whatever you told the AI in the last session is gone, and the next session starts from the files. So if you don't read the code, the right answer has to be written in a file. The file that holds it is a test: a test fails when the code returns something other than the answer you wrote down. For a person who doesn't read the code, the tests are the specification.

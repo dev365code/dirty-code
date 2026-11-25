@@ -14,8 +14,6 @@ Your code has values like that idle setting. What does an AI do with a number wh
 
 > Write the reason next to a value that looks wrong on purpose, because an AI asked to clean up and round values often rounds a value whose reason it can't find.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "When a value looks wrong on purpose, write the reason next to it, because an AI asked to tidy up may "fix" a value it can't explain." -->
-
 ## Why: the reason for an odd value lives in someone's memory, and nothing in the file tells a new session to ask
 
 Every team has values that look odd and are right. A timeout is 37 seconds when every other timeout is 30. A batch holds 48 items when 50 would be the round number. Someone on the team chose each value after something went wrong, and that person remembers why.

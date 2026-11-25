@@ -16,8 +16,6 @@ So where is the rule you spent an hour working out?
 
 > If a rule you settled in yesterday's chat isn't written in a file, today's new session writes a reasonable rule of its own.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "AI remembers nothing from yesterday, so all it knows about your code today is what you tell it and what it finds in your files." -->
-
 ## Why: a new session starts with the prompt and the files, and yesterday's rule is in neither
 
 The rule you worked out yesterday is in that session's chat, and a new session doesn't get that chat. A session is one conversation with the AI, from start to finish, and each one starts without the last.

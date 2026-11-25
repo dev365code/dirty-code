@@ -14,8 +14,6 @@ This book has made eight claims about code, one in each chapter of Part II. What
 
 > Built twice and sent the same twenty requests, the version arranged for an AI reader passed about as often as the clean one, and the two lost different requests: one changed a value whose reason was written nowhere, and one stopped to ask because of a line in its rules file.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "To find out whether code arranged for an AI reader works better, build the same program twice, send both the same change requests in fresh sessions, and let tests the AI never sees decide." -->
-
 ## Why: a fresh session has never seen the task, so the same task can be given to the same reader ten times
 
 Advice about code has mostly been argued from experience, because it is hard to test on people. You can't give one developer the same task twice. The second time, the developer remembers the first. You can give the task to two developers, and then you are comparing the developers as much as the code.

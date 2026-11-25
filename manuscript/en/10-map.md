@@ -4,8 +4,6 @@
 
 > An AI finds code by searching the words inside your files, so the names and descriptions in the files matter most, and folder names and an index save it about one step.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "An AI finds its way by the names of folders and files, so name them for what's inside, and keep one page that says what lives where." Title before: "The map AI navigates by: folder names and an index file" -->
-
 ## Why: a session's first look at your repository is a list of names
 
 A developer who has worked in a repository for a year knows where things are. Ask where the refund math lives, and the developer says "`utils/helpers.py`, near the bottom" without looking. The name of that file never had to mean anything, because nobody found the code by its name.

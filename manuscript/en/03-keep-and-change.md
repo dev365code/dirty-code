@@ -14,8 +14,6 @@ Your team has coding habits too, and many of them came from *Clean Code*. Now an
 
 > Today's AI reads clean code well, so keep *Clean Code*'s habits, and depart from them only in the four places of Chapters 5 to 8, where a new session can't remember the team's reasons or ask a colleague.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "Keep the habits that tell any reader what the code does, and weigh again the habits that only saved a human reader's memory or a human writer's typing." -->
-
 ## Why: some habits help every reader, and some were a bargain with a human reader
 
 *Clean Code* starts from one fact about programmers: they spend far more time reading code than writing it. <!-- check against original --> So the book asks you to write code that the next reader can understand and change safely. This book keeps that goal. What has changed is who the next reader is.

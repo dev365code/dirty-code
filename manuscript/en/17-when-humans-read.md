@@ -14,8 +14,6 @@ Your AI reads your code faster than you do, and it is usually right. On the nigh
 
 > Keep a short list of the code a person must be able to read on the night of an outage, and write that code for a person: everything that happens to money in one function, in the order it happens.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "Keep a short list of the code a person must be able to read, shape that code so a person can follow it, and have people read it regularly, because on the night the AI's account is wrong, someone has to read the code itself." -->
-
 ## Why: some decisions can't be taken back, and a person answers for them
 
 This book has assumed that you no longer read code line by line. There are moments when that stops being true.

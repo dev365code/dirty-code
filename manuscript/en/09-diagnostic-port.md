@@ -12,8 +12,6 @@ An AI that comes to fix your program works the same way: from what the program r
 
 > Put the values and the next step in the error line, so that the AI's report names what to check, such as the order whose charge may have gone through.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "An error message should carry the values and the next step, because for a one-time failure it may be all the AI gets." -->
-
 ## Why: a person got the rest of the story from screens and memory, and a new AI session may have neither
 
 A person on call read an error line already knowing the system around it. Someone who read `approval request timed out` in the production log used the timestamp on that line to find the order in the shop's admin site, then checked the payment provider's dashboard. They recalled what the team did last time, or asked the colleague who wrote the payment code. So a short line was a sound choice: the rest was a click or a question away.

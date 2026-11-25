@@ -14,8 +14,6 @@ Your code has names like that gauge: functions that do a little more than they s
 
 > When a function changes stored data, say so in its name, so that every line that calls it carries the warning, even when the prompt doesn't.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "A function that writes says so in its name, so a function that changes stored data has to say so in its name." Title before: "AI guesses what a function does from its name" -->
-
 ## Why: your team knows what `get_user` really does, and a new session sees only its name
 
 A new session has never seen any of the functions it is about to call. Say a session needs a customer's email address. The session searches the repository, and one of the lines it finds is this one from `orders.py`.

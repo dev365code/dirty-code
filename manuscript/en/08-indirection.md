@@ -4,8 +4,6 @@
 
 > Add a layer between a call and the code that runs only when the layer does a job today.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "Every layer between a call and the code that runs is a turn the AI has to get right, so add a layer only when it does a job today." Title before: "Every hop through a function is a chance for AI to get lost" -->
-
 In this chapter's experiment, the number of hops made no difference yet: at 0, 1, and 3 hops, all 120 sessions put the fee on the card and nowhere else.
 
 ## Why: a session has to follow each hop by reading, and it can take a wrong turn at any of them

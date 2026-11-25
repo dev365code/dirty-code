@@ -16,8 +16,6 @@ When should seven callers share one function, and when is each safer with its ow
 
 > When different people decide what each caller of a function should output, give each caller its own copy, and write next to the copy who decides.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "When a function's callers change for different reasons, give each its own copy, because an AI asked to change one may change them all." -->
-
 ## Why: one edit to a shared function can change every caller, and a session may have read only one
 
 A new session doesn't know which places call a shared function until it searches for them. Take `format_amount` in a small online shop's order server. It turns integer cents into text, so `3000` becomes `30.00`.

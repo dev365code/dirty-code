@@ -14,8 +14,6 @@ You write sentences to an AI every day. Are they the instructor's kind, or your 
 
 > Put the owner's rule and a finish line with examples into the prompt, then send it to fresh sessions and look at what comes back.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "Write a prompt the way you write code: state the rule, name what may change and what may not, say how to tell the work is done, and then run it to see what it does." -->
-
 ## Why: an AI does what the words of a prompt say, and where the words are silent it decides for itself
 
 Code runs exactly as written. If a function doesn't say what to do with an empty list, the program still does something with an empty list, and you find out later what that was. A prompt behaves the same way. An AI tends to follow the words of a prompt to the letter. Where the prompt leaves a decision open, the AI makes the decision and keeps working.

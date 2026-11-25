@@ -14,8 +14,6 @@ AI writes your code now, and you have stopped reading it. Is code the gearbox in
 
 > In small programs an AI changed machine code as reliably as source, so what keeps source in the repository is the checks that attach to it: types the compiler enforces and tests that call a function by name.
 
-<!-- Claim draft for the owner, 2026-11-25. Before: "Even if an AI can write machine code directly, code stays and its human reader goes away, because the next session has to read what this session wrote and a guarantee needs a place to attach." -->
-
 ## Why I expected code to stay: the next session reads what this one wrote, and a guarantee needs a place to attach
 
 Today the path from a wish to a running program has four steps. A person writes a prompt. An AI writes code. A compiler turns the code into machine code. The machine runs it.
