@@ -68,7 +68,7 @@ SETTLE_BATCH_SIZE = 48
 - The session reads a reason that lives outside the code, here at the payment provider.
 - A person pays for updating the comment in the same commit as the value.
 - *Clean Code*: differs in one detail. It counts a comment that warns of consequences as a good one, and it calls a comment that repeats the code redundant. This comment repeats the value on purpose, so a reader can see when the comment and the code drift apart.
-- Evidence: pays off when a cleanup asks for round values. In the combined experiment, all 10 Codex and all 10 Sonnet cleanups of the version without the reasons changed the 37-second timeout, and none of the cleanups with the reasons did (R04). Without the words "round values" in the request, no Sonnet session changed it. <!-- [Codex C16N result to add] -->
+- Evidence: pays off when a cleanup asks for round values. In the combined experiment, all 30 cleanups of the version without the reasons changed the 37-second timeout, with three models, and none of the 30 with the reasons did (R04). Without the words "round values" in the request, none of 40 Codex and Sonnet sessions changed it, with or without the reasons.
 - Not for a value anyone would expect, such as a 2-second wait between retries.
 
 ## 6. A rules-file line that says when it doesn't apply (Chapters 7, 11, and 16)
@@ -83,7 +83,7 @@ SETTLE_BATCH_SIZE = 48
 - The session knows when to stop and ask, and when the request has already answered the question.
 - A person pays for testing the line on requests that should and shouldn't stop the session.
 - *Clean Code*: new.
-- Evidence: the line without its last two sentences cost the version for AI in the combined experiment. All 10 Codex sessions stopped and asked on a request that gave the new value and its reason, and all 10 Sonnet sessions stopped on another. With the last two sentences added, Sonnet passed all 40 runs of those requests and two controls. <!-- [Codex C16R result to add; choose the line that passed in both] -->
+- Evidence: the line without its last two sentences cost the version for AI in the combined experiment. All 10 Codex sessions stopped and asked on a request that gave the new value and its reason, and all 10 Sonnet and all 10 Haiku sessions stopped on another. With the last two sentences added, Codex and Sonnet each passed all 40 runs of those two requests and two controls.
 - Not for a value with no reason comment. The line protects only what a comment explains.
 
 ## 7. A table in place of classes that differ in one number (Chapter 8)

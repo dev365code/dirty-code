@@ -152,7 +152,9 @@ Here is one made of lines that Chapters 2, 4, 6, 7, 10, and 14 ask you to add.
 - Before editing a function with more than one caller, list the
   callers and say which ones the change is for.
 - Don't change a value whose comment gives a reason. If you think
-  the reason is out of date, tell me and wait.
+  the reason is out of date, tell me and wait. When the request names
+  that value and gives its new value, change the value and its comment
+  in the same edit. A general request, such as a cleanup, doesn't count.
 - Fix the code, not the tests. If you think a test has to change,
   tell me why and wait for my answer.
 ```
@@ -197,7 +199,7 @@ The maker of one coding agent gives similar advice about its rules file. The doc
 
 ## Where it breaks
 
-A long rules file works against itself. Every session reads the whole file before it starts, and the file takes up part of the session's context window. The documentation quoted above asks for a rules file under 200 lines and gives the reason: "Longer files consume more context and reduce adherence." It also warns that when two instructions contradict each other, the model "may pick one arbitrarily." <!-- source: notes/sources.md, rules files and sessions, checked 2026-11-13 --> A task prompt can contradict the rules file too. The cleanup prompt in Chapter 7 asks for round values, and the rules file above says not to change a value whose comment gives a reason. So when you add a rule, look for one you can remove, and write in the file what a session should do when a prompt and a rule collide: stop and ask.
+A long rules file works against itself. Every session reads the whole file before it starts, and the file takes up part of the session's context window. The documentation quoted above asks for a rules file under 200 lines and gives the reason: "Longer files consume more context and reduce adherence." It also warns that when two instructions contradict each other, the model "may pick one arbitrarily." <!-- source: notes/sources.md, rules files and sessions, checked 2026-11-13 --> A task prompt can contradict the rules file too. The cleanup prompt in Chapter 7 asks for round values, and the rules file above says not to change a value whose comment gives a reason. So when you add a rule, look for one you can remove, and write in the file what a session should do when a prompt and a rule collide. Write that line narrowly. In Chapter 16, a line that said only "tell me and wait" also stopped sessions on requests that had already given the new value and the reason, and Chapter 7 shows the rewrite that fixed it in tests.
 
 Not every task needs the long form. Writing out the rule, the files, and the finish line for a typo fix takes longer than fixing the typo. Use the long form when a wrong guess costs something: money, customer data, or an afternoon of rework.
 
