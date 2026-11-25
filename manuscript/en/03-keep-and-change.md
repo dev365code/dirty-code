@@ -12,7 +12,7 @@ Your team has coding habits too, and many of them came from *Clean Code*. Now an
 
 ## Claim
 
-> Today's AI reads clean code well, so keep *Clean Code*'s habits, and depart from them only in the four places of Chapters 5 to 8, where a new session can't remember the team's reasons or ask a colleague.
+> Today's AI reads clean code well, so keep *Clean Code*'s habits, and depart from them in four places, Chapters 5 to 8, where a new session can't remember the team's reasons or ask a colleague.
 
 ## Why: some habits help every reader, and some were a bargain with a human reader
 
