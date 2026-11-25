@@ -16,7 +16,7 @@ The first is that the session takes a wrong turn. A search for the method name r
 
 The second is that the session stops early. It reaches a class that has the right name and a plausible-looking attribute, and that looks like the destination. Following one more hop costs another read, and each read uses up part of the session's context window. The session has no way to know that one more hop would have changed the answer.
 
-None of this means layers are a mistake: *Clean Code* hides a choice between types behind a factory, and that layer does a job when the classes do different work. <!-- check against original --> This chapter is about the layers that are there because they might be useful one day.
+None of this means layers are a mistake: *Clean Code* hides a choice between types behind a factory, and that layer does a job when the classes do different work. <!-- checked 2026-11-25 against Clean Code (2008): ch. 3 "Switch Statements" p. 37 (notes/sources.md) --> This chapter is about the layers that are there because they might be useful one day.
 
 ## Code: three payment classes that differ in one number become one table
 
@@ -148,7 +148,7 @@ Before the runs, the experiment plan said that if the three versions scored the 
 
 ## Where this chapter's opinion differs from *Clean Code*: a layer has to do a job today
 
-*Clean Code* prefers polymorphism to code that switches on a type: hide the choice behind a factory, and let each type's class hold its own behavior. <!-- check against original --> This chapter replaces the three payment classes with a table, because today the classes differ in one number and hold no behavior of their own. It keeps a layer that does a job today: classes whose code really differs, or an argument through which a test passes in a fake. Each hop is a place where a session can stop early or turn the wrong way, as the Why section says, so a layer has to be worth that.
+*Clean Code* prefers polymorphism to code that switches on a type: hide the choice behind a factory, and let each type's class hold its own behavior. <!-- checked 2026-11-25 against Clean Code (2008): ch. 17 G23 p. 299, ch. 3 "Switch Statements" p. 37 (notes/sources.md) --> This chapter replaces the three payment classes with a table, because today the classes differ in one number and hold no behavior of their own. It keeps a layer that does a job today: classes whose code really differs, or an argument through which a test passes in a fake. Each hop is a place where a session can stop early or turn the wrong way, as the Why section says, so a layer has to be worth that.
 
 How far the experiment backs this opinion: not yet. No run failed at any number of hops, and the conditions under which the hops might matter, a longer chain or classes whose names say less, haven't been tested.
 

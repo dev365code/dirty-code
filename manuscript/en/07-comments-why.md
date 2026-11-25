@@ -24,7 +24,7 @@ A new session sees `37` next to a row of round numbers. The name of the constant
 
 A person who tidies code has the same instinct. The difference is what happens next. A person who is about to change a strange number usually hesitates and asks someone. A session tends to finish the task it was given, and a cleanup that leaves the odd value alone looks unfinished.
 
-*Clean Code* asks you to explain yourself in code before you reach for a comment, and it counts comments that explain intent or warn of consequences among the good ones. <!-- check against original --> This chapter keeps the good kind and asks for one above every value that looks wrong on purpose. The name of a constant says what its value is for. The reason for an odd value, such as a provider's limit, has to be written where a session will read it, and the closest place is a comment right above the constant.
+*Clean Code* asks you to explain yourself in code before you reach for a comment, and it counts comments that explain intent or warn of consequences among the good ones. <!-- checked 2026-11-25 against Clean Code (2008): ch. 4 "Explain Yourself in Code" and "Good Comments" pp. 55-58 (notes/sources.md) --> This chapter keeps the good kind and asks for one above every value that looks wrong on purpose. The name of a constant says what its value is for. The reason for an odd value, such as a provider's limit, has to be written where a session will read it, and the closest place is a comment right above the constant.
 
 ## Code: two odd values get one comment each, and nothing else changes
 
@@ -142,7 +142,7 @@ So the claim holds with a condition. When a cleanup asked for round values, a va
 
 ## Where this chapter's opinion differs from *Clean Code*: a reason above every value that looks wrong on purpose, repeating the value
 
-*Clean Code* calls a comment that only repeats what the code says redundant. <!-- check against original --> This chapter asks for a comment above every value that looks wrong on purpose, and that comment repeats the value and names the round value a reader would want instead, as in `# 37, not 30 or 40:`. The repeated value lets a reader see when the comment and the code have drifted apart.
+*Clean Code* calls a comment that only repeats what the code says redundant. <!-- checked 2026-11-25 against Clean Code (2008): ch. 4 "Redundant Comments" p. 60, ch. 17 C3 p. 286 (notes/sources.md) --> This chapter asks for a comment above every value that looks wrong on purpose, and that comment repeats the value and names the round value a reader would want instead, as in `# 37, not 30 or 40:`. The repeated value lets a reader see when the comment and the code have drifted apart.
 
 How far the experiments back this opinion: it paid off whenever a request pushed toward round numbers, and without that push no session changed the value either way, as the evidence above shows. Its cost showed up in the rules file, as Where it breaks tells.
 

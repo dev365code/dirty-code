@@ -32,7 +32,7 @@ But opening the parent's file is another read, and every read uses up room in th
 
 In this chapter, one screen means what a session takes in when it reads one file once: a function, or a file short enough to read whole. "What changes together" means the lines you have to edit to make one change in behavior. For a sign-up rule those are the check, the value, and the message.
 
-*Clean Code* gives part of this advice for human readers: things that belong together should sit near each other in the source and shouldn't be split across files without a good reason. <!-- check against original -->
+*Clean Code* gives part of this advice for human readers: things that belong together should sit near each other in the source and shouldn't be split across files without a very good reason. <!-- checked 2026-11-25 against Clean Code (2008): ch. 5 "Vertical Distance" p. 80 (notes/sources.md) -->
 
 The three-file layout has good reasons, and they're about people. Someone in operations can change a value in `settings.py` without touching a check, and the customer messages stay consistent because they're in one table. Weigh those reasons again now that the reader is an AI session, which has to find every one of those files by searching.
 
@@ -202,7 +202,7 @@ Before the runs, the experiment plan said that if the layouts passed about equal
 
 ## Where this chapter's opinion differs from *Clean Code*: it keeps the whole rule in `register`
 
-*Clean Code* gives two pieces of advice that pull apart here: keep code that belongs together close, and keep functions and classes small, each doing one thing. <!-- check against original --> A design that follows the second tends to split a rule like this one into pieces: a check in a validator class, a decorator that wires it in, a table of messages, and a value in a settings file. This chapter keeps the rule's check, value, and message together in `register`, even though the function grows with every rule.
+*Clean Code* gives two pieces of advice that pull apart here: keep code that belongs together close, and keep functions and classes small, with each function doing one thing and each class having one responsibility. <!-- checked 2026-11-25 against Clean Code (2008): ch. 3 "Do One Thing" p. 35, ch. 10 "Classes Should Be Small!" p. 136 and SRP p. 138 (notes/sources.md) --> A design that follows the second tends to split a rule like this one into pieces: a check in a validator class, a decorator that wires it in, a table of messages, and a value in a settings file. This chapter keeps the rule's check, value, and message together in `register`, even though the function grows with every rule.
 
 The layout also carries a convention that no file states: in the version for people, values belong in `settings.py`. The evidence above shows how often the sessions missed it, and where the domain went instead: into the check, where the next person won't look for it.
 

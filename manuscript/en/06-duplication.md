@@ -24,7 +24,7 @@ Seven places call it. Five are pages and emails that customers read. One is the 
 
 Because the seven share one function, one edit to it can change what all seven produce. When all seven must stay alike, that's the benefit: you fix the function once and all seven are fixed.
 
-*Clean Code* argues against duplication on these grounds: logic written in several places has to be changed in every one of them, and each is a chance to miss one. <!-- check against original --> This chapter keeps that argument for every case where the copies have to stay the same.
+*Clean Code* argues against duplication on these grounds: logic written in several places has to be changed in every one of them, and each is a chance to miss one. <!-- checked 2026-11-25 against Clean Code (2008): ch. 3 "Don't Repeat Yourself" p. 48 (notes/sources.md) --> This chapter keeps that argument for every case where the copies have to stay the same.
 
 Now the accountant asks for commas in the report's amounts: `12,345.67` instead of `12345.67`. One edit to the shared function adds them.
 
@@ -159,7 +159,7 @@ The last two change nothing for the other six callers. All three put the commas 
 
 So the test run can't tell you which of the three ways the session took, and the passing tests give the session no hint that the receipt and the refund export changed too. A session tends to stop once its tests pass (Chapter 14). In the runs described below, no session took the first way, but the prompt leaves room for that choice: it says where the commas should appear and says nothing about the receipt or the refund export.
 
-The parameter is what a careful developer might write, and it keeps the other callers safe today. It also leaves a switch in `format_amount` that only one caller uses. *Clean Code* advises against flag arguments like that one and recommends two functions instead. <!-- check against original --> A copy for the settlement report is that second function.
+The parameter is what a careful developer might write, and it keeps the other callers safe today. It also leaves a switch in `format_amount` that only one caller uses. *Clean Code* advises against flag arguments like that one and recommends two functions instead. <!-- checked 2026-11-25 against Clean Code (2008): ch. 3 "Flag Arguments" p. 41, ch. 17 F3 p. 288 (notes/sources.md) --> A copy for the settlement report is that second function.
 
 In the version for AI, the same three ways all end inside `settlement.py`, in code that only the settlement report runs.
 
@@ -206,7 +206,7 @@ The copy of the refund rule in that version had no comment saying it was kept on
 
 ## Where this chapter's opinion differs from *Clean Code*: a caller whose output someone else decides gets its own copy
 
-*Clean Code* counts duplication among the main sources of bad code and asks for each piece of logic to live in one place. <!-- check against original --> This chapter gives a caller its own copy when a different person decides what it outputs. The settlement report gets a copy because the accountant decides its format, and the refund export gets one because the payment provider decides its format. A rule that two places must agree on, such as the refund rule, stays in one shared function.
+*Clean Code* counts duplication among the main sources of bad code and asks for each piece of logic to live in one place. <!-- checked 2026-11-25 against Clean Code (2008): ch. 3 "Don't Repeat Yourself" p. 48, ch. 17 G5 p. 289 (notes/sources.md) --> This chapter gives a caller its own copy when a different person decides what it outputs. The settlement report gets a copy because the accountant decides its format, and the refund export gets one because the payment provider decides its format. A rule that two places must agree on, such as the refund rule, stays in one shared function.
 
 How far the experiments back this opinion: it is mixed. The failure the copies guard against, a shared function changed for one caller and broken for the others, didn't happen in any run. What the copies changed was the shape of the code that came back, with no switch left in a shared function, and how much the sessions had to read. On the other side of the line, a rule that two places must agree on, the restocking fee went against my prediction: in the version for people every session split the shared rule to keep a visible test passing, and in the version with the copy every session merged the copy back into the shared rule.
 
@@ -222,7 +222,7 @@ How far the experiments back this opinion: it is mixed. The failure the copies g
 
 Don't copy a rule that two places must agree on. `partial_refund_amount` is one: `refunds.py` uses it to pay the customer, and `settlement.py` uses it to take the same amount off the payout.
 
-If each had its own copy, a session asked to add a $5.00 restocking fee could edit the copy in `refunds.py` and never open `settlement.py`. A customer who returns a $40.00 lamp would get $35.00 back while the payout dropped by $40.00. This is the missed copy *Clean Code* warns about. <!-- check against original --> Tax rates and permission checks are rules of this kind.
+If each had its own copy, a session asked to add a $5.00 restocking fee could edit the copy in `refunds.py` and never open `settlement.py`. A customer who returns a $40.00 lamp would get $35.00 back while the payout dropped by $40.00. This is the missed copy *Clean Code* warns about. <!-- checked 2026-11-25 against Clean Code (2008): ch. 3 "Don't Repeat Yourself" p. 48 (notes/sources.md) --> Tax rates and permission checks are rules of this kind.
 
 A copy also duplicates anything inside it that really is one rule. All three formatters contain the same arithmetic, which turns cents into a sign, dollars, and two digits. A bug there has to be fixed three times.
 

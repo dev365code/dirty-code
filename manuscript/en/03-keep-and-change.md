@@ -16,7 +16,7 @@ Your team has coding habits too, and many of them came from *Clean Code*. Now an
 
 ## Why: some habits help every reader, and some were a bargain with a human reader
 
-*Clean Code* starts from one fact about programmers: they spend far more time reading code than writing it. <!-- check against original --> So the book asks you to write code that the next reader can understand and change safely. This book keeps that goal. What has changed is who the next reader is.
+In its first chapter, *Clean Code* points to one fact about programmers: they spend far more time reading code than writing it. <!-- checked 2026-11-25 against Clean Code (2008): ch. 1 "We Are Authors" p. 14 (notes/sources.md) --> So the book asks you to write code that the next reader can understand and change safely. This book keeps that goal. What has changed is who the next reader is.
 
 Chapters 1 and 2 described the new reader. An AI has no memory, so every session reads your code for the first time. A session finds code by searching, and it reads only part of the repository, because everything it reads uses up its context window. It goes by names, comments, and tests when it doesn't open the code behind them. And typing costs it almost nothing.
 
@@ -32,7 +32,7 @@ Weighing again does not mean doing the opposite every time. Today's AI learned t
 
 ## Code: nine habits, what *Clean Code* advises, and what this book does with each
 
-The table lists nine habits. The second column is my one-line summary of what *Clean Code* advises. <!-- check against original: all nine rows --> The last two columns say how far this book's experiments back the change, in a few words, and which chapter has the details.
+The table lists nine habits. The second column is my one-line summary of what *Clean Code* advises. <!-- checked 2026-11-25 against Clean Code (2008): all nine rows, chs. 2, 3, 4, 7, 9, 17 (notes/sources.md) --> The last two columns say how far this book's experiments back the change, in a few words, and which chapter has the details.
 
 | Habit | What *Clean Code* advises | What this book does, and why | How far the experiments back it | Chapter |
 |---|---|---|---|---|
@@ -43,7 +43,7 @@ The table lists nine habits. The second column is my one-line summary of what *C
 | Comments | Explain yourself in code. Comments that explain intent or warn of consequences are the good kind | A reason above every value that looks wrong on purpose, repeating the value, because the reason lives outside the code | Pays off when a cleanup asks for round values | 7 |
 | Layers | Prefer polymorphism to code that switches on a type | A layer only when it does a job today, because a session can stop early at any hop | No difference yet | 8 |
 | Errors | Give an exception enough context to find where and why it failed | The same, and the line adds the values and the next step, because a session may have only the line | Changed what the reports said, not whether the fix was right | 9 |
-| Names of files and folders | Choose names that reveal intent | The same inside files. Feature folders and a one-page index save a session a step, though the words inside the files decide whether it finds the code | A small difference: feature folders with module descriptions saved under one tool call per question, and the index alone 0.1 to 0.4 more | 10 |
+| Names of files and folders | Choose names that reveal intent, said of variables, functions, and classes | The same inside files. Feature folders and a one-page index save a session a step, though the words inside the files decide whether it finds the code | A small difference: feature folders with module descriptions saved under one tool call per question, and the index alone 0.1 to 0.4 more | 10 |
 | Tests | Write the failing test first, and keep the tests as clean as the code | The same, and watch every check fail, on the old code and on a wrong answer you planted, because a pass shows only what the check looked at | The method is the point. No session weakened an assertion | 14 |
 
 Four rows, Chapters 5 to 8, go another way from *Clean Code*. Each of them moves something a teammate used to carry in memory into the code: which files a rule touches, which callers share a function, why a value is odd, and where the route through the classes ends. Two rows, errors and tests, add to *Clean Code*'s advice, and two, names and the names of files, keep it as it is. The first row is a question *Clean Code* had no reason to ask.

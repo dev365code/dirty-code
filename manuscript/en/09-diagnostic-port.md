@@ -31,7 +31,7 @@ cmd; rc=$?; echo "name $(basename "$f") rc=$rc"
 
 `$?` holds the exit code of the most recent command. In bash and zsh, `basename` runs inside that string before the shell reads `$?`. So the first line prints the exit code of `basename`, which is always 0, whatever `cmd` did. The second line captures the exit code of `cmd` first and prints the right number.
 
-*Clean Code* already advises giving an exception enough context to find where an error came from, with a message that says what was attempted and how it failed. <!-- check against original --> This chapter keeps that advice and adds what the person on call looked up or remembered.
+*Clean Code* already advises giving an exception enough context to find where an error came from, with a message that says what was attempted and how it failed. <!-- checked 2026-11-25 against Clean Code (2008): ch. 7 "Provide Context with Exceptions" p. 107 (notes/sources.md) --> This chapter keeps that advice and adds what the person on call looked up or remembered.
 
 ## Code: the timeout line gains the values, the next step, and an error code to search for
 

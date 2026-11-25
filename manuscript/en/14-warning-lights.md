@@ -65,7 +65,7 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-The test fails with `AssertionError: 3000 != 2700`, because the implementation still refunds the list price. That's the failure you want. It comes from the assertion, and your number, 2700, is in the message. *Clean Code* teaches the same sequence: write the failing test first. <!-- check against original -->
+The test fails with `AssertionError: 3000 != 2700`, because the implementation still refunds the list price. That's the failure you want. It comes from the assertion, and your number, 2700, is in the message. *Clean Code* teaches the same sequence: write the failing test first. <!-- checked 2026-11-25 against Clean Code (2008): ch. 9 "The Three Laws of TDD" p. 122 (notes/sources.md) -->
 
 Now you ask the AI to make the test pass. One of two changes could come back. Change A replaces the test class in the listing. Change B replaces `partial_refund_amount`.
 

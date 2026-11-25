@@ -28,7 +28,7 @@ You'd read the name the same way. Now suppose `get_user` also stores each custom
 
 A new session gets none of that. It comes to `get_user` the way that new hire did on the first morning, and the session after it does the same.
 
-*Clean Code* already makes this point: when a function changes something, its name should tell the caller. <!-- check against original --> This chapter keeps that rule. A team could live with a few names that broke it, because people told each other which ones, and a session has only what's in the files. The fix is also cheap for an AI: it can rename a function everywhere it's used in one commit.
+*Clean Code* already makes this point: when a function changes something, its name should tell the caller. <!-- checked 2026-11-25 against Clean Code (2008): ch. 17 N7 "Names Should Describe Side-Effects" p. 313, ch. 3 "Have No Side Effects" p. 44 (notes/sources.md) --> This chapter keeps that rule. A team could live with a few names that broke it, because people told each other which ones, and a session has only what's in the files. The fix is also cheap for an AI: it can rename a function everywhere it's used in one commit.
 
 ## Code: one lookup in `users.py` gets a longer name, and nothing else changes
 
