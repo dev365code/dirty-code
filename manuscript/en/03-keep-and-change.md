@@ -91,6 +91,6 @@ Some rules exist for tools, not for readers. A formatter's line length and an im
 
 The table can be read as a list of things to stop doing. Most of its rows keep *Clean Code*'s advice, and the four that go another way each name the case where they do. A team that drops small functions, shared code, and self-explaining code because "the reader is an AI now" will have code that neither reader can follow.
 
-A session that can read more files before it writes would pay less for code spread across files, and a session that checks every caller before it edits a shared function would make the duplication row matter less. The rows about names, errors, and tests don't depend on those limits. They are about information that isn't anywhere unless someone writes it down.
+A session that can read more files before it writes would pay less for code spread across files, and a session that checks every caller before it edits a shared function would make the duplication row matter less. The rows about names, errors, and tests are about information that is nowhere in the code until someone writes it down, so a larger context window or a better search leaves them as they are.
 
 The rows that go another way today are those of Chapters 5 to 8. Chapter 18 says where I expect the table to go from here.
