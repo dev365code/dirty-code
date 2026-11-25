@@ -14,7 +14,7 @@ A new session finds everything by looking, and it can look in two ways. It can l
 
 If the code uses the word `refund`, a search for `refund` finds it. But the search returns every line with that word: the function, its callers, its tests, and an old comment. The session then has to choose which of those hits to open first. A file named `refunds/refund_amount.py` tells the session where to start. A file named `utils/helpers.py` tells it nothing.
 
-A search also fails when your words and the code's words differ. You ask about "money back," and the code says `reversal`. A docstring that says "the money a customer gets back" bridges that gap, and so does a folder name the session sees in its first listing. A function with neither, in a helper file, can't be found by the words of your question.
+A search also fails when your words and the code's words differ. You ask about "money back," and the code says `reversal`. A docstring that says "the money a customer gets back" bridges that gap, and so does a folder name the session sees in its first listing. A function with neither, in a helper file, won't turn up in a search for the words of your question.
 
 Names can only say so much. They can't say that two folders have to agree with each other, or which file to open first. That's what the index file is for. An index file is one page at the top of the repository that lists what lives where. A session that reads it has the map before it takes a step.
 

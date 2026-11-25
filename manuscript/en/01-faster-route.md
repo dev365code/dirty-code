@@ -105,9 +105,7 @@ In those 30 days, 8,819 calls to the shell tool ran a command that reads a file'
 
 These counts have limits. They don't say how much of each file the AI took in, or how often it read the same file again. I counted nothing on my own side, so the counts can't say that the AI reads code more often than a person does. And I didn't count who reads first. That part needs no count: if you hand over a task without opening the code, the AI opens the code before you do. <!-- author check: E1 preliminary count -->
 
-E1, the first experiment in this book's plan, is a count in one code repository. It counts how often the AI reads code files, through the read tool or a shell command, and how often a person does, in an editor or a diff. It also gives the one-line prompt above to 10 fresh sessions and records what each session opens and runs before its first edit. That second part is the run described in the Prompt section. The count in one repository, of the AI's reads against a person's, hasn't been made.
-
-<!-- [Result slot: experiment E1] Dates, repository, tool and model, and the two counts (the AI's reads and a person's, in one repository). -->
+E1, the first experiment in this book's plan, gives the one-line prompt above to 10 fresh sessions and records what each session opens and runs before its first edit. That is the run described in the Prompt section.
 
 ## What people do
 
