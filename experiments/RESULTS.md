@@ -110,7 +110,35 @@ Twenty requests, two repositories, 10 fresh sessions each: 400 sessions per mode
 | Haiku, A | 173 | 0 | 10 | 17 | 0 |
 | Haiku, B | 171 | 5 | 0 | 13 | 11 |
 
-<!-- [Reruns of 2026-11-25: rules-file line, cleanup without round values, Chapter 4 without the cache clause, Chapter 15's two cells] -->
+## Runs added on 2026-11-25
+
+Each of these was registered in `experiments/README.md` before it ran, with what it would count and how the result would be read.
+
+### Chapter 7: the rules-file line, rewritten two ways
+
+Repository B of Chapter 16, with only one line of its rules file changed. Passes out of 10. The original line stopped sessions on the batches of 100 (R20) and the thousands separators (R03). The cleanup (R04) and the negative amounts (R17) are controls: the cleanup has to keep 37 and 48, and the negative amounts have to change all three copies of the formatter. The two rewritten lines are printed in Chapter 7.
+
+| Rules-file line | Model | R20 batches of 100 | R03 thousands separators | R04 cleanup, 37 and 48 kept | R17 negative amounts |
+|---|---|---|---|---|---|
+| The original line | Codex | 0 | 10 | 10 | 10 |
+| The original line | Claude Sonnet 5.5 | 9 | 0 | 10 | 10 |
+| First rewrite | Codex | 10 | 10 | 10 | 10 |
+| First rewrite | Claude Sonnet 5.5 | 10 | 10 | 10 | 10 |
+| Second rewrite | Codex | 10 | 10 | 10 | 10 |
+| Second rewrite | Claude Sonnet 5.5 | 10 | 10 | 10 | 10 |
+
+### Chapter 7: a cleanup that doesn't ask for round values
+
+R04 with the words "and round values" taken out of the request. A run passes when it keeps 37 and 48 and changes nothing else that the request didn't ask for.
+
+| Request | Model | A passes | B passes |
+|---|---|---|---|
+| With "round values" | Codex | 0 | 10 |
+| With "round values" | Claude Sonnet 5.5 | 0 | 10 |
+| Without | Codex | 10 | 10 |
+| Without | Claude Sonnet 5.5 | 10 | 10 |
+
+<!-- [Chapter 4 without the cache clause; Chapter 15's two cells] -->
 
 ## The other experiments
 

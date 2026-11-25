@@ -129,7 +129,7 @@ Most sessions kept the values even with no reason in the file. One of them wrote
 
 On the same day I gave the version for people to one session each of two other models, at their default settings. Claude Sonnet 5.5 changed the values to 30 and 50, and Claude Haiku 5.5 changed them to 40 and 50. In the version for AI, both kept them.
 
-The combined experiment of Chapter 16 ran the same kind of cleanup in a larger repository of 47 files, with three models: Codex with gpt-6.2-sol on 2026-11-23, and Claude Sonnet 5.5 and Claude Haiku 5.5 on 2026-11-25. In the version without the reasons, all 30 cleanups changed the 37-second approval timeout: Codex to 40, Sonnet to 30, and Haiku to 30 or 40. In the version with the reasons, none of the 30 did.
+The combined experiment of Chapter 16 ran the same kind of cleanup in a larger repository of 47 files, with three models: Codex with gpt-6.2-sol on 2026-11-23, and Claude Sonnet 5.5 and Claude Haiku 5.5 on 2026-11-25. In Repository A, which has no reasons, all 30 cleanups changed the 37-second approval timeout: Codex to 40, Sonnet to 30, and Haiku to 30 or 40. In Repository B, which has the reason comments and this chapter's rules-file line, none of the 30 did.
 
 That request asked for round values too. So on 2026-11-25, as I had registered before the runs, I took those words out and sent the request again, 10 times to each repository with Codex and with Sonnet.
 
@@ -140,7 +140,7 @@ and remove anything that looks like a leftover.
 
 No session changed 37 or 48, in either repository, with either model. The sessions still cleaned up. They deleted the unused provider URL and the retry delay, and renamed the constants, such as `APPROVE_TIMEOUT_SEC` to `PAYMENT_APPROVAL_TIMEOUT_SECONDS`, with the 37 kept. One Codex report ended, "The approval timeout remains 37 seconds, and settlement batches still contain up to 48 orders."
 
-So the claim holds with a condition. When a cleanup asked for round values, a value with no reason next to it was rounded by every session in the combined experiment and by 2 of 9 Opus sessions at the highest setting, and a value with its reason was rounded by none. When the cleanup didn't ask for round values, no session rounded either value. The words of the request pushed the sessions toward round numbers, and the comment kept the value in place against that push. I didn't build the server with 10 odd values that E6 was designed with. The runs above stand in for it.
+So the claim holds with a condition. When a cleanup asked for round values, a value with no reason next to it was rounded by every session in the combined experiment and by 2 of 9 Opus sessions at the highest setting, and a value with its reason was rounded by none. When the cleanup didn't ask for round values, no session rounded either value. The words of the request pushed the sessions toward round numbers, and the written reason kept the value in place against that push. In E6 the reason comments did it alone. In Repository B they came with this chapter's rules-file line. I didn't build the server with 10 odd values that E6 was designed with. The runs above stand in for it.
 
 ## Where this chapter's opinion differs from *Clean Code*: a reason above every value that looks wrong on purpose, repeating the value
 
@@ -148,7 +148,7 @@ So the claim holds with a condition. When a cleanup asked for round values, a va
 
 The reason for an odd value usually sits outside the code, at a provider or in an old incident, so no name can carry it. The comment repeats the value so that a reader can see when the comment and the code have drifted apart.
 
-How far the experiments back this opinion: it paid off whenever a request pushed toward round numbers. All 30 cleanups without the reasons changed 37 in the combined experiment, and none of the 30 with the reasons did. Without that push, the comment made no difference, because no session changed the value either way. Its cost showed up in the rules file, as Where it breaks tells.
+How far the experiments back this opinion: it paid off whenever a request pushed toward round numbers. All 30 cleanups of Repository A changed 37 in the combined experiment, and none of the 30 in Repository B, with the reasons and the rules-file line, did. In E6 the reasons alone kept the values in all 9 runs. Without that push, the comment made no difference, because no session changed the value either way. Its cost showed up in the rules file, as Where it breaks tells.
 
 <!-- [Author case slot] A real case in which an AI changed, or reported on, a value or a rule whose reason was written nowhere in the files. -->
 
